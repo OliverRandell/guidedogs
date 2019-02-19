@@ -7,6 +7,11 @@
 <script>
     export default {
         name: 'App',
+        created: function () {
+            if (this.$store.getters.isAuthenticated) {
+                this.$store.dispatch(USER_REQUEST)
+            }
+        }
     }
 </script>
 
