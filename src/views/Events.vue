@@ -1,7 +1,7 @@
 <template lang="html">
     <layout-master>
-        <main class="home">
-            <h2>This is the home page</h2>
+        <main class="eoi">
+            <h1>{{ title }}</h1>
         </main>
     </layout-master>
 </template>
@@ -9,9 +9,14 @@
 <script>
     import LayoutMaster from '../components/common/layouts/layout-master.vue';
     export default {
-        name: 'Home',
+        name: 'ExpressionsOfInterest',
         components : {
             LayoutMaster
+        },
+        data () {
+            return {
+                title: 'Events'
+            }
         }
     }
 </script>

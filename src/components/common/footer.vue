@@ -1,5 +1,7 @@
 <template lang="html">
-    <footer class="app-footer"></footer>
+    <footer class="app-footer">
+        <h3>Footer</h3>
+    </footer>
 </template>
 
 <script>

@@ -11,16 +11,21 @@
                 navItems: [
                     {
                         id: 0,
-                        title: 'Events',
-                        route: 'https://www.google.com'
+                        title: 'Home',
+                        route: '/'
                     },
                     {
                         id: 1,
-                        title: 'EOI',
-                        route: 'https://www.google.com'
+                        title: 'Events',
+                        route: 'events'
                     },
                     {
                         id: 2,
+                        title: 'Expressions of Interest',
+                        route: 'expressions-of-interest'
+                    },
+                    {
+                        id: 3,
                         title: 'Contact Us',
                         route: 'contact'
                     }
