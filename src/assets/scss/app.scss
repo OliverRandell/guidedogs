@@ -1,1 +1,12 @@
-@import "./vendors/bootstrap";
+// SETTINGS
+@charset "utf-8";
+
+// BASE
+@import 'base/variables';
+@import 'base/mixins';
+
+// 3RD PARTY VENDORS LIKE BOOTSTRAP
+@import 'vendors/bootstrap';
+
+// LANDING PAGE
+@import './landing/layout';
