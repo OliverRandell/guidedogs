@@ -19,5 +19,15 @@
     }
 </script>
 
-<style lang="css">
+<style lang="scss" scoped>
+    @import "./src/assets/scss/vue";
+    .user-auth {
+        @include media-breakpoint-up(lg) {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+    }
+
 </style>
