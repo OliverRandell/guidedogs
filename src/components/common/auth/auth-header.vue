@@ -18,5 +18,18 @@
     @import './src/assets/scss/vue';
     .auth-header {
         @include make-container();
+        max-width: 100%;
+        width: 100%;
+        background: $white;
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+        position: absolute;
+        top: 0;
+        left: 0;
+        @include media-breakpoint-down(md) {
+            position: relative;
+            margin-bottom: 4rem;
+        }
     }
+
 </style>

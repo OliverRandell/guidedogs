@@ -4,6 +4,7 @@ import Router from 'vue-router';
 // AUTHORISATION PAGES
 import Login from './views/auth/Login.vue';
 import Registration from './views/auth/Registration.vue';
+import ForgotPassword from './views/auth/ForgotPassword.vue';
 
 // APPLICATION PAGES
 import Home from './views/Home.vue';
@@ -11,6 +12,9 @@ import About from './views/About.vue';
 import Events from './views/Events.vue';
 import ExpressionsOfInterest from './views/ExpressionsOfInterest.vue';
 import Contact from './views/Contact.vue';
+
+// USER PAGES
+import Account from './views/Account.vue';
 
 import store from './store'
 
@@ -45,11 +49,19 @@ export default new Router ({
             }
         },
         {
-            path: 'register',
+            path: '/register',
             name: 'Registration',
             component: Registration,
             meta: {
                 title: 'Register an account'
+            }
+        },
+        {
+            path: '/forgot-password',
+            name: 'ForgotPassword',
+            component: ForgotPassword,
+            meta: {
+                title: 'Retrieve your password'
             }
         },
         {

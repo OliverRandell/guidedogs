@@ -17,5 +17,12 @@
 </script>
 
 <style lang="scss" scoped>
-
+    @import './src/assets/scss/vue.scss';
+    .app-header {
+        @include make-container();
+        max-width: 100%;
+        display: flex;
+        justify-content: space-between;
+        border-bottom: 1px solid #bbb;
+    }
 </style>

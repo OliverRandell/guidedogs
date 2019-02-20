@@ -1,20 +1,35 @@
 <template lang="html">
     <form class="login" @submit.prevent="login" id="login">
-        <label for="username">Choose a username
-            <strong class="red" aria-hidden="true">*</strong>
-        </label>
-        <input type="text" name="username" id="username" placeholder="eg: TheCatInTheHat99" required v-model="username">
-        <label for="password">Enter password
-            <strong class="red" aria-hidden="true">*</strong>
-        </label>
-        <input type="password" name="password" id="password" required v-model="password">
-        <button type="submit">Login</button>
+        <div class="form-group">
+            <label for="username">Choose a username
+                <strong class="red" aria-hidden="true">*</strong>
+            </label>
+            <input type="text" class="form-control" name="username" id="username" placeholder="eg: TheCatInTheHat99" required v-model="username" aria-describedby="userName">
+        </div>
+
+        <div class="form-group">
+            <label for="password">Enter password
+                <strong class="red" aria-hidden="true">*</strong>
+            </label>
+            <input class="form-control" type="password" name="password" id="password" required v-model="password">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Login</button>
+
     </form>
 </template>
 
 <script>
+    import { AUTH_REQUEST } from '../../../store/actions/auth'
+
     export default {
         name: 'FormLogin',
+        data () {
+            return {
+                username: 'Droopy',
+                password: 'droopy',
+            }
+        },
         methods: {
             login: function () {
                 const { username, password } = this

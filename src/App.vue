@@ -5,6 +5,7 @@
 </template>
 
 <script>
+    import { USER_REQUEST } from './store/actions/user';
     export default {
         name: 'App',
         created: function () {

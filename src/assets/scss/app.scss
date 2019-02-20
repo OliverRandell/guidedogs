@@ -8,5 +8,8 @@
 // 3RD PARTY VENDORS LIKE BOOTSTRAP
 @import 'vendors/bootstrap';
 
+// GLOBAL STYLES THROUGHOUT THE SITE
+@import 'global/layout';
+
 // LANDING PAGE
 @import './landing/layout';

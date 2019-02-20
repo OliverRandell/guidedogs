@@ -1,11 +1,23 @@
 <template lang="html">
     <nav class="primary-nav">
-        <router-link v-for="item in navItems" :to="item.route" :key="item.id">{{ item.title }}</router-link>
+        <router-link v-for="item in navItems" :to="item.route" :key="item.id" class="nav-item">{{ item.title }}</router-link>
+        <template v-if="isProfileLoaded">
+            <router-link to="/account">{{ name }}</router-link>
+        </template>
+        <div v-if="isAuthenticated" @click="logout">
+            <span class="logout">Logout</span>
+        </div>
+        <template v-if="!isAuthenticated && !authLoading">
+            <router-link to="/login">Login</router-link>
+        </template>
     </nav>
 </template>
 
 <script>
+    import { mapGetters, mapState } from 'vuex';
+    import { AUTH_LOGOUT } from '../../../store/actions/auth';
     export default {
+        name: 'PrimaryNav',
         data () {
             return {
                 navItems: [
@@ -28,12 +40,36 @@
                         id: 3,
                         title: 'Contact Us',
                         route: 'contact'
+                    },
+                    {
+                        id: 4,
+                        title: 'Account',
+                        route: 'account'
                     }
                 ]
             }
+        },
+        methods: {
+            logout: function () {
+                this.$store.dispatch(AUTH_LOGOUT).then(() => this.$router.push('/login'))
+            }
+        },
+        computed: {
+            ...mapGetters(['getProfile', 'isAuthenticated', 'isProfileLoaded']),
+            ...mapState({
+                authLoading: state => state.auth.status === 'loading',
+                name: state => `${state.user.profile.title} ${state.user.profile.name}`,
+            })
         }
     }
 </script>
 
-<style lang="css">
+<style lang="scss" scoped>
+    @import './src/assets/scss/vue.scss';
+    .nav-item {
+        margin-left: 0.5rem;
+        &:first-child {
+            margin-left: 0;
+        }
+    }
 </style>

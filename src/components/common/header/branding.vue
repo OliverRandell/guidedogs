@@ -1,8 +1,8 @@
 <template lang="html">
-    <div class="app-branding">
-        <h1>This is the Guide Dogs project</h1>
+    <router-link to="/" class="app-branding">
         <!-- LOGO CAN GO IN HERE IF WE'RE HAVING ONE -->
-    </div>
+        <h1>This is the Guide Dogs project</h1>
+    </router-link>
 </template>
 
 <script>

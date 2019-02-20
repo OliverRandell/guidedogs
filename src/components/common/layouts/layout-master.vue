@@ -10,6 +10,7 @@
     import Header from '../header/header.vue';
     import Footer from '../footer.vue';
     export default {
+        name: 'LayoutMaster',
         components: {
             Header,
             Footer

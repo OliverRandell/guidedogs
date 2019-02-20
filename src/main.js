@@ -6,7 +6,9 @@ window.Popper = require('popper.js');
 import Vue from 'vue'
 import Vuex from 'vuex'
 import App from './App.vue'
-import router from './router';
+//import axios from 'axios'
+import router from './router'
+import store from './store'
 
 // IMPORTING OUR STYLES
 //import './assets/scss/app.scss';
@@ -14,10 +16,11 @@ import router from './router';
 Vue.config.productionTip = false
 
 Vue.use(Vuex)
-Vue.use(vueAxios, axios)
-Vue.use(Vuelidate)
+//Vue.use(axios)
+//Vue.use(Vuelidate)
 
 new Vue({
     router,
+    store,
     render: h => h(App),
 }).$mount('#app');

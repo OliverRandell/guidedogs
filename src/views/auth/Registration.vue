@@ -3,6 +3,7 @@
         <h1>{{ title }}</h1>
         <p>Welcome to Guide Dogs...</p>
         <FormRegistration></FormRegistration>
+        <router-link to="/login">Back to login</router-link>
     </LayoutAuth>
 </template>
 
@@ -12,6 +13,7 @@
     export default {
         name: 'Registration',
         components: {
+            LayoutAuth,
             FormRegistration
         },
         data () {
@@ -22,9 +24,6 @@
                 }
             }
         },
-        methods: {
-
-        }
     }
 </script>
 
