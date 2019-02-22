@@ -14,7 +14,8 @@ import ExpressionsOfInterest from './views/ExpressionsOfInterest.vue';
 import Contact from './views/Contact.vue';
 
 // USER PAGES
-import Account from './views/Account.vue';
+import Account from './views/account/Account.vue';
+import Preferences from './views/account/Preferences.vue';
 
 import store from './store'
 
@@ -71,6 +72,15 @@ export default new Router ({
             beforeEnter: ifAuthenticated,
             meta: {
                 title: 'Account page'
+            }
+        },
+        {
+            path: '/preferences',
+            name: 'Preferences',
+            component: Preferences,
+            beforeEnter: ifAuthenticated,
+            meta: {
+                title: 'My preferences'
             }
         },
         {

@@ -5,8 +5,7 @@
             <router-link to="/register">create a new account with us</router-link>
         </p>
         <FormLogin></FormLogin>
-        <router-link to="/register">Register an account with us</router-link>
-        <router-link to="/forgot-password">Forgot password?</router-link>
+        <router-link to="/register">Or register an account with us</router-link>
     </LayoutAuth>
 
 </template>

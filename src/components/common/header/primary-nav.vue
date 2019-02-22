@@ -1,15 +1,6 @@
 <template lang="html">
     <nav class="primary-nav">
         <router-link v-for="item in navItems" :to="item.route" :key="item.id" class="nav-item">{{ item.title }}</router-link>
-        <template v-if="isProfileLoaded">
-            <router-link to="/account">{{ name }}</router-link>
-        </template>
-        <div v-if="isAuthenticated" @click="logout">
-            <span class="logout">Logout</span>
-        </div>
-        <template v-if="!isAuthenticated && !authLoading">
-            <router-link to="/login">Login</router-link>
-        </template>
     </nav>
 </template>
 

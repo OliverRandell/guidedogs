@@ -1,6 +1,11 @@
 <template lang="html">
     <layout-master>
-        <main class="eoi">
+        <main class="eoi pg-content container">
+            <div class="row">
+                <div class="col-12">
+
+                </div>
+            </div>
             <h1>Expressions of interest</h1>
         </main>
     </layout-master>

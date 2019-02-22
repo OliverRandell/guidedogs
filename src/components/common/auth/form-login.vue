@@ -4,7 +4,9 @@
             <label for="username">Choose a username
                 <strong class="red" aria-hidden="true">*</strong>
             </label>
+            <!-- <input type="text" :class="['form-control', { 'is-invalid': submitted && !username }]" name="username" id="username" placeholder="eg: TheCatInTheHat99" required v-model="username" aria-describedby="userName"> -->
             <input type="text" class="form-control" name="username" id="username" placeholder="eg: TheCatInTheHat99" required v-model="username" aria-describedby="userName">
+            <!-- <div v-show="submitted && !username" class="invalid-feedback">Username is required</div> -->
         </div>
 
         <div class="form-group">
@@ -12,6 +14,9 @@
                 <strong class="red" aria-hidden="true">*</strong>
             </label>
             <input class="form-control" type="password" name="password" id="password" required v-model="password">
+            <!-- <input :class="['form-control', { 'is-invalid': submitted && !password }]" type="password" name="password" id="password" required v-model="password"> -->
+            <!-- <div class="invalid-feedback" v-show="submitted && !password">Password is required</div> -->
+            <router-link to="/forgot-password" class="link-forgotpassword">Forgot password?</router-link>
         </div>
 
         <button type="submit" class="btn btn-primary">Login</button>
@@ -26,8 +31,8 @@
         name: 'FormLogin',
         data () {
             return {
-                username: 'Droopy',
-                password: 'droopy',
+                username: 'Trouble',
+                password: 'trouble',
             }
         },
         methods: {
@@ -43,4 +48,14 @@
 </script>
 
 <style lang="css">
+    /* .login {
+        ma
+    } */
+    .link-forgotpassword {
+        /* display: block;
+        float: right; */
+        /* text-align: right; */
+        display: flex;
+        align-self: flex-end;
+    }
 </style>

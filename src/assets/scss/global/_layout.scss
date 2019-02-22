@@ -5,3 +5,12 @@ html, body {
 #app {
     height: 100%;
 }
+
+.pg-content {
+    //margin-top: 2rem;
+    min-height: calc(100vh - 9rem);
+    padding: 2rem 0;
+    @include media-breakpoint-up(lg) {
+        padding: 4rem 0;
+    }
+}

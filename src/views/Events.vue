@@ -1,7 +1,21 @@
 <template lang="html">
     <layout-master>
-        <main class="eoi">
-            <h1>{{ title }}</h1>
+        <main class="events container pg-content">
+            <div class="row">
+                <div class="col-12">
+                    <h1>{{ title }}</h1>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <section class="event-pod" v-for="item in eventItems" :key="item.id">
+                        <h2>{{ item.title }}</h2>
+                        <p>{{ item.desc }}</p>
+                        <time>{{ item.time }}</time>
+                    </section>
+                </div>
+            </div>
         </main>
     </layout-master>
 </template>
@@ -15,11 +29,29 @@
         },
         data () {
             return {
-                title: 'Events'
+                title: 'Events',
+                eventItems: [
+                    {
+                        id: 0,
+                        title: 'Valentines Day',
+                        time: '14-02-19',
+                        desc: 'Event description',
+                    },
+                    {
+                        id: 1,
+                        title: 'Valentines Day',
+                        time: '14-02-19',
+                        desc: 'Event description',
+                    }
+                ]
             }
         }
     }
 </script>
 
-<style lang="css">
+<style lang="scss" scoped>
+    @import './src/assets/scss/vue.scss';
+    .event-pod {
+        @include spacer(2rem);
+    }
 </style>
