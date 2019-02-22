@@ -21,22 +21,6 @@ import store from './store'
 
 Vue.use(Router);
 
-const ifNotAuthenticated = (to, from, next) => {
-    if (!store.getters.isAuthenticated) {
-        next()
-        return
-    }
-    next('/')
-}
-
-const ifAuthenticated = (to, from, next) => {
-    if (store.getters.isAuthenticated) {
-        next()
-        return
-    }
-    next('/login')
-}
-
 export default new Router ({
     mode: 'history',
     routes: [
@@ -122,6 +106,24 @@ export default new Router ({
             meta: {
                 title: 'Website - contact details'
             }
+        },
+        // OTHERWISE REDIRECT TO HOME
+        {
+            path: '*',
+            redirect: '/'
         }
     ]
+});
+
+router.beforeEach((to, from, next) => {
+    // REDIRECT TO LOGIN PG IN USER IS NOT LOGGED IN
+    const publicPages = ['/login', '/register'];
+    const authRequired = !publicPages.includes(to.path);
+    const loggedIn = localStorage.getItem('user');
+
+    if (authRequired && !loggedIn) {
+        return next('/login');
+    }
+
+    next();
 })

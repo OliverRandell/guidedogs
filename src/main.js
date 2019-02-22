@@ -3,12 +3,14 @@ window.$ = window.jQuery = require('jquery');
 window.Tether = require('tether');
 window.Popper = require('popper.js');
 
-import Vue from 'vue'
-import Vuex from 'vuex'
-import App from './App.vue'
+import Vue from 'vue';
+import Vuex from 'vuex';
+import VeeValidate from 'vee-validate';
+
+import App from './App.vue';
 //import axios from 'axios'
-import router from './router'
-import store from './store'
+import { router } from './router';
+import { store } from './store';
 
 // IMPORTING OUR STYLES
 //import './assets/scss/app.scss';
@@ -16,8 +18,13 @@ import store from './store'
 Vue.config.productionTip = false
 
 Vue.use(Vuex)
+Vue.use(VeeValidate);
 //Vue.use(axios)
 //Vue.use(Vuelidate)
+
+// SETTING UP FAKE BACKEND
+import { configureFakeBackend } from './utils/dummy-backend';
+configureFakeBackend();
 
 new Vue({
     router,
