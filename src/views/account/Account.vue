@@ -3,20 +3,33 @@
         <div class="pg-content container">
             <div class="row">
                 <div class="col-6">
-                    <h1>Your Profile</h1>
-                    <p v-if="profile.name">Hello <span>{{ profile.title }} {{ profile.name }}</span> this is your profile area. Feel free to add as many details as you can to this area. It increases your experiences with this app.</p>
+                    <h1>Hi {{ account.user.firstName }}!</h1>
+                    <em v-if="users.loading">Loading users...</em>
+                    <span v-if="users.error" class="text-danger">ERROR: {{users.error}}</span>
+                    <ul v-if="users.items">
+                        <li v-for="user in users.items" :key="user.id">
+                            {{user.firstName + ' ' + user.lastName}}
+                            <span v-if="user.deleting"><em> - Deleting...</em></span>
+                            <span v-else-if="user.deleteError" class="text-danger"> - ERROR: {{user.deleteError}}</span>
+                            <span v-else> - <a @click="deleteUser(user.id)" class="text-danger">Delete</a></span>
+                        </li>
+                    </ul>
+                    <!-- <p v-if="profile.name">Hello <span>{{ profile.title }} {{ profile.name }}</span> this is your profile area. Feel free to add as many details as you can to this area. It increases your experiences with this app.</p>
                     <section class="profile-pod">
                         <img src="../../assets/imgs/profile-pic.jpg" :alt="['Profile picture for', profile.name]">
                         <p v-if="profile.name">
                             <strong>Name: </strong>
-                            <span>{{ profile.title }} {{ profile.name }}</span>
-                        </p>
+                            <span>{{ profile.title }} {{ profile.name }}</span> -->
+                        <!-- </p>
                         <p>Email</p>
                         <p>username</p>
                         <p>update password form</p>
                         <p>Interests</p>
                         <p>Talk to me about...</p>
-                    </section>
+                    </section> -->
+                    <p>
+                        <router-link to="/login">Logout</router-link>
+                    </p>
                 </div>
             </div>
         </div>
@@ -25,14 +38,28 @@
 
 <script>
     import LayoutMaster from '../../components/common/layouts/layout-master.vue';
-    import { mapState } from 'vuex';
+    import { mapState, mapActions } from 'vuex';
 
     export default {
         name: 'Account',
         components: {
             LayoutMaster
         },
-        computed: mapState({ profile: state => state.user.profile })
+        computed: {
+            ...mapState({
+                account: state => state.account,
+                users: state => state.user.all
+            })
+        },
+        created () {
+            this.getAllUsers();
+        },
+        methods: {
+            ...mapActions('users', {
+                getAllUsers: 'getAll',
+                deleteUser: 'delete'
+            })
+        }
     }
 </script>
 

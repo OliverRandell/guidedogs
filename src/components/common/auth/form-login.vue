@@ -1,24 +1,23 @@
 <template lang="html">
-    <form class="login" @submit.prevent="handleSubmit" id="login">
+    <form @submit.prevent="handleSubmit">
         <div class="form-group">
-            <label for="username">Choose a username
-                <strong class="red" aria-hidden="true">*</strong>
-            </label>
-            <input type="text" :class="['form-control', { 'is-invalid': submitted && !username }]" name="username" id="username" placeholder="eg: TheCatInTheHat99" required v-model="username" aria-describedby="userName">
-            <!-- <input type="text" class="form-control" name="username" id="username" placeholder="eg: TheCatInTheHat99" required v-model="username" aria-describedby="userName"> -->
+            <label for="username">Username</label>
+            <input type="text" v-model="username" name="username" class="form-control" :class="{ 'is-invalid': submitted && !username }" />
             <div v-show="submitted && !username" class="invalid-feedback">Username is required</div>
         </div>
-
         <div class="form-group">
-            <label htmlFor="password">Enter password
-                <strong class="red" aria-hidden="true">*</strong>
-            </label>
-            <input :class="['form-control', { 'is-invalid': submitted && !password }]" type="password" name="password" id="password" required v-model="password">
-            <div class="invalid-feedback" v-show="submitted && !password">Password is required</div>
-            <router-link to="/forgot-password" class="link-forgotpassword">Forgot password?</router-link>
+            <label htmlFor="password">Password</label>
+            <input type="password" v-model="password" name="password" class="form-control" :class="{ 'is-invalid': submitted && !password }" />
+            <div v-show="submitted && !password" class="invalid-feedback">Password is required</div>
         </div>
 
-        <button type="submit" class="btn btn-primary" :disabled="status.loggingIn">Login</button>
+        <div class="form-group">
+            <button class="btn btn-primary" :disabled="status.loggingIn">Login</button>
+            <img v-show="status.loggingIn" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+            <router-link to="/register" class="btn btn-link">Register</router-link>
+        </div>
+
+        <!-- <button type="submit" class="btn btn-primary" :disabled="status.loggingIn">Login</button> -->
 
     </form>
 </template>
@@ -51,7 +50,7 @@
             //     })
             // }
             ...mapActions('account', ['login', 'logout']),
-            handleSubmit (e) {
+            handleSubmit() {
                 this.submitted = true;
                 const { username, password } = this;
                 if (username && password) {
