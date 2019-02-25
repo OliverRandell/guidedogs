@@ -1,4 +1,4 @@
-//import config from 'config';
+// import config from 'config';
 import { authHeader } from '../utils/auth-header';
 
 export const userService = {
@@ -31,7 +31,7 @@ function login(username, password) {
 }
 
 function logout() {
-    // remove user from local storage to log user out
+    // REMOVE USER FROM LOCAL STORAGE TO LOG USER OUT
     localStorage.removeItem('user');
 }
 
@@ -61,7 +61,7 @@ function getById(id) {
         headers: authHeader()
     };
 
-    return fetch(`${config.apiUrl}/users/${id}`, requestOptions).then(handleResponse);
+    return fetch(`../store/users/${id}`, requestOptions).then(handleResponse);
 }
 
 function update(user) {
@@ -71,7 +71,7 @@ function update(user) {
         body: JSON.stringify(user)
     };
 
-    return fetch(`${config.apiUrl}/users/${user.id}`, requestOptions).then(handleResponse);
+    return fetch(`../store/users/${user.id}`, requestOptions).then(handleResponse);
 }
 
 // prefixed function name with underscore because delete is a reserved word in javascript
@@ -81,7 +81,7 @@ function _delete(id) {
         headers: authHeader()
     };
 
-    return fetch(`${config.apiUrl}/users/${id}`, requestOptions).then(handleResponse);
+    return fetch(`../store/users/${id}`, requestOptions).then(handleResponse);
 }
 
 function handleResponse(response) {

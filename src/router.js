@@ -17,18 +17,15 @@ import Contact from './views/Contact.vue';
 import Account from './views/account/Account.vue';
 import Preferences from './views/account/Preferences.vue';
 
-import store from './store'
-
 Vue.use(Router);
 
-export default new Router ({
+export const router =  new Router ({
     mode: 'history',
     routes: [
         {
             path: '/login',
             name: 'Login',
             component: Login,
-            beforeEnter: ifNotAuthenticated,
             meta: {
                 title: 'Welcome to the project'
             }
@@ -53,7 +50,6 @@ export default new Router ({
             path: '/account',
             name: 'Account',
             component: Account,
-            beforeEnter: ifAuthenticated,
             meta: {
                 title: 'Account page'
             }
@@ -62,7 +58,6 @@ export default new Router ({
             path: '/preferences',
             name: 'Preferences',
             component: Preferences,
-            beforeEnter: ifAuthenticated,
             meta: {
                 title: 'My preferences'
             }

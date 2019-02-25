@@ -11,6 +11,11 @@
                             <strong>Name: </strong>
                             <span>{{ profile.title }} {{ profile.name }}</span>
                         </p>
+                        <p>Email</p>
+                        <p>username</p>
+                        <p>update password form</p>
+                        <p>Interests</p>
+                        <p>Talk to me about...</p>
                     </section>
                 </div>
             </div>

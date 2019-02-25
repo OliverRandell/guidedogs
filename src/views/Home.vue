@@ -21,19 +21,22 @@
             </main>
 
         </template>
-        <div v-if="!isAuthenticated && authStatus !== 'loading'">
+        <!-- <div v-if="!isAuthenticated && authStatus !== 'loading'">
             <main class="home pg-content">
                 <h2>Welcome to Peer Support Platform!</h2>
             </main>
-        </div>
+        </div> -->
     </layout-master>
 </template>
 
 <script>
+    //import { mapState, mapActions } from 'vuex';
     import LayoutMaster from '../components/common/layouts/layout-master.vue';
-    import { mapGetters } from 'vuex';
     export default {
         name: 'Home',
+        components : {
+            LayoutMaster
+        },
         data () {
             return {
                 newsArticles: [
@@ -55,15 +58,27 @@
                 ],
             }
         },
-        components : {
-            LayoutMaster
-        },
-        computed: {
-            ...mapGetters(['isAuthenticated', 'authStatus']),
-            loading: function () {
-                return this.authStatus === 'loading' && !this.isAuthenticated
-            }
-        }
+        // computed: {
+        //     ...mapState({
+        //         account: state => state.account,
+        //         users: state => state.users.all
+        //     })
+        // },
+        // created () {
+        //     this.getAllUsers();
+        // },
+        // methods: {
+        //     ...mapActions('users', {
+        //         getAllUsers: 'getAll',
+        //         deleteUser: 'delete'
+        //     })
+        // }
+        // computed: {
+        //     ...mapGetters(['isAuthenticated', 'authStatus']),
+        //     loading: function () {
+        //         return this.authStatus === 'loading' && !this.isAuthenticated
+        //     }
+        // }
     }
 </script>
 

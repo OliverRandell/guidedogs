@@ -5,8 +5,8 @@
 </template>
 
 <script>
-    import { mapGetters, mapState } from 'vuex';
-    import { AUTH_LOGOUT } from '../../../store/actions/auth';
+    //import { mapGetters, mapState } from 'vuex';
+    //import { AUTH_LOGOUT } from '../../../store/actions/auth';
     export default {
         name: 'PrimaryNav',
         data () {
@@ -24,8 +24,8 @@
                     },
                     {
                         id: 2,
-                        title: 'Expressions of Interest',
-                        route: 'expressions-of-interest'
+                        title: 'Information',
+                        route: 'information'
                     },
                     {
                         id: 3,
@@ -40,23 +40,26 @@
                 ]
             }
         },
-        methods: {
-            logout: function () {
-                this.$store.dispatch(AUTH_LOGOUT).then(() => this.$router.push('/login'))
-            }
-        },
-        computed: {
-            ...mapGetters(['getProfile', 'isAuthenticated', 'isProfileLoaded']),
-            ...mapState({
-                authLoading: state => state.auth.status === 'loading',
-                name: state => `${state.user.profile.title} ${state.user.profile.name}`,
-            })
-        }
+        // methods: {
+        //     logout: function () {
+        //         this.$store.dispatch(AUTH_LOGOUT).then(() => this.$router.push('/login'))
+        //     }
+        // },
+        // computed: {
+        //     ...mapGetters(['getProfile', 'isAuthenticated', 'isProfileLoaded']),
+        //     ...mapState({
+        //         authLoading: state => state.auth.status === 'loading',
+        //         name: state => `${state.user.profile.title} ${state.user.profile.name}`,
+        //     })
+        // }
     }
 </script>
 
 <style lang="scss" scoped>
     @import './src/assets/scss/vue.scss';
+    .primary-nav {
+        text-align: right;
+    }
     .nav-item {
         margin-left: 0.5rem;
         &:first-child {
