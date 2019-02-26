@@ -1,22 +1,13 @@
 <template>
-    <section class="pg-hero row">
-        <div class="container">
-            <div class="row">
-                <header class="col-12">
-                    <h1>
-                        <slot name="title"></slot>
-                    </h1>
-                    <h2>
-                        <slot name="description"></slot>
-                    </h2>
-                </header>
-            </div>
+    <section class="pg-hero">
+        <div class="wrapper container">
+            <h1>
+                <slot name="title"></slot>
+            </h1>
+            <h2>
+                <slot name="description"></slot>
+            </h2>
         </div>
-            <!-- <slot name="title"></slot>
-
-            <h1 slot="title"></h1>
-            <p slot="desc"></p> -->
-
 
     </section>
 </template>
@@ -42,5 +33,9 @@ export default {
             padding-top: 8rem;
             padding-bottom: 12rem;
         }
+    }
+    .wrapper {
+        @include make-container();
+        width: 100%;
     }
 </style>

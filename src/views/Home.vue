@@ -3,26 +3,28 @@
         <!-- <loading v-if="loading"></loading>
         <template v-if="isAuthenticated"> -->
             <!-- <feed-item v-for="(feed, index) in fakeFeed" :key="index" :feed="feed"></feed-item> -->
-            <hero>
-                <template slot="title">
-                    <strong>Welcome</strong> {{ account.user.username }}!
-                </template>
-                <template slot="description">
-                    Below is the latest news
-                </template>
-            </hero>
-            <main class="pg-content home container">
-                <div class="row">
-                    <div class="col-12">
-                        <h2>Latest News items</h2>
-                    </div>
-                    <div class="col-12 col-md-8 col-lg-6">
-                        <article v-for="item in newsArticles" :key="item.id" class="new-article">
+            <main class="main home" tabIndex="-1">
+                <hero>
+                    <template slot="title">
+                        <strong>Welcome</strong> {{ account.user.username }}!
+                    </template>
+                    <template slot="description">
+                        Below is the latest news
+                    </template>
+                </hero>
+                <div class="container">
+                    <section class="pg-content">
+
+                        <h2 class="col-12">Latest News items</h2>
+
+
+                        <article v-for="item in newsArticles" :key="item.id" class="new-article article">
                             <h2>{{ item.title }}</h2>
                             <p>{{ item.desc }}</p>
                             <router-link :to="item.route" class="btn btn-primary">Read more</router-link>
                         </article>
-                    </div>
+
+                    </section>
 
                 </div>
 

@@ -6,6 +6,7 @@ window.Popper = require('popper.js');
 import Vue from 'vue';
 import Vuex from 'vuex';
 import VeeValidate from 'vee-validate';
+import VueAnnouncer from 'vue-announcer';
 
 import App from './App.vue';
 //import axios from 'axios'
@@ -19,6 +20,7 @@ Vue.config.productionTip = false
 
 Vue.use(Vuex)
 Vue.use(VeeValidate);
+Vue.use(VueAnnouncer);
 //Vue.use(axios)
 //Vue.use(Vuelidate)
 
