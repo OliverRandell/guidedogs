@@ -15,7 +15,7 @@ function login(username, password) {
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stingify({ username, password })
+        body: JSON.stringify({ username, password })
     };
     return fetch(`/users/authenticate`, requestOptions)
         .then(handleResponse)

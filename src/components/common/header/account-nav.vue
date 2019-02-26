@@ -1,16 +1,16 @@
 <template lang="html">
     <nav class="account-nav">
-        <template v-if="isProfileLoaded">
+        <!-- <template v-if="isProfileLoaded"> -->
             <router-link to="/account"><strong>Welcome</strong> {{ account.user.username }}!</router-link>
             <router-link to="/preferences">Preferences</router-link>
-        </template>
+        <!-- </template> -->
         <router-link to="/login" class="btn btn-primary">Logout</router-link>
         <!-- <button v-if="isAuthenticated" @click="logout" role="button" >
             <span class="logout">Logout</span>
         </button> -->
-        <template v-if="!isAuthenticated && !authLoading">
+        <!-- <template v-if="!isAuthenticated && !authLoading">
             <router-link to="/login">Login</router-link>
-        </template>
+        </template> -->
     </nav>
 </template>
 

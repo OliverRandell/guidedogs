@@ -5,17 +5,21 @@
                 <div class="col-12">
                     <h1>Contact us</h1>
                 </div>
-                <div class="col-6">
-                    <form class="form-contact" @submit.prevent="submit">
+                <div class="col-12 col-lg-6">
+                    <form class="form-contact" @submit.prevent="submitContactForm">
                         <fieldset>
                             <legend>'Name of app' contact form</legend>
                             <div class="form-group">
                                 <label for="name">Name</label>
-                                <input type="text" name="name" value="" v-model="name" id="name" class="form-control">
+                                <input type="text" name="name" v-model="name" v-validate="'required|alpha'" :class="['form-control', {'input': true, 'is-danger': errors.has('name') }]" placeholder="Enter your name">
                             </div>
                             <div class="form-group">
                                 <label for="email">Email</label>
-                                <input type="email" name="email" value="" v-model="email" id="email" class="form-control">
+                                <input type="email" name="email" v-model="email" v-validate="'required|email'" :class="['form-control', {'input': true, 'is-danger': errors.has('email')}]" placeholder="Enter your email...">
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Phone Number</label>
+                                <input type="text" name="phone" v-validate="'required|numeric'" :class="['form-control', {'inout': true, 'is-danger': errors.has('phone') }]" placeholder="Enter your phone number">
                             </div>
                             <div class="form-group">
                                 <label for="message">Message</label>
@@ -45,11 +49,23 @@
             return {
                 name: '',
                 email: '',
+                phone: '',
                 message: {
                     text: `Write your message in here...`,
                     maxlength: 255
                 },
                 submitted: false
+            }
+        },
+        methods: {
+            submitContactForm() {
+                this.$validate.validateAll().then((result) => {
+                    if (result) {
+                        alert('Form Submitted!');
+                        return;
+                    }
+                    alert('Correct the errors!');
+                });
             }
         }
     }

@@ -1,14 +1,14 @@
 <template lang="html">
     <layout-master>
-        <loading v-if="loading"></loading>
-        <template v-if="isAuthenticated">
+        <!-- <loading v-if="loading"></loading>
+        <template v-if="isAuthenticated"> -->
             <!-- <feed-item v-for="(feed, index) in fakeFeed" :key="index" :feed="feed"></feed-item> -->
             <main class="pg-content home container">
                 <div class="row">
                     <div class="col-12">
                         <h2>Latest News items</h2>
                     </div>
-                    <div class="col-6">
+                    <div class="col-12 col-md-8 col-lg-6">
                         <article v-for="item in newsArticles" :key="item.id" class="new-article">
                             <h2>{{ item.title }}</h2>
                             <p>{{ item.desc }}</p>
@@ -20,7 +20,7 @@
 
             </main>
 
-        </template>
+        <!-- </template> -->
         <!-- <div v-if="!isAuthenticated && authStatus !== 'loading'">
             <main class="home pg-content">
                 <h2>Welcome to Peer Support Platform!</h2>
@@ -30,7 +30,7 @@
 </template>
 
 <script>
-    //import { mapState, mapActions } from 'vuex';
+    import { mapState, mapActions } from 'vuex';
     import LayoutMaster from '../components/common/layouts/layout-master.vue';
     export default {
         name: 'Home',
@@ -58,21 +58,21 @@
                 ],
             }
         },
-        // computed: {
-        //     ...mapState({
-        //         account: state => state.account,
-        //         users: state => state.users.all
-        //     })
-        // },
-        // created () {
-        //     this.getAllUsers();
-        // },
-        // methods: {
-        //     ...mapActions('users', {
-        //         getAllUsers: 'getAll',
-        //         deleteUser: 'delete'
-        //     })
-        // }
+        computed: {
+            ...mapState({
+                account: state => state.account,
+                users: state => state.users.all
+            })
+        },
+        created () {
+            this.getAllUsers();
+        },
+        methods: {
+            ...mapActions('users', {
+                getAllUsers: 'getAll',
+                deleteUser: 'delete'
+            })
+        }
         // computed: {
         //     ...mapGetters(['isAuthenticated', 'authStatus']),
         //     loading: function () {

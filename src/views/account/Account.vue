@@ -11,7 +11,8 @@
                             {{user.firstName + ' ' + user.lastName}}
                             <span v-if="user.deleting"><em> - Deleting...</em></span>
                             <span v-else-if="user.deleteError" class="text-danger"> - ERROR: {{user.deleteError}}</span>
-                            <span v-else> - <a @click="deleteUser(user.id)" class="text-danger">Delete</a></span>
+                            <span v-else> - <button @click="deleteUser(user.id)" class="btn btn-secondary text-danger">Delete</button>
+                            </span>
                         </li>
                     </ul>
                     <!-- <p v-if="profile.name">Hello <span>{{ profile.title }} {{ profile.name }}</span> this is your profile area. Feel free to add as many details as you can to this area. It increases your experiences with this app.</p>
@@ -48,7 +49,7 @@
         computed: {
             ...mapState({
                 account: state => state.account,
-                users: state => state.user.all
+                users: state => state.users.all
             })
         },
         created () {
