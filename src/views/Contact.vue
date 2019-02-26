@@ -1,6 +1,7 @@
 <template lang="html">
     <layout-master>
         <main class="contact container pg-content">
+            <hero />
             <div class="row">
                 <div class="col-12">
                     <h1>Contact us</h1>

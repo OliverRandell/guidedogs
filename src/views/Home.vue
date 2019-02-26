@@ -3,6 +3,14 @@
         <!-- <loading v-if="loading"></loading>
         <template v-if="isAuthenticated"> -->
             <!-- <feed-item v-for="(feed, index) in fakeFeed" :key="index" :feed="feed"></feed-item> -->
+            <hero>
+                <template slot="title">
+                    <strong>Welcome</strong> {{ account.user.username }}!
+                </template>
+                <template slot="description">
+                    Below is the latest news
+                </template>
+            </hero>
             <main class="pg-content home container">
                 <div class="row">
                     <div class="col-12">
@@ -32,10 +40,12 @@
 <script>
     import { mapState, mapActions } from 'vuex';
     import LayoutMaster from '../components/common/layouts/layout-master.vue';
+    import Hero from '../components/common/global/hero.vue';
     export default {
         name: 'Home',
         components : {
-            LayoutMaster
+            LayoutMaster,
+            Hero
         },
         data () {
             return {

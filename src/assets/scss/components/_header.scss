@@ -3,3 +3,11 @@
         height: 32px;
     }
 }
+
+.nav-item {
+    color: $black;
+    transition: color 250ms;
+    &:hover {
+        color: $primary;
+    }
+}

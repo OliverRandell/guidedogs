@@ -61,7 +61,7 @@
         text-align: right;
     }
     .nav-item {
-        margin-left: 0.5rem;
+        margin-left: 1rem;
         &:first-child {
             margin-left: 0;
         }

@@ -1,8 +1,7 @@
 <template lang="html">
     <nav class="account-nav">
         <!-- <template v-if="isProfileLoaded"> -->
-            <router-link to="/account"><strong>Welcome</strong> {{ account.user.username }}!</router-link>
-            <router-link to="/preferences">Preferences</router-link>
+        <router-link to="/preferences" class="nav-item">Preferences</router-link>
         <!-- </template> -->
         <router-link to="/login" class="btn btn-primary">Logout</router-link>
         <!-- <button v-if="isAuthenticated" @click="logout" role="button" >
@@ -43,10 +42,13 @@
 </script>
 
 <style lang="scss" scoped>
+    @import './src/assets/scss/vue.scss';
     .account-nav {
         text-align: right;
+        display: flex;
+        align-items: center;
         a {
-            margin-right: 0.5rem;
+            margin-left: 1rem;
         }
     }
 </style>
