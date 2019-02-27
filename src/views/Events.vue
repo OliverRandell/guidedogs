@@ -10,19 +10,36 @@
         </hero>
 
         <div class="container">
-            <section class="pg-content">
+            <div class="pg-content">
+                <div class="event-listings">
+                    <article class="event-pod" v-for="item in eventItems" :key="item.id">
+                        <figure class="event-thumbnail">
+                            <img :src="item.imgSrc" :alt="item.imgAlt">
+                        </figure>
+                        <section class="event-content">
+                            <time>
+                                {{ item.date }}
+                            </time>
+                            <div>
+                                <h2>{{ item.title }}</h2>
+                                <time>{{ item.day }}, {{ item.date }}, {{ item.time }}</time>
+                                <p>{{ item.location }}</p>
+                                <p>{{ item.price }}</p>
+                                <p>{{ item.host }}</p>
+                            </div>
 
-                <div class="col-12">
-                    <section class="event-pod" v-for="item in eventItems" :key="item.id">
-                        <h2>{{ item.title }}</h2>
-                        <p>{{ item.desc }}</p>
-                        <time>{{ item.time }} {{ item.day }}, {{ item.date }}</time>
-                        <p>{{ item.host }}</p>
-                        <p>{{ item.location }}</p>
+                        </section>
+
                         <!-- <p v-for="item in category" :key="item.id">{{ item.title }}</p> -->
-                    </section>
+                    </article>
                 </div>
-            </section>
+
+
+                <aside class="event-filter">
+                    <h3>Filter:</h3>
+                </aside>
+
+            </div>
         </div>
     </layout-master>
 </template>
@@ -49,6 +66,8 @@
                         day: 'Friday',
                         time: '14:00',
                         location: 'Gatsby Manor',
+                        imgSrc: 'http://placekitten.com/600/300',
+                        imgAlt: 'This is the alternative text of the image',
                         categories: [
                             {
                                 id: '0',
@@ -75,7 +94,40 @@
 
 <style lang="scss" scoped>
     @import './src/assets/scss/vue.scss';
-    .event-pod {
+    .event-listings {
         @include spacer(2rem);
+        @include make-col-ready();
+        @include make-col(12);
+        @include media-breakpoint-up(lg) {
+            @include make-col(6);
+            @include make-col-offset(2);
+        }
+    }
+    .event-pod {
+        width: 100%;
+        @include spacer(1rem);
+    }
+    .event-thumbnail {
+        width: 100%;
+        margin: 0;
+        border-radius: .5rem .5rem 0 0;
+        overflow: hidden;
+        img {
+            width: 100%;
+        }
+    }
+    .event-content {
+        padding: 2rem;
+        border-radius: 0 0 0.5rem 0.5rem;
+        border: 2px solid $secondary;
+        border-top: 0;
+        display: flex;
+    }
+    .event-filter {
+        @include make-col-ready();
+        @include make-col(12);
+        @include media-breakpoint-up(lg) {
+            @include make-col(2);
+        }
     }
 </style>

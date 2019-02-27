@@ -25,6 +25,10 @@
                 <p>
                     <router-link to="/login">Logout</router-link>
                 </p>
+                <p>First name:</p>
+                <p>Last name:</p>
+                <p>email:</p>
+                <p>Bio:</p>
             </section>
         </div>
 
