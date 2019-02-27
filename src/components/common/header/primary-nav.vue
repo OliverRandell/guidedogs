@@ -29,13 +29,13 @@
                     },
                     {
                         id: 3,
-                        title: 'Contact Us',
-                        route: 'contact'
+                        title: 'My Account',
+                        route: 'account'
                     },
                     {
                         id: 4,
-                        title: 'Account',
-                        route: 'account'
+                        title: 'Contact Us',
+                        route: 'contact'
                     }
                 ]
             }

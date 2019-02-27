@@ -10,7 +10,8 @@ import ForgotPassword from './views/auth/ForgotPassword.vue';
 import Home from './views/Home.vue';
 import About from './views/About.vue';
 import Events from './views/Events.vue';
-import ExpressionsOfInterest from './views/ExpressionsOfInterest.vue';
+import Information from './views/Information.vue';
+//import ExpressionsOfInterest from './views/ExpressionsOfInterest.vue';
 import Contact from './views/Contact.vue';
 
 // USER PAGES
@@ -86,12 +87,20 @@ export const router =  new Router ({
                 title: 'Website - Events page'
             }
         },
+        // {
+        //     path: '/expressions-of-interest',
+        //     name: 'ExpressionsOfInterest',
+        //     component: ExpressionsOfInterest,
+        //     meta: {
+        //         title: 'Register an expression of interest'
+        //     }
+        // },
         {
-            path: '/expressions-of-interest',
-            name: 'ExpressionsOfInterest',
-            component: ExpressionsOfInterest,
+            path: '/information',
+            name: 'Information',
+            component: Information,
             meta: {
-                title: 'Register an expression of interest'
+                title: 'Website - latest news and goings on'
             }
         },
         {

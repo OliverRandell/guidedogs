@@ -3,32 +3,25 @@
         <!-- <loading v-if="loading"></loading>
         <template v-if="isAuthenticated"> -->
             <!-- <feed-item v-for="(feed, index) in fakeFeed" :key="index" :feed="feed"></feed-item> -->
-            <main class="main home" tabIndex="-1">
-                <hero>
-                    <template slot="title">
-                        <strong>Welcome</strong> {{ account.user.username }}!
-                    </template>
-                    <template slot="description">
-                        Below is the latest news
-                    </template>
-                </hero>
-                <div class="container">
-                    <section class="pg-content">
 
-                        <h2 class="col-12">Latest News items</h2>
-
-
-                        <article v-for="item in newsArticles" :key="item.id" class="new-article article">
-                            <h2>{{ item.title }}</h2>
-                            <p>{{ item.desc }}</p>
-                            <router-link :to="item.route" class="btn btn-primary">Read more</router-link>
-                        </article>
-
-                    </section>
-
-                </div>
-
-            </main>
+        <hero>
+            <template slot="title">
+                <strong>Welcome</strong> {{ account.user.username }}!
+            </template>
+            <template slot="description">
+                Below is the latest news
+            </template>
+        </hero>
+        <div class="container">
+            <section class="pg-content">
+                <h2 class="col-12">Latest News items</h2>
+                <article v-for="item in newsArticles" :key="item.id" class="new-article article">
+                    <h2>{{ item.title }}</h2>
+                    <p>{{ item.desc }}</p>
+                    <router-link :to="item.route" class="btn btn-primary">Read more</router-link>
+                </article>
+            </section>
+        </div>
 
         <!-- </template> -->
         <!-- <div v-if="!isAuthenticated && authStatus !== 'loading'">

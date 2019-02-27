@@ -1,21 +1,32 @@
 <template>
     <layout-master>
-        <main class="container pg-content">
-            <div class="row">
+        <hero>
+            <template slot="title">
+                'App' {{ title }}
+            </template>
+            <template slot="description">
+                Below is the latest news and goings on within our community
+            </template>
+        </hero>
+
+        <div class="container">
+            <section class="pg-content">
+
                 <div class="col-12">
-                    <h1>{{ title }}</h1>
                 </div>
-            </div>
-        </main>
+            </section>
+        </div>
     </layout-master>
 </template>
 
 <script>
     import LayoutMaster from '../components/common/layouts/layout-master.vue';
+    import Hero from '../components/common/global/hero.vue';
     export default {
         name: 'Information',
-        components: {
-            LayoutMaster
+        components : {
+            LayoutMaster,
+            Hero
         },
         data () {
             return {

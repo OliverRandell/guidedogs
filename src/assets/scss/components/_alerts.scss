@@ -1,0 +1,20 @@
+.alert {
+    width: 100%;
+    position: fixed;
+    z-index: 2;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    font-size: 1.6rem;
+    text-align: center;
+    &.alert-danger {
+        background-color: $danger;
+        border-color: $danger;
+        color: $white;
+    }
+    &.alert-success {
+        background-color: $success;
+        border-color: $success;
+        color: $white;
+    }
+
+}

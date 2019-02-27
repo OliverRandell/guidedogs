@@ -1,13 +1,17 @@
 <template lang="html">
     <layout-master>
-        <main class="events container pg-content">
-            <div class="row">
-                <div class="col-12">
-                    <h1>{{ title }}</h1>
-                </div>
-            </div>
+        <hero>
+            <template slot="title">
+                This is our {{ title }} page
+            </template>
+            <template slot="description">
+                Below are the latest event listings, what tickles your fancy?
+            </template>
+        </hero>
 
-            <div class="row">
+        <div class="container">
+            <section class="pg-content">
+
                 <div class="col-12">
                     <section class="event-pod" v-for="item in eventItems" :key="item.id">
                         <h2>{{ item.title }}</h2>
@@ -18,17 +22,19 @@
                         <!-- <p v-for="item in category" :key="item.id">{{ item.title }}</p> -->
                     </section>
                 </div>
-            </div>
-        </main>
+            </section>
+        </div>
     </layout-master>
 </template>
 
 <script>
     import LayoutMaster from '../components/common/layouts/layout-master.vue';
+    import Hero from '../components/common/global/hero.vue';
     export default {
         name: 'ExpressionsOfInterest',
         components : {
-            LayoutMaster
+            LayoutMaster,
+            Hero
         },
         data () {
             return {

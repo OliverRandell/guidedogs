@@ -1,15 +1,18 @@
 <template>
-    <section class="pg-hero">
-        <div class="wrapper container">
-            <h1>
-                <slot name="title"></slot>
-            </h1>
-            <h2>
-                <slot name="description"></slot>
-            </h2>
+    <div class="pg-hero" tabIndex="-1">
+        <div class="container" tabIndex="-1">
+            <div class="row">
+                <section class="hero-wrapper">
+                    <h1>
+                        <slot name="title"></slot>
+                    </h1>
+                    <h2>
+                        <slot name="description"></slot>
+                    </h2>
+                </section>
+            </div>
         </div>
-
-    </section>
+    </div>
 </template>
 
 <script>
@@ -34,8 +37,18 @@ export default {
             padding-bottom: 12rem;
         }
     }
-    .wrapper {
-        @include make-container();
-        width: 100%;
+    .hero-wrapper {
+        @include make-col-ready();
+        @include make-col(12);
+        @include media-breakpoint-up(lg) {
+            @include make-col(8);
+            @include make-col-offset(2);
+        }
+    }
+    h1 {
+        font-weight: $font-weight-bold;
+    }
+    h2 {
+        font-size: $font-size-base * 2;
     }
 </style>
