@@ -20,7 +20,7 @@ Vue.config.productionTip = false
 
 Vue.use(Vuex)
 Vue.use(VeeValidate);
-Vue.use(VueAnnouncer);
+Vue.use(VueAnnouncer, {}, router);
 //Vue.use(axios)
 //Vue.use(Vuelidate)
 
