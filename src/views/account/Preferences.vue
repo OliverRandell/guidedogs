@@ -16,6 +16,10 @@
                     <p>What is this preferences page all about? Well, this page provides accessibility help, enabling our users to make the most of this application whatever their ability or disability.</p>
                     <p>Text size, contrast, colour,</p>
                 </div>
+                <div class="col-12">
+                    <!-- THIS BUTTON WILL ADD A CLASS TO THE BODY -->
+                    <button type="button" name="button" class="btn btn-primary">Change the contract</button>
+                </div>
             </section>
         </div>
 
@@ -26,7 +30,6 @@
 <script>
     import LayoutMaster from '../../components/common/layouts/layout-master.vue';
     import Hero from '../../components/common/global/hero.vue';
-    import { mapState } from 'vuex';
     export default {
         name: 'Preferences',
         components: {

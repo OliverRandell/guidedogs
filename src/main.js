@@ -20,13 +20,15 @@ Vue.config.productionTip = false
 
 Vue.use(Vuex)
 Vue.use(VeeValidate);
-Vue.use(VueAnnouncer);
+Vue.use(VueAnnouncer, {}, router);
 //Vue.use(axios)
 //Vue.use(Vuelidate)
 
 // SETTING UP FAKE BACKEND
 import { configureFakeBackend } from './utils/dummy-backend';
 configureFakeBackend();
+
+// FILTERS
 
 new Vue({
     router,

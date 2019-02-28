@@ -1,3 +1,5 @@
+export const apiUrl = 'http://localhost:8080'
+
 const mocks = {
     'auth': { 'POST': { token: 'This-is-a-mocked-token' } },
     'user/me': { 'GET': { name: 'Trouble', title: 'Captain'} }

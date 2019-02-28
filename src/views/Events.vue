@@ -12,31 +12,47 @@
         <div class="container">
             <div class="pg-content">
                 <div class="event-listings">
-                    <article class="event-pod" v-for="item in eventItems" :key="item.id">
-                        <figure class="event-thumbnail">
-                            <img :src="item.imgSrc" :alt="item.imgAlt">
-                        </figure>
-                        <section class="event-content">
-                            <time>
-                                {{ item.date }}
-                            </time>
-                            <div>
-                                <h2>{{ item.title }}</h2>
-                                <time>{{ item.day }}, {{ item.date }}, {{ item.time }}</time>
-                                <p>{{ item.location }}</p>
-                                <p>{{ item.price }}</p>
-                                <p>{{ item.host }}</p>
-                            </div>
+                    <div class="row">
+                        <transition-group class="filter" name="filter">
+                            <article class="event-pod" v-for="item in events" :key="item.id" v-if="currentFilter === item.category || currentFilter === 'all'">
+                                <router-link :to="item.route">
+                                    <figure class="event-thumbnail">
+                                        <h5 class="event-privacy">{{ item.eventOpen }}</h5>
+                                        <img :src="item.imgSrc" :alt="item.imgAlt">
+                                    </figure>
+                                </router-link>
+                                <section class="event-content">
+                                    <time class="event-date">
+                                        <span class="month">Mar</span>
+                                        <span class="day">30</span>
+                                    </time>
+                                    <div>
+                                        <h3 class="event-title">
+                                            <router-link :to="item.route">{{ item.title }}</router-link>
+                                        </h3>
+                                        <time>{{ item.day }}, {{ item.date }}, {{ item.time }}</time>
+                                        <p>{{ item.location }}</p>
+                                        <p>{{ item.price }}</p>
+                                        <p>{{ item.host }}</p>
+                                    </div>
 
-                        </section>
+                                </section>
 
-                        <!-- <p v-for="item in category" :key="item.id">{{ item.title }}</p> -->
-                    </article>
+                                <!-- <p v-for="item in eventItem" :key="item.id">{{ item.title }}</p> -->
+                            </article>
+                        </transition-group>
+                    </div>
                 </div>
 
 
-                <aside class="event-filter">
+                <aside class="event-filters">
                     <h3>Filter:</h3>
+                    <button type="button" :class="['btn-filter', { active: currentFilter === 'all' }]" @click="setFilter('all')">All</button>
+                    <button type="button" :class="['btn-filter', { active: currentFilter === 'information' }]" @click="setFilter('information')">Information</button>
+                    <button type="button" :class="['btn-filter', { active: currentFilter === 'social' }]" @click="setFilter('social')">Social</button>
+                    <button type="button" :class="['btn-filter', { active: currentFilter === 'sport' }]" @click="setFilter('sport')">Sport and fitness</button>
+                    <button type="button" :class="['btn-filter', { active: currentFilter === 'art' }]" @click="setFilter('art')">Arts and crafts</button>
+
                 </aside>
 
             </div>
@@ -48,7 +64,7 @@
     import LayoutMaster from '../components/common/layouts/layout-master.vue';
     import Hero from '../components/common/global/hero.vue';
     export default {
-        name: 'ExpressionsOfInterest',
+        name: 'Events',
         components : {
             LayoutMaster,
             Hero
@@ -56,37 +72,51 @@
         data () {
             return {
                 title: 'Events',
-                submit: false,
-                eventItems: [
+                // fkey: "category",
+                // filterList: [
+                //     'category 1', 'category 2', 'category 1', 'category 2', 'category 1', 'category 2'
+                // ],
+                //filter: 'All',
+                currentFilter: 'all',
+                events: [
                     {
                         id: 0,
-                        title: 'Valentines Day',
-                        host: 'Gatsby',
+                        title: 'Brimbank, Melton & surrounds information session',
+                        route: 'https://www.route-to-somewhere.com/',
+                        host: 'Guide Dogs Victoria',
                         date: '14-02-19',
                         day: 'Friday',
-                        time: '14:00',
-                        location: 'Gatsby Manor',
+                        timeBegin: '13:30',
+                        timeEnd: '15:30',
+                        location: 'Melton Country Club, Reserve Road, Melton VIC, Australia',
+                        travelTips: 'Bus – 456, Closest Stop: Melton Valley Dr',
+                        eventOpen: 'true',
                         imgSrc: 'http://placekitten.com/600/300',
                         imgAlt: 'This is the alternative text of the image',
-                        categories: [
-                            {
-                                id: '0',
-                                title: 'Category 1',
-                            }
-                        ],
-                        desc: 'Event description',
-                        travelTips: '',
-                        email: '',
-                        tel: '',
-                        open: false
+                        category: 'sport'
                     },
                     {
                         id: 1,
-                        title: 'Valentines Day',
-                        time: '14-02-19',
-                        desc: 'Event description',
+                        title: 'Brimbank, Melton & surrounds information session',
+                        route: 'https://www.route-to-somewhere.com/',
+                        host: 'Guide Dogs Victoria',
+                        date: '14-02-19',
+                        day: 'Friday',
+                        timeBegin: '13:30',
+                        timeEnd: '15:30',
+                        location: 'Melton Country Club, Reserve Road, Melton VIC, Australia',
+                        travelTips: 'Bus – 456, Closest Stop: Melton Valley Dr',
+                        eventOpen: 'true',
+                        imgSrc: 'http://placekitten.com/600/300',
+                        imgAlt: 'This is the alternative text of the image',
+                        category: 'information'
                     }
-                ]
+                ],
+            }
+        },
+        methods: {
+            setFilter: function(filter) {
+                this.currentFilter = filter;
             }
         }
     }
@@ -99,35 +129,90 @@
         @include make-col-ready();
         @include make-col(12);
         @include media-breakpoint-up(lg) {
-            @include make-col(6);
-            @include make-col-offset(2);
+            @include make-col(9);
+            //@include make-col-offset(0);
         }
     }
     .event-pod {
         width: 100%;
         @include spacer(1rem);
+        @include make-col-ready();
+        @include make-col(12);
+        @include media-breakpoint-up(lg) {
+            @include make-col(6);
+            //@include make-col-offset(0);
+        }
     }
     .event-thumbnail {
         width: 100%;
         margin: 0;
         border-radius: .5rem .5rem 0 0;
         overflow: hidden;
+        position: relative;
         img {
             width: 100%;
         }
     }
     .event-content {
-        padding: 2rem;
+        padding: 1.5rem;
         border-radius: 0 0 0.5rem 0.5rem;
-        border: 2px solid $secondary;
+        //border: 1px solid $secondary;
         border-top: 0;
         display: flex;
     }
-    .event-filter {
+    .event-filters {
         @include make-col-ready();
         @include make-col(12);
         @include media-breakpoint-up(lg) {
-            @include make-col(2);
+            @include make-col(3);
         }
+        button  {
+            display: block;
+            margin-bottom: 0.5rem;
+            width: 100%;
+        }
+    }
+    .event-title {
+        font-size: $h5-font-size;
+        font-weight: $font-weight-normal;
+        > a {
+            color: $black;
+        }
+    }
+    .event-date {
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        margin-right: 1rem;
+        line-height: 1;
+        .month {
+            color: $primary;
+            margin-bottom: 0;
+        }
+        .day {
+            font-size: 2rem;
+        }
+    }
+    .event-privacy {
+        position: absolute;
+        top: 0;
+        right: 0;
+        background-color: $white;
+        padding: 0.5rem;
+        text-transform: uppercase;
+        font-size: 1rem;
+        font-weight: $font-weight-normal;
+    }
+    .filter-enter {
+        transform: scale(0.5) translatey(-80px);
+	    opacity:0;
+    }
+    .filter-leave-to {
+        transform: translatey(30px);
+        opacity:0;
+    }
+    .filter-leave-action {
+        position: absolute;
+	    z-index:-1;
     }
 </style>

@@ -1,4 +1,4 @@
-// import config from 'config';
+import { apiUrl } from '@/utils/api.js';
 import { authHeader } from '../utils/auth-header';
 
 export const userService = {
@@ -17,7 +17,7 @@ function login(username, password) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password })
     };
-    return fetch(`/users/authenticate`, requestOptions)
+    return fetch(`${apiUrl}/users/authenticate`, requestOptions)
         .then(handleResponse)
         .then(user => {
             // login successful if there's a jwt token in the response
@@ -42,7 +42,7 @@ function register(user) {
         body: JSON.stringify(user)
     };
 
-    return fetch(`/users/register`, requestOptions).then(handleResponse);
+    return fetch(`${apiUrl}/users/register`, requestOptions).then(handleResponse);
 }
 
 function getAll() {
@@ -51,7 +51,7 @@ function getAll() {
         headers: authHeader()
     };
 
-    return fetch(`/users`, requestOptions).then(handleResponse);
+    return fetch(`${apiUrl}/users`, requestOptions).then(handleResponse);
 }
 
 
@@ -61,7 +61,7 @@ function getById(id) {
         headers: authHeader()
     };
 
-    return fetch(`/users/${id}`, requestOptions).then(handleResponse);
+    return fetch(`${apiUrl}/users/${id}`, requestOptions).then(handleResponse);
 }
 
 function update(user) {
@@ -71,7 +71,7 @@ function update(user) {
         body: JSON.stringify(user)
     };
 
-    return fetch(`/users/${user.id}`, requestOptions).then(handleResponse);
+    return fetch(`${apiUrl}/users/${user.id}`, requestOptions).then(handleResponse);
 }
 
 // prefixed function name with underscore because delete is a reserved word in javascript
@@ -81,7 +81,7 @@ function _delete(id) {
         headers: authHeader()
     };
 
-    return fetch(`/users/${id}`, requestOptions).then(handleResponse);
+    return fetch(`${apiUrl}/users/${id}`, requestOptions).then(handleResponse);
 }
 
 function handleResponse(response) {
