@@ -12,12 +12,14 @@
         <div class="container">
             <div class="pg-content">
                 <div class="event-listings">
-                    <div class="row">
+                    <!-- <div class="row"> -->
                         <transition-group class="filter" name="filter">
                             <article class="event-pod" v-for="item in events" :key="item.id" v-if="currentFilter === item.category || currentFilter === 'all'">
                                 <router-link :to="item.route">
                                     <figure class="event-thumbnail">
-                                        <h5 class="event-privacy">{{ item.eventOpen }}</h5>
+                                        <h5 class="event-privacy">
+                                            <template v-if="item.eventOpen === 'true'">Open</template>
+                                            <template v-else>Closed</template></h5>
                                         <img :src="item.imgSrc" :alt="item.imgAlt">
                                     </figure>
                                 </router-link>
@@ -26,14 +28,14 @@
                                         <span class="month">Mar</span>
                                         <span class="day">30</span>
                                     </time>
-                                    <div>
+                                    <div class="event-details">
                                         <h3 class="event-title">
                                             <router-link :to="item.route">{{ item.title }}</router-link>
                                         </h3>
                                         <time>{{ item.day }}, {{ item.date }}, {{ item.time }}</time>
-                                        <p>{{ item.location }}</p>
-                                        <p>{{ item.price }}</p>
-                                        <p>{{ item.host }}</p>
+                                        <p><span>Where: </span>{{ item.location }}</p>
+                                        <p><span>Cost: </span>{{ item.price }}</p>
+                                        <p><span>Host: </span>{{ item.host }}</p>
                                     </div>
 
                                 </section>
@@ -41,7 +43,7 @@
                                 <!-- <p v-for="item in eventItem" :key="item.id">{{ item.title }}</p> -->
                             </article>
                         </transition-group>
-                    </div>
+                    <!-- </div> -->
                 </div>
 
 
@@ -84,6 +86,7 @@
                         title: 'Brimbank, Melton & surrounds information session',
                         route: 'https://www.route-to-somewhere.com/',
                         host: 'Guide Dogs Victoria',
+                        price: '$4.00',
                         date: '14-02-19',
                         day: 'Friday',
                         timeBegin: '13:30',
@@ -106,7 +109,7 @@
                         timeEnd: '15:30',
                         location: 'Melton Country Club, Reserve Road, Melton VIC, Australia',
                         travelTips: 'Bus – 456, Closest Stop: Melton Valley Dr',
-                        eventOpen: 'true',
+                        eventOpen: 'false',
                         imgSrc: 'http://placekitten.com/600/300',
                         imgAlt: 'This is the alternative text of the image',
                         category: 'information'
@@ -146,7 +149,7 @@
     .event-thumbnail {
         width: 100%;
         margin: 0;
-        border-radius: .5rem .5rem 0 0;
+        //border-radius: .5rem .5rem 0 0;
         overflow: hidden;
         position: relative;
         img {
@@ -197,11 +200,19 @@
         position: absolute;
         top: 0;
         right: 0;
-        background-color: $white;
+        background-color: $primary;
+        color: $white;
         padding: 0.5rem;
         text-transform: uppercase;
-        font-size: 1rem;
-        font-weight: $font-weight-normal;
+        //font-size: 1rem;
+        //font-weight: $font-weight-normal;
+        font-size: $font-size-base * .65;
+        margin-bottom: 0;
+    }
+    .filter {
+        display: flex;
+        flex-wrap: wrap;
+        //justify-content: center;
     }
     .filter-enter {
         transform: scale(0.5) translatey(-80px);
@@ -214,5 +225,14 @@
     .filter-leave-action {
         position: absolute;
 	    z-index:-1;
+    }
+    .event-details p {
+        font-size: 1rem;
+        span {
+            font-weight: $font-weight-bold;
+            color: $primary;
+            text-transform: uppercase;
+            font-size: $font-size-base * .65;
+        }
     }
 </style>
