@@ -18,6 +18,7 @@
         width: 100%;
         background-color: $black;
         color: $white;
+        padding: 2rem 0;
         //position: fixed;
         bottom: 0;
         p {

@@ -1,39 +1,47 @@
 <template lang="html">
     <layout-master>
-        <loading v-if="loading"></loading>
-        <template v-if="isAuthenticated">
+        <!-- <loading v-if="loading"></loading>
+        <template v-if="isAuthenticated"> -->
             <!-- <feed-item v-for="(feed, index) in fakeFeed" :key="index" :feed="feed"></feed-item> -->
-            <main class="pg-content home container">
-                <div class="row">
-                    <div class="col-12">
-                        <h2>Latest News items</h2>
-                    </div>
-                    <div class="col-6">
-                        <article v-for="item in newsArticles" :key="item.id" class="new-article">
-                            <h2>{{ item.title }}</h2>
-                            <p>{{ item.desc }}</p>
-                            <router-link :to="item.route" class="btn btn-primary">Read more</router-link>
-                        </article>
-                    </div>
 
-                </div>
+        <hero>
+            <template slot="title">
+                <strong>Welcome</strong> {{ account.user.username }}!
+            </template>
+            <template slot="description">
+                Below is the latest news
+            </template>
+        </hero>
+        <div class="container">
+            <section class="pg-content">
+                <h2 class="col-12">Latest News items</h2>
+                <article v-for="item in newsArticles" :key="item.id" class="new-article article">
+                    <h2>{{ item.title }}</h2>
+                    <p>{{ item.desc }}</p>
+                    <router-link :to="item.route" class="btn btn-primary">Read more</router-link>
+                </article>
+            </section>
+        </div>
 
-            </main>
-
-        </template>
-        <div v-if="!isAuthenticated && authStatus !== 'loading'">
+        <!-- </template> -->
+        <!-- <div v-if="!isAuthenticated && authStatus !== 'loading'">
             <main class="home pg-content">
                 <h2>Welcome to Peer Support Platform!</h2>
             </main>
-        </div>
+        </div> -->
     </layout-master>
 </template>
 
 <script>
+    import { mapState, mapActions } from 'vuex';
     import LayoutMaster from '../components/common/layouts/layout-master.vue';
-    import { mapGetters } from 'vuex';
+    import Hero from '../components/common/global/hero.vue';
     export default {
         name: 'Home',
+        components : {
+            LayoutMaster,
+            Hero
+        },
         data () {
             return {
                 newsArticles: [
@@ -55,15 +63,27 @@
                 ],
             }
         },
-        components : {
-            LayoutMaster
-        },
         computed: {
-            ...mapGetters(['isAuthenticated', 'authStatus']),
-            loading: function () {
-                return this.authStatus === 'loading' && !this.isAuthenticated
-            }
+            ...mapState({
+                account: state => state.account,
+                users: state => state.users.all
+            })
+        },
+        created () {
+            this.getAllUsers();
+        },
+        methods: {
+            ...mapActions('users', {
+                getAllUsers: 'getAll',
+                deleteUser: 'delete'
+            })
         }
+        // computed: {
+        //     ...mapGetters(['isAuthenticated', 'authStatus']),
+        //     loading: function () {
+        //         return this.authStatus === 'loading' && !this.isAuthenticated
+        //     }
+        // }
     }
 </script>
 

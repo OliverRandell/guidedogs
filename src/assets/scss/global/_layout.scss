@@ -2,15 +2,31 @@ html, body {
     height: 100%;
 }
 
+body {
+    background-color: #f0f0f0;
+}
+
 #app {
     height: 100%;
 }
 
-.pg-content {
-    //margin-top: 2rem;
+.main {
     min-height: calc(100vh - 9rem);
+}
+
+.pg-content {
+    @include make-row();
+    //margin-top: 2rem;
     padding: 2rem 0;
+    background-color: $white;
     @include media-breakpoint-up(lg) {
+        margin-top: -4rem;
         padding: 4rem 0;
+        border-radius: 0.5rem 0.5rem 0 0;
     }
 }
+
+// .btn-group {
+//     display: flex;
+//     align-items: space-between;
+// }

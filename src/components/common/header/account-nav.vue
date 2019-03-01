@@ -1,43 +1,54 @@
 <template lang="html">
     <nav class="account-nav">
-        <template v-if="isProfileLoaded">
-            <router-link to="/account"><strong>Welcome</strong> {{ name }}</router-link>
-            <router-link to="/preferences">Preferences</router-link>
-        </template>
-        <button v-if="isAuthenticated" @click="logout" role="button" class="btn btn-primary">
+        <!-- <template v-if="isProfileLoaded"> -->
+        <router-link to="/preferences" class="nav-item">Preferences</router-link>
+        <!-- </template> -->
+        <router-link to="/login" class="btn btn-primary">Logout</router-link>
+        <!-- <button v-if="isAuthenticated" @click="logout" role="button" >
             <span class="logout">Logout</span>
-        </button>
-        <template v-if="!isAuthenticated && !authLoading">
+        </button> -->
+        <!-- <template v-if="!isAuthenticated && !authLoading">
             <router-link to="/login">Login</router-link>
-        </template>
+        </template> -->
     </nav>
 </template>
 
 <script>
-    import { mapGetters, mapState } from 'vuex';
-    import { AUTH_LOGOUT } from '../../../store/actions/auth';
+    import { mapActions, mapState } from 'vuex';
     export default {
         name: 'AccountNav',
-        methods: {
-            logout: function () {
-                this.$store.dispatch(AUTH_LOGOUT).then(() => this.$router.push('/login'))
-            }
-        },
         computed: {
-            ...mapGetters(['getProfile', 'isAuthenticated', 'isProfileLoaded']),
+            //...mapGetters(['getProfile', 'isAuthenticated', 'isProfileLoaded']),
             ...mapState({
-                authLoading: state => state.auth.status === 'loading',
-                name: state => `${state.user.profile.title} ${state.user.profile.name}`,
+                account: state => state.account,
+                users: state => state.users.all
+                // authLoading: state => state.auth.status === 'loading',
+                // name: state => `${state.user.profile.title} ${state.user.profile.name}`,
             })
-        }
+        },
+        created () {
+            this.getAllUsers();
+        },
+        methods: {
+            ...mapActions('users', {
+                getAllUsers: 'getAll',
+                deleteUser: 'delete'
+            })
+            // logout: function () {
+            //     this.$store.dispatch(AUTH_LOGOUT).then(() => this.$router.push('/login'))
+            // }
+        },
     }
 </script>
 
 <style lang="scss" scoped>
+    @import './src/assets/scss/vue.scss';
     .account-nav {
         text-align: right;
+        display: flex;
+        align-items: center;
         a {
-            margin-right: 0.5rem;
+            margin-left: 1rem;
         }
     }
 </style>

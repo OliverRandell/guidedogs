@@ -1,11 +1,11 @@
 <template lang="html">
     <article class="user-auth">
         <auth-header></auth-header>
-        <div class="container-fluid">
+        <main class="container-fluid" tabIndex="-1">
             <section class="wrapper">
                 <slot></slot>
             </section>
-        </div>
+        </main>
     </article>
 </template>
 
@@ -39,7 +39,7 @@
         padding: 2rem 1rem;
         border-radius: 0.25rem;
         display: flex;
-        margin: auto;
+        margin: 6rem auto;
         flex-direction: column;
         @include media-breakpoint-only(sm) {
             max-width: 80%;
