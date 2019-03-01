@@ -18,8 +18,8 @@
                                 <router-link :to="item.route">
                                     <figure class="event-thumbnail">
                                         <h5 class="event-privacy">
-                                            <template v-if="item.eventOpen === 'true'">Open</template>
-                                            <template v-else>Closed</template></h5>
+                                            <template v-if="item.eventOpen === 'true'">Public</template>
+                                            <template v-else>Private</template></h5>
                                         <img :src="item.imgSrc" :alt="item.imgAlt">
                                     </figure>
                                 </router-link>

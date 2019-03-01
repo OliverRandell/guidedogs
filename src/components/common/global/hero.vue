@@ -49,6 +49,6 @@ export default {
         font-weight: $font-weight-bold;
     }
     h2 {
-        font-size: $font-size-base * 2;
+        font-size: $font-size-base * 1.75;
     }
 </style>
