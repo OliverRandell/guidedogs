@@ -1,5 +1,5 @@
 <template lang="html">
-    <footer class="app-footer">
+    <footer class="app-footer" role="contentinfo">
         <section class="footer-wrapper container">
             <p>&copy; Guide Dogs</p>
         </section>
@@ -14,11 +14,11 @@
 <style lang="scss" scoped>
     @import './src/assets/scss/vue.scss';
     .app-footer {
-        height: 3rem;
+        height: $footer-height;
         width: 100%;
         background-color: $black;
         color: $white;
-        padding: 2rem 0;
+        //padding: 2rem 0;
         //position: fixed;
         bottom: 0;
         p {

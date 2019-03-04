@@ -11,24 +11,28 @@
 // $gray-900: #212529;
 // $black:    #000;
 
-
+// COLOURS
 $black:  #1E3746;
 $yellow: #FFE065;
 $pink:   #E50072;
 $red:    #B80108;
 $green:  #1E8915;
-
-// $body-bg: $light;
-
-$font-size-base: 1.2rem;
-$h1-font-size: $font-size-base * 3.2;
-
-$font-family-sans-serif: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-
 $body-color: $black;
 $primary: $pink;
 $secondary: $yellow;
 
+// $body-bg: $light;
+
+// BOOTSTRAP OVERWRITES
+// TYPOGRAPHY
+$font-size-base: 1.2rem;
+$h1-font-size: $font-size-base * 3.2;
+$font-family-sans-serif: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+
+// LAYOUT
+$footer-height: 5rem;
+
+// BUTTONS & FORMS
 $input-btn-padding-y: 0.75rem;
 $input-btn-padding-x: 1.4rem;
 

@@ -24,6 +24,7 @@
                                     </figure>
                                 </router-link>
                                 <section class="event-content">
+                                    <p class="category">{{ item.category }}</p>
                                     <time class="event-date">
                                         <span class="month">Mar</span>
                                         <span class="day">30</span>
@@ -32,11 +33,13 @@
                                         <h3 class="event-title">
                                             <router-link :to="item.route">{{ item.title }}</router-link>
                                         </h3>
-                                        <time>{{ item.day }}, {{ item.date }}, {{ item.time }}</time>
+                                        <time><p><span>When: </span>{{ item.day }}, {{ item.date }}, {{ item.time }}</p></time>
                                         <p><span>Where: </span>{{ item.location }}</p>
                                         <p><span>Cost: </span>{{ item.price }}</p>
                                         <p><span>Host: </span>{{ item.host }}</p>
+                                        <button type="button" name="button" class="btn btn-primary">Interested</button>
                                     </div>
+
 
                                 </section>
 
@@ -162,6 +165,18 @@
         //border: 1px solid $secondary;
         border-top: 0;
         display: flex;
+        position: relative;
+        .category {
+            position: absolute;
+            top: -1.25rem;
+            right: 1rem;
+            border: 1px solid $primary;
+            border-radius: 50%;
+            width: 2.5rem;
+            height: 2.5rem;
+            text-indent: -9999px;
+            background-color: $white;
+        }
     }
     .event-filters {
         @include make-col-ready();
@@ -200,9 +215,9 @@
         position: absolute;
         top: 0;
         right: 0;
-        background-color: $primary;
-        color: $white;
-        padding: 0.5rem;
+        background-color: $secondary;
+        color: $black;
+        padding: 0.75rem;
         text-transform: uppercase;
         //font-size: 1rem;
         //font-weight: $font-weight-normal;
@@ -228,11 +243,25 @@
     }
     .event-details p {
         font-size: 1rem;
+        margin-bottom: 0.5rem;
         span {
             font-weight: $font-weight-bold;
             color: $primary;
             text-transform: uppercase;
             font-size: $font-size-base * .65;
+        }
+    }
+    .btn-filter {
+        border: 2px solid $primary;
+        background-color: $white;
+        border-radius: 0.25rem;
+        color: $primary;
+        transition: all 250ms;
+        padding: 0.75rem 1.4rem;
+        &.active {
+            background-color: $primary;
+            border-color: $primary;
+            color: $white;
         }
     }
 </style>
