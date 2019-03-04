@@ -1,5 +1,5 @@
 <template lang="html">
-    <header class="app-header">
+    <header class="app-header" role="banner">
         <Branding></Branding>
         <div class="nav-wrapper">
             <PrimaryNav></PrimaryNav>

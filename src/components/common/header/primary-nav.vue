@@ -1,5 +1,5 @@
 <template lang="html">
-    <nav class="primary-nav">
+    <nav class="primary-nav" role="navigation">
         <router-link v-for="item in navItems" :to="item.route" :key="item.id" class="nav-item">{{ item.title }}</router-link>
     </nav>
 </template>
