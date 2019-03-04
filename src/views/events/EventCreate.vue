@@ -9,9 +9,9 @@
             </template>
         </Hero>
         <div class="container">
-            <article class="pg-content" tabindex="0" role="article">
+            <article class="pg-content" tabindex="0" role="article" v-if="!submitted">
 
-                <form class="form-create-event col-8" action="index.html" method="post">
+                <form class="form-create-event col-8" action="index.html" method="post" v-if>
                     <div class="form-group">
                         <label for="title">Event title:</label>
                         <input type="text" name="" value="" required v-model="event.title" class="form-control">
@@ -59,6 +59,9 @@
                 </section>
 
             </article>
+            <section v-if="submitted" class="msg-success">
+                <h3>Congratulations! You have successfully created an event.</h3>
+            </section>
         </div>
 
     </LayoutMaster>
@@ -83,7 +86,8 @@
                     categories: [],
                     host: '',
                 },
-                eventHosts: ['Gatsby', 'Elton John']
+                eventHosts: ['Gatsby', 'Elton John'],
+                submitted: false
             }
         },
         methods: {
@@ -94,6 +98,7 @@
                     userId: 1
                 }).then(function(data) {
                     console.log(data);
+                    this.submitted = true;
                 });
             }
         }
@@ -108,4 +113,18 @@
             @include make-col(4);
         }
     }
+    // .msg-success {
+    //     position: fixed;
+    //     background: #000;
+    //     top: 0;
+    //     bottom: 0;
+    //     left: 0;
+    //     height: 100%;
+    //     width: 100%;
+    //     z-index: 2;
+    //     color: #fff;
+    //     display: flex;
+    //     align-items: center;
+    //     justify-content: center;
+    // }
 </style>

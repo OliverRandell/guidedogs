@@ -33,6 +33,8 @@
                                         <span class="day">30</span>
                                     </time>
                                     <div class="event-details">
+                                        <p>{{ item.title }}</p>
+                                        <p>{{ item.body }}</p>
                                         <h3 class="event-title">
                                             <router-link :to="item.route">{{ item.title }}</router-link>
                                         </h3>
@@ -132,7 +134,9 @@
             }
         },
         created() {
-            this.getEvents();
+            this.$http.get('https://jsonplaceholder.typicode.com/posts').then(function(data) {
+                this.events = data.body.slice(0,6);
+            })
         }
     }
 </script>
@@ -150,6 +154,7 @@
     }
     .event-pod {
         width: 100%;
+        box-sizing: border-box;
         @include spacer(1rem);
         @include make-col-ready();
         @include make-col(12);
