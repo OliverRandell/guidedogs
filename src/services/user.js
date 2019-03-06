@@ -14,6 +14,8 @@ export const userService = {
 
 function login(username, password) {
     const config = { headers: { 'Content-Type': 'application/json' } }
+    // TODO: GET ROSS TO REMOVE USERNAME REQUIEMENT, 
+    // AND CHANGE USERNAME FIELD TO EMAIL
     const body = { Username: username, Password: password, Email: username }
 
     return Vue.http.post(`${apiUrl}/authentication`, body, config)
