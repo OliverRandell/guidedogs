@@ -8,9 +8,10 @@ import Vuex from 'vuex';
 import VeeValidate from 'vee-validate';
 import VueAnnouncer from 'vue-announcer';
 import VueResource from 'vue-resource';
+// import axios from 'axios'
+// import VueAxios from 'vue-axios'
 
 import App from './App.vue';
-//import axios from 'axios'
 import { router } from './router';
 import { store } from './store';
 
@@ -23,7 +24,7 @@ Vue.use(Vuex)
 Vue.use(VeeValidate);
 Vue.use(VueAnnouncer, {}, router);
 Vue.use(VueResource);
-//Vue.use(axios)
+// Vue.use(VueAxios, axios)
 //Vue.use(Vuelidate)
 
 // SETTING UP FAKE BACKEND
