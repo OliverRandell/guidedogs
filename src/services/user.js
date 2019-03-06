@@ -13,14 +13,9 @@ export const userService = {
 };
 
 function login(username, password) {
-    // const requestOptions = {
-    //     // method: 'POST',
-    //     headers: { 'Content-Type': 'application/json' },
-    //     body: { 'Username': username, 'Password': password, 'Email': username }
-    // };
     const config = { headers: { 'Content-Type': 'application/json' } }
     const body = { Username: username, Password: password, Email: username }
-    // console.log(requestOptions)
+
     return Vue.http.post(`${apiUrl}/authentication`, body, config)
         .then(handleResponse)
         .then(user => {
@@ -41,14 +36,19 @@ function logout() {
     delete Vue.http.headers.common['Authorization']
 }
 
-function register(user) {
-    const requestOptions = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(user)
-    };
+function register({email, firstName, lastName, password, username}) {
+    const config = { headers: { 'Content-Type': 'application/json' } }
+    const body = {
+        Username: username,
+        Password: password,
+        Email: email,
+        FullName: `${firstName} ${lastName}`,
+        DOB: '2000-02-28'
+    }
 
-    return fetch(`${apiUrl}/users/register`, requestOptions).then(handleResponse);
+    return Vue.http.post(`${apiUrl}/authentication/register`, body, config)
+        .then(handleResponse)
+        .catch(err => console.log(err))
 }
 
 function getAll() {
@@ -92,7 +92,7 @@ function _delete(id) {
 
 function handleResponse(response) {
     return response.text().then(text => {
-        const data = text && JSON.parse(text);
+        const data = typeof text === 'string' ? text : text && JSON.parse(text);
         if (!response.ok) {
             if (response.status === 401) {
                 // auto logout if 401 response returned from api
@@ -103,7 +103,6 @@ function handleResponse(response) {
             const error = (data && data.message) || response.statusText;
             return Promise.reject(error);
         }
-
         return data;
     });
 }
