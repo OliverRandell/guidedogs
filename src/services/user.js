@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import { apiUrl } from '@/utils/api.js';
 import { authHeader } from '../utils/auth-header';
 
@@ -12,32 +13,32 @@ export const userService = {
 };
 
 function login(username, password) {
-    const requestOptions = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ Username: username, Password: password, Email: username })
-    };
-    return fetch(`${apiUrl}/authentication`, requestOptions)
-        .then(res => {
-            const reader =  res.body.getReader()
-            return reader.read().then(r => JSON.parse(Utf8ArrayToStr(r.value)))
-        })
-        .then(response => console.log('response', response.token))
-        // .then(handleResponse)
-        // .then(user => {
-        //     // login successful if there's a jwt token in the response
-        //     if (user.token) {
-        //         // store user details and jwt token in local storage to keep user logged in between page refreshes
-        //         localStorage.setItem('user', JSON.stringify(user));
-        //     }
+    // const requestOptions = {
+    //     // method: 'POST',
+    //     headers: { 'Content-Type': 'application/json' },
+    //     body: { 'Username': username, 'Password': password, 'Email': username }
+    // };
+    const config = { headers: { 'Content-Type': 'application/json' } }
+    const body = { Username: username, Password: password, Email: username }
+    // console.log(requestOptions)
+    return Vue.http.post(`${apiUrl}/authentication`, body, config)
+        .then(handleResponse)
+        .then(user => {
+            if (user.token) {
+                // store user details and jwt token in local storage to keep user logged in between page refreshes
+                localStorage.setItem('user', JSON.stringify(user));
+                // assign headers with token for future api calls
+                Vue.http.headers.common['Authorization'] = `Bearer ${user.token}`;
+            }
 
-        //     return user;
-        // });
+            return user;
+        });
 }
 
 function logout() {
     // REMOVE USER FROM LOCAL STORAGE TO LOG USER OUT
     localStorage.removeItem('user');
+    delete Vue.http.headers.common['Authorization']
 }
 
 function register(user) {
@@ -105,46 +106,4 @@ function handleResponse(response) {
 
         return data;
     });
-}
-
-// Decodes Uint8Array from initial response
-const Utf8ArrayToStr = array => {
-    var out, i, len, c;
-    var char2, char3;
-
-    out = "";
-    len = array.length;
-    i = 0;
-    while (i < len) {
-        c = array[i++];
-        switch (c >> 4) {
-            case 0:
-            case 1:
-            case 2:
-            case 3:
-            case 4:
-            case 5:
-            case 6:
-            case 7:
-                // 0xxxxxxx
-                out += String.fromCharCode(c);
-                break;
-            case 12:
-            case 13:
-                // 110x xxxx   10xx xxxx
-                char2 = array[i++];
-                out += String.fromCharCode(((c & 0x1F) << 6) | (char2 & 0x3F));
-                break;
-            case 14:
-                // 1110 xxxx  10xx xxxx  10xx xxxx
-                char2 = array[i++];
-                char3 = array[i++];
-                out += String.fromCharCode(((c & 0x0F) << 12) |
-                    ((char2 & 0x3F) << 6) |
-                    ((char3 & 0x3F) << 0));
-                break;
-        }
-    }
-
-    return out;
 }
