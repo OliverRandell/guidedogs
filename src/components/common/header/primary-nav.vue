@@ -1,6 +1,6 @@
 <template lang="html">
     <nav class="primary-nav" role="navigation">
-        <router-link v-for="item in navItems" :to="item.route" :key="item.id" class="nav-item">{{ item.title }}</router-link>
+        <router-link v-for="item in navItems" :to="item.route" :key="item.id" class="nav-item" exact>{{ item.title }}</router-link>
     </nav>
 </template>
 
@@ -20,22 +20,22 @@
                     {
                         id: 1,
                         title: 'Events',
-                        route: 'events'
+                        route: '/events'
                     },
                     {
                         id: 2,
                         title: 'Information',
-                        route: 'information'
+                        route: '/information'
                     },
                     {
                         id: 3,
                         title: 'My Account',
-                        route: 'account'
+                        route: '/account'
                     },
                     {
                         id: 4,
                         title: 'Contact Us',
-                        route: 'contact'
+                        route: '/contact'
                     }
                 ]
             }
@@ -64,6 +64,9 @@
         margin-left: 1rem;
         &:first-child {
             margin-left: 0;
+        }
+        &.router-link-active {
+            color: $primary;
         }
     }
 </style>

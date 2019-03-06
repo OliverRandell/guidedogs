@@ -11,35 +11,40 @@
 
         <div class="container">
             <div class="pg-content">
+
                 <div class="col-12">
-                    <router-link to="/create-event" class="btn btn-primary">Create event</router-link>
+                    <div class="form-group">
+                        <label for="searchEvents">Search Events:</label>
+                        <input type="text" name="Search events" value="" v-model="searchEvents" class="form-control">
+                    </div>
+
                 </div>
                 <div class="event-listings">
                     <!-- <div class="row"> -->
                         <transition-group class="filter" name="filter">
-                            <article class="event-pod" v-for="item in events" :key="item.id" v-if="currentFilter === item.category || currentFilter === 'all'" role="article">
-                                <router-link :to="item.route">
+                            <article class="event-pod" v-for="eventItem in filteredEvents" :key="eventItem.id" v-if="currentFilter === eventItem.category || currentFilter === 'all'" role="article">
+                                <router-link :to="'/events/' + eventItem.id">
                                     <figure class="event-thumbnail">
                                         <h5 class="event-privacy">
-                                            <template v-if="item.eventOpen === 'true'">Public</template>
+                                            <template v-if="eventItem.eventOpen === 'true'">Public</template>
                                             <template v-else>Private</template></h5>
-                                        <img :src="item.imgSrc" :alt="item.imgAlt">
+                                        <img :src="eventItem.imgSrc" :alt="eventItem.imgAlt">
                                     </figure>
                                 </router-link>
                                 <section class="event-content" tabindex="0">
-                                    <p class="category">{{ item.category }}</p>
+                                    <p class="category">{{ eventItem.category }}</p>
                                     <time class="event-date">
                                         <span class="month">Mar</span>
                                         <span class="day">30</span>
                                     </time>
                                     <div class="event-details">
-                                        <h3 class="event-title">
-                                            <router-link :to="item.route">{{ item.title }}</router-link>
-                                        </h3>
-                                        <time><p><span>When: </span>{{ item.day }}, {{ item.date }}, {{ item.time }}</p></time>
-                                        <p><span>Where: </span>{{ item.location }}</p>
-                                        <p><span>Cost: </span>{{ item.price }}</p>
-                                        <p><span>Host: </span>{{ item.host }}</p>
+                                        <router-link :to="'/event/' + eventItem.id">{{ eventItem.title }}</router-link>
+                                        <!-- <h3 class="event-title"></h3> -->
+                                        <p>{{ eventItem.body }}</p>
+                                        <time><p><span>When: </span>{{ eventItem.day }}, {{ eventItem.date }}, {{ eventItem.time }}</p></time>
+                                        <p><span>Where: </span>{{ eventItem.location }}</p>
+                                        <p><span>Cost: </span>{{ eventItem.price }}</p>
+                                        <p><span>Host: </span>{{ eventItem.host }}</p>
                                         <button type="button" name="button" class="btn btn-primary">Interested</button>
                                     </div>
 
@@ -63,7 +68,13 @@
 
                 </aside>
 
+                <div class="col-12">
+                    <h3>Can't find an event you're looking for?</h3>
+                    <router-link to="/create-event" class="btn btn-primary">Create event</router-link>
+                </div>
+
             </div>
+
         </div>
     </layout-master>
 </template>
@@ -90,7 +101,6 @@
                     {
                         id: 0,
                         title: 'Brimbank, Melton & surrounds information session',
-                        route: 'https://www.route-to-somewhere.com/',
                         host: 'Guide Dogs Victoria',
                         price: '$4.00',
                         date: '14-02-19',
@@ -107,7 +117,6 @@
                     {
                         id: 1,
                         title: 'Brimbank, Melton & surrounds information session',
-                        route: 'https://www.route-to-somewhere.com/',
                         host: 'Guide Dogs Victoria',
                         date: '14-02-19',
                         day: 'Friday',
@@ -121,18 +130,31 @@
                         category: 'information'
                     }
                 ],
+                searchEvents: ''
             }
         },
         methods: {
             setFilter: function(filter) {
                 this.currentFilter = filter;
             },
-            getEvents() {
-
-            }
         },
         created() {
-            this.getEvents();
+            this.$http.get('https://jsonplaceholder.typicode.com/posts').then(function(data) {
+                this.events = data.body.slice(0,6);
+                //title: this.event.title
+            })
+        },
+        computed: {
+            filteredEvents: function() {
+                return this.events.filter((eventItem) => {
+                    return eventItem.title.match(this.searchEvents);
+                });
+            }
+        },
+        watch: {
+            '$route' (to, from) {
+                alert(to.params.eventItem.id);
+            }
         }
     }
 </script>
@@ -150,6 +172,7 @@
     }
     .event-pod {
         width: 100%;
+        box-sizing: border-box;
         @include spacer(1rem);
         @include make-col-ready();
         @include make-col(12);
@@ -207,18 +230,7 @@
         }
     }
     .event-date {
-        display: flex;
-        flex-direction: column;
-        text-align: center;
         margin-right: 1rem;
-        line-height: 1;
-        .month {
-            color: $primary;
-            margin-bottom: 0;
-        }
-        .day {
-            font-size: 2rem;
-        }
     }
     .event-privacy {
         position: absolute;
@@ -239,16 +251,16 @@
         //justify-content: center;
     }
     .filter-enter {
-        transform: scale(0.5) translatey(-80px);
-	    opacity:0;
+        transform: scale(0.5) translateY(-80px);
+        opacity: 0;
     }
     .filter-leave-to {
-        transform: translatey(30px);
+        transform: translateY(30px);
         opacity:0;
     }
     .filter-leave-action {
         position: absolute;
-	    z-index:-1;
+        z-index: -1;
     }
     .event-details p {
         font-size: 1rem;
