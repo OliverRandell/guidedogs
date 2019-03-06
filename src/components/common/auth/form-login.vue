@@ -1,14 +1,15 @@
 <template lang="html">
     <form @submit.prevent="handleSubmit">
         <div class="form-group">
-            <label for="username">Username</label>
-            <input type="text" v-model="username" name="username" class="form-control" :class="{ 'is-invalid': submitted && !username }" />
-            <div v-show="submitted && !username" class="invalid-feedback">Username is required</div>
+            <label for="username">Email:</label>
+            <input type="text" v-model="email" name="email" class="form-control" :class="{ 'is-invalid': submitted && !username }" v-validate="'required'" />
+            <div v-show="submitted && !username" class="invalid-feedback">Email is required</div>
         </div>
         <div class="form-group">
-            <label htmlFor="password">Password</label>
-            <input type="password" v-model="password" name="password" class="form-control" :class="{ 'is-invalid': submitted && !password }" />
-            <div v-show="submitted && !password" class="invalid-feedback">Password is required</div>
+            <label htmlFor="password">Password:</label>
+            <input type="password" v-model="password" name="password" class="form-control" :class="{ 'is-invalid': submitted && !password }" v-validate="'required|confirmed:password'" />
+            <!-- <div v-show="submitted && !password" class="invalid-feedback">Password is required</div> -->
+            <div v-if="submitted && errors.has('password')" class="invalid-feedback">{{ errors.first('password') }}</div>
         </div>
 
         <div class="form-group">
