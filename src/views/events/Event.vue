@@ -13,6 +13,7 @@
                 <section class="event">
 
                     <div class="event-img">
+                        <time class="event-date">{{ eventItem.date }}</time>
                         <figure>
                             <img :src="eventItem.imgSrc" alt="">
                         </figure>
@@ -33,20 +34,16 @@
                     <button type="button" name="button" class="btn btn-primary" @click="registerInterest(eventItem)">Register your interest!</button>
                 </section>
                 <aside class="event-summary">
-                    <header>
-                        <h5>Event Summary:</h5>
-                    </header>
+                    <p><router-link to="/events">Back to events page</router-link></p>
 
-                    <time class="event-date">
+
+
+                    <!-- <time class="event-date">
                         <span class="month">Mar</span>
                         <span class="day">30</span>
-                    </time>
+                    </time> -->
 
-                    <h4>{{ eventItem.title }}</h4>
-                    <section class="btn-group">
-                        <router-link to="/create-event" class="btn btn-primary">Create an Event</router-link>
-                        <button class="btn btn-primary" type="button" name="" @click="backToEvents">Go back to events page</button>
-                    </section>
+                    <router-link to="/create-event" class="btn btn-primary">Create an Event</router-link>
 
                 </aside>
             </article>
@@ -111,15 +108,38 @@
         //padding: 1rem;
         //height: 20rem;
         @include media-breakpoint-up(lg) {
+            position: relative;
             @include make-col(8);
         }
     }
     .event-img {
         @include responsiveImg(20rem);
+        @include spacer(1.5rem);
+        @include media-breakpoint-up(lg) {
+            margin-left: -$grid-gutter-width/2;
+            .event-date {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                background: $secondary;
+                padding: 1rem;
+                color: $black;
+                z-index: 2;
+            }
+        }
+    }
+    .event-details {
+        h2 {
+            @include spacer(1rem);
+        }
+        @include media-breakpoint-up(lg) {
+            padding-left: $grid-gutter-width;
+        }
     }
     .event-summary {
         @include make-col-ready();
         @include media-breakpoint-up(lg) {
+            padding-top: 4rem;
             @include make-col(4);
         }
         header {
@@ -144,5 +164,8 @@
                 width: 100%;
             }
         }
+    }
+    .pg-content {
+        padding-top: 0;
     }
 </style>

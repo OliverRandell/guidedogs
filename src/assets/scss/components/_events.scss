@@ -1,8 +1,10 @@
 .event-details {
-    font-size: 1rem;
+    //font-size: 1rem;
     margin-bottom: 0.5rem;
     dt {
-        @include summaryHeading();
+        //@include summaryHeading();
+        font-weight: 500;
+        font-size: $h5-font-size;
     }
 }
 
