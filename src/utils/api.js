@@ -1,4 +1,4 @@
-export const apiUrl = 'http://localhost:8080'
+export const apiUrl = 'https://gdvpeersupportplatformapi.azurewebsites.net/api'
 
 const mocks = {
     'auth': { 'POST': { token: 'This-is-a-mocked-token' } },
