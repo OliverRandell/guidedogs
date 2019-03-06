@@ -2,10 +2,10 @@
     <LayoutMaster>
         <hero>
             <template slot="title">
-                <h1>Contact us!</h1>
+                <h1>Contact us</h1>
             </template>
             <template slot="description">
-                Get in touch one of us at Labrador Towers!
+                Get in touch!
             </template>
         </hero>
 
