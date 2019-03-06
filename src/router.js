@@ -9,14 +9,14 @@ import ForgotPassword from './views/auth/ForgotPassword.vue';
 // APPLICATION PAGES
 import Home from './views/Home.vue';
 import About from './views/About.vue';
-import Events from './views/events/EventListing.vue';
 import Information from './views/Information.vue';
 //import ExpressionsOfInterest from './views/ExpressionsOfInterest.vue';
 import Contact from './views/Contact.vue';
 
 // EVENTS PAGES
-import Event from './views/events/Event.vue';
+import EventListing from './views/events/EventListing.vue';
 import EventCreate from './views/events/EventCreate.vue';
+import Event from './views/events/Event.vue';
 
 // USER PAGES
 import Account from './views/account/Account.vue';
@@ -86,7 +86,7 @@ export const router =  new Router ({
         {
             path: '/events',
             name: 'Events',
-            component: Events,
+            component: EventListing,
             meta: {
                 title: 'Website - Events page'
             }
@@ -100,7 +100,7 @@ export const router =  new Router ({
             }
         },
         {
-            path: '/event',
+            path: '/event/:id',
             name: 'Event',
             component: Event,
             meta: {

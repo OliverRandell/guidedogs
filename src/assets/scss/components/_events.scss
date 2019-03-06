@@ -1,0 +1,21 @@
+.event-details {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    dt {
+        @include summaryHeading();
+    }
+}
+
+.event-date {
+    display: flex;
+    flex-direction: column;
+    //text-align: center;
+    line-height: 1;
+    .month {
+        color: $primary;
+        margin-bottom: 0;
+    }
+    .day {
+        font-size: 2rem;
+    }
+}
