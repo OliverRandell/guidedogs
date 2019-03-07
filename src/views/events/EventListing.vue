@@ -139,8 +139,9 @@
             },
         },
         created() {
-            this.$http.get('https://jsonplaceholder.typicode.com/posts').then(function(data) {
+            this.$http.get('https://gdvpeersupportplatformapi.azurewebsites.net/api/events').then(function(data) {
                 this.events = data.body.slice(0,6);
+                console.log(data);
                 //title: this.event.title
             })
         },

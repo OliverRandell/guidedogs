@@ -10,7 +10,7 @@
         </hero>
 
         <div class="container">
-            <section class="pg-content">
+            <section class="pg-content" tabindex="-1">
 
                 <form class="col-12 col-lg-6 form-contact" @submit.prevent="submitContactForm">
                     <fieldset>

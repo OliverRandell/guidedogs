@@ -9,7 +9,7 @@
             </template>
         </Hero>
         <div class="container">
-            <article class="pg-content" tabindex="0" role="article" v-if="!submitted">
+            <article class="pg-content" tabindex="-1" role="article" v-if="!submitted">
 
                 <form class="form-create-event col-8" @submit.prevent="handleSubmit">
                     <fieldset class="form-group">
@@ -89,7 +89,7 @@
                     <input type="submit" v-on:click.prevent="post" class="btn btn-primary" value="Add Event" />
                 </form>
 
-                <aside class="event-preview col-4" tabindex="0" aria-labelledby="eventPreview">
+                <aside class="event-preview col-4" aria-labelledby="eventPreview" tabindex="-1">
                     <button class="btn btn-primary" type="button" name="" @click="backToEvents">Go back to events page</button>
                     <h4>Preview Event</h4>
 

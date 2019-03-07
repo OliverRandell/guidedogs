@@ -9,7 +9,7 @@
             </template> -->
         </Hero>
         <div class="container">
-            <article class="pg-content" role="article">
+            <article class="pg-content" role="article" tabindex="-1">
                 <section class="event">
 
                     <div class="event-img">
@@ -30,10 +30,15 @@
                         <dd>{{ eventItem.desc }}</dd>
                         <dt>Event Cost:</dt>
                         <dd>${{ eventItem.cost }}</dd>
+                        <dt>Your response:</dt>
+                        <!-- TOGGLE BUTTON, ON CLICK MAKE
+                         INTERESTED OR NOT INTERESTED -->
+                         <!-- FOR EVENT ATTENDING OR NOT ATTENDING -->
+                        <dd>Not interested</dd>
                     </dl>
-                    <button type="button" name="button" class="btn btn-primary" @click="registerInterest(eventItem)">Register your interest!</button>
+                    <button type="button" name="button" class="btn btn-primary btn-register" @click="registerInterest(eventItem)">Register your interest!</button>
                 </section>
-                <aside class="event-summary">
+                <aside class="event-summary" tabindex="-1">
                     <p><router-link to="/events">Back to events page</router-link></p>
 
 
@@ -72,6 +77,7 @@
                     host: 'Guide Dogs Victoria',
                     date: '14-02-19',
                     day: 'Friday',
+                    eoi: false,
                     timeBegin: '13:30',
                     timeEnd: '15:30',
                     location: 'Melton Country Club, Reserve Road, Melton VIC, Australia',
@@ -129,6 +135,7 @@
         }
     }
     .event-details {
+        @include spacer(1.5rem);
         h2 {
             @include spacer(1rem);
         }
@@ -167,5 +174,8 @@
     }
     .pg-content {
         padding-top: 0;
+    }
+    .btn-register {
+        float: right;
     }
 </style>

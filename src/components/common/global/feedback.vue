@@ -1,13 +1,13 @@
 <template>
-    <section class="feedback">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <h3>{{ msg }}</h3>
-                    <router-link to="/contact" class="btn btn-primary">Contact us</router-link>
-                </div>
+    <section class="feedback container">
+
+        <div class="row">
+            <div class="col-12">
+                <h3>{{ msg }}</h3>
+                <router-link to="/contact" class="btn btn-primary">Contact us</router-link>
             </div>
         </div>
+
     </section>
 </template>
 
@@ -26,7 +26,7 @@
 <style lang="scss" scoped>
     @import './src/assets/scss/vue.scss';
     .feedback {
-        background-color: $white;
+        background-color: #EFEBEE;
         padding: 6rem 0;
         text-align: center;
     }

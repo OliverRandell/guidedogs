@@ -13,10 +13,11 @@ export const userService = {
 };
 
 function login(username, password) {
+    console.log(username, password);
     const config = { headers: { 'Content-Type': 'application/json' } }
-    // TODO: GET ROSS TO REMOVE USERNAME REQUIEMENT, 
+    // TODO: GET ROSS TO REMOVE USERNAME REQUIEMENT,
     // AND CHANGE USERNAME FIELD TO EMAIL
-    const body = { Username: username, Password: password, Email: username }
+    const body = { Username: 'oliverrandell', Password: password, Email: 'oliverrandell@gmail.com' }
 
     return Vue.http.post(`${apiUrl}/authentication`, body, config)
         .then(handleResponse)
