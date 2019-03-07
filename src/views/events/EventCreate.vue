@@ -37,7 +37,10 @@
                         <label for="title">Event title:</label>
                         <input type="text" name="" value="" required v-model="eventItem.title" class="form-control">
                     </div>
-
+                    <div class="form-group">
+                        <label for="location">Event location:</label>
+                        <input type="text" name="location" value="location" required v-model="eventItem.location" class="form-control">
+                    </div>
                     <div class="form-group">
                         <label for="date">Event start date:</label>
                         <DatePicker v-model="eventItem.start" class="form-control"></DatePicker>
@@ -141,8 +144,9 @@
         data () {
             return {
                 eventItem: {
-                    id: 0,
+                    //id: '',
                     title: '',
+                    location: '',
                     start: '',
                     end: '',
                     description: '',
@@ -156,12 +160,10 @@
         },
         methods: {
             post: function() {
-                this.$http.post('https://gdvpeersupportplatformapi.azurewebsites.net/api/events', {
-                    title: this.eventItem.title,
-                    body: this.eventItem.content,
-                    userId: 1
-                }).then(function(data) {
+                this.$http.post('https://gdvpeersupportplatformapi.azurewebsites.net/api/events', this.eventItem).then(function(data) {
                     console.log(data);
+                    // title: this.eventItem.title,
+                    // body: this.eventItem.content
                     this.submitted = true;
                 });
             },
