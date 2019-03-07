@@ -156,7 +156,7 @@
         },
         methods: {
             post: function() {
-                this.$http.post('http://jsonplaceholder.typicode.com/posts', {
+                this.$http.post('https://gdvpeersupportplatformapi.azurewebsites.net/api/events', {
                     title: this.eventItem.title,
                     body: this.eventItem.content,
                     userId: 1

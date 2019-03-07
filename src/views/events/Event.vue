@@ -67,31 +67,34 @@
         },
         data() {
             return {
+
                 eventItem: {
                     id: this.$route.params.id,
-                    eventItem: {},
-                    title: "Claptone 'The Masquerade' Melbourne 2019",
-                    imgSrc: 'http://placekitten.com/800/400',
-                    imgAlt: 'This is the alternative text of the image',
-                    category: 'information',
-                    host: 'Guide Dogs Victoria',
-                    date: '14-02-19',
-                    day: 'Friday',
-                    eoi: false,
-                    timeBegin: '13:30',
-                    timeEnd: '15:30',
-                    location: 'Melton Country Club, Reserve Road, Melton VIC, Australia',
-                    travelTips: 'Bus – 456, Closest Stop: Melton Valley Dr',
-                    eventOpen: 'false',
-                    cost: 'free',
-                    desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+                    //
+                    // eventItem: {},
+                    // title: "Claptone 'The Masquerade' Melbourne 2019",
+                    // imgSrc: 'http://placekitten.com/800/400',
+                    // imgAlt: 'This is the alternative text of the image',
+                    // category: 'information',
+                    // host: 'Guide Dogs Victoria',
+                    // date: '14-02-19',
+                    // day: 'Friday',
+                    // eoi: false,
+                    // timeBegin: '13:30',
+                    // timeEnd: '15:30',
+                    // location: 'Melton Country Club, Reserve Road, Melton VIC, Australia',
+                    // travelTips: 'Bus – 456, Closest Stop: Melton Valley Dr',
+                    // eventOpen: 'false',
+                    // cost: 'free',
+                    // desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
                 }
             }
         },
         created() {
-            this.$http.get('http://jsonplaceholder.typicode.com/posts/' + this.id).then(function(data) {
-                console.log(data);
-                this.eventItem = data.body;
+            this.$http.get('https://gdvpeersupportplatformapi.azurewebsites.net/api/events/' + this.eventItem.id).then(function(data) {
+                return data.json();
+            }).then(function(data){
+                this.eventItem = data;
             });
         },
         methods: {

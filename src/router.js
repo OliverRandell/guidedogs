@@ -100,7 +100,7 @@ export const router =  new Router ({
             }
         },
         {
-            path: '/event/:id',
+            path: '/events/:id',
             name: 'Event',
             component: Event,
             meta: {

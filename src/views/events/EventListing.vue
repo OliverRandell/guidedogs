@@ -38,7 +38,7 @@
                                         <span class="day">30</span>
                                     </time>
                                     <dl class="event-summary">
-                                        <router-link :to="'/event/' + eventItem.eventId" class="event-title">{{ eventItem.title }}</router-link>
+                                        <router-link :to="'/events/' + eventItem.eventId" class="event-title">{{ eventItem.title }}</router-link>
                                         <dt>Location:</dt>
                                         <dd>{{ eventItem.location }}</dd>
                                         <dt>Cost:</dt>
@@ -52,6 +52,7 @@
                                         <p><span>Cost: </span>{{ eventItem.price }}</p>
                                         <p><span>Host: </span>{{ eventItem.host }}</p>
                                         <button type="button" name="button" class="btn btn-primary">Interested</button>
+                                        <router-link :to="'/event/' + eventItem.eventId" class="btn btn-primary">View event</router-link>
                                     </dl>
 
 
@@ -156,7 +157,6 @@
                     eventsArray.push(data[key]);
                 }
                 this.events = eventsArray;
-                console.log(eventsArray);
             })
         },
         computed: {
