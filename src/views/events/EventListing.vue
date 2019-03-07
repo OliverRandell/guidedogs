@@ -31,22 +31,28 @@
                                         <img :src="eventItem.imgSrc" :alt="eventItem.imgAlt">
                                     </figure>
                                 </router-link>
-                                <section class="event-content" tabindex="0">
+                                <section class="event-content" tabindex="-1">
                                     <p class="category">{{ eventItem.category }}</p>
                                     <time class="event-date">
                                         <span class="month">Mar</span>
                                         <span class="day">30</span>
                                     </time>
-                                    <div class="event-details">
-                                        <router-link :to="'/event/' + eventItem.id">{{ eventItem.title }}</router-link>
+                                    <dl class="event-summary">
+                                        <router-link :to="'/event/' + eventItem.eventId" class="event-title">{{ eventItem.title }}</router-link>
+                                        <dt>Location:</dt>
+                                        <dd>{{ eventItem.location }}</dd>
+                                        <dt>Cost:</dt>
+                                        <dd>{{ eventItem.cost }}</dd>
+                                        <dt>Travel tips:</dt>
+                                        <dd>{{ eventItem.travelTips }}</dd>
                                         <!-- <h3 class="event-title"></h3> -->
                                         <p>{{ eventItem.body }}</p>
                                         <time><p><span>When: </span>{{ eventItem.day }}, {{ eventItem.date }}, {{ eventItem.time }}</p></time>
-                                        <p><span>Where: </span>{{ eventItem.location }}</p>
+
                                         <p><span>Cost: </span>{{ eventItem.price }}</p>
                                         <p><span>Host: </span>{{ eventItem.host }}</p>
                                         <button type="button" name="button" class="btn btn-primary">Interested</button>
-                                    </div>
+                                    </dl>
 
 
                                 </section>
@@ -98,37 +104,37 @@
                 //filter: 'All',
                 currentFilter: 'all',
                 events: [
-                    {
-                        id: 0,
-                        title: 'Brimbank, Melton & surrounds information session',
-                        host: 'Guide Dogs Victoria',
-                        price: '$4.00',
-                        date: '14-02-19',
-                        day: 'Friday',
-                        timeBegin: '13:30',
-                        timeEnd: '15:30',
-                        location: 'Melton Country Club, Reserve Road, Melton VIC, Australia',
-                        travelTips: 'Bus – 456, Closest Stop: Melton Valley Dr',
-                        eventOpen: 'true',
-                        imgSrc: 'http://placekitten.com/600/300',
-                        imgAlt: 'This is the alternative text of the image',
-                        category: 'sport'
-                    },
-                    {
-                        id: 1,
-                        title: 'Brimbank, Melton & surrounds information session',
-                        host: 'Guide Dogs Victoria',
-                        date: '14-02-19',
-                        day: 'Friday',
-                        timeBegin: '13:30',
-                        timeEnd: '15:30',
-                        location: 'Melton Country Club, Reserve Road, Melton VIC, Australia',
-                        travelTips: 'Bus – 456, Closest Stop: Melton Valley Dr',
-                        eventOpen: 'false',
-                        imgSrc: 'http://placekitten.com/600/300',
-                        imgAlt: 'This is the alternative text of the image',
-                        category: 'information'
-                    }
+                    // {
+                    //     id: 0,
+                    //     title: 'Brimbank, Melton & surrounds information session',
+                    //     host: 'Guide Dogs Victoria',
+                    //     price: '$4.00',
+                    //     date: '14-02-19',
+                    //     day: 'Friday',
+                    //     timeBegin: '13:30',
+                    //     timeEnd: '15:30',
+                    //     location: 'Melton Country Club, Reserve Road, Melton VIC, Australia',
+                    //     travelTips: 'Bus – 456, Closest Stop: Melton Valley Dr',
+                    //     eventOpen: 'true',
+                    //     imgSrc: 'http://placekitten.com/600/300',
+                    //     imgAlt: 'This is the alternative text of the image',
+                    //     category: 'sport'
+                    // },
+                    // {
+                    //     id: 1,
+                    //     title: 'Brimbank, Melton & surrounds information session',
+                    //     host: 'Guide Dogs Victoria',
+                    //     date: '14-02-19',
+                    //     day: 'Friday',
+                    //     timeBegin: '13:30',
+                    //     timeEnd: '15:30',
+                    //     location: 'Melton Country Club, Reserve Road, Melton VIC, Australia',
+                    //     travelTips: 'Bus – 456, Closest Stop: Melton Valley Dr',
+                    //     eventOpen: 'false',
+                    //     imgSrc: 'http://placekitten.com/600/300',
+                    //     imgAlt: 'This is the alternative text of the image',
+                    //     category: 'information'
+                    // }
                 ],
                 searchEvents: ''
             }
@@ -140,9 +146,17 @@
         },
         created() {
             this.$http.get('https://gdvpeersupportplatformapi.azurewebsites.net/api/events').then(function(data) {
-                this.events = data.body.slice(0,6);
-                console.log(data);
+                //this.events = data.body.slice(0,6);
+                return data.json();
                 //title: this.event.title
+            }).then(function(data) {
+                var eventsArray = [];
+                for (let key in data) {
+                    data[key].id = key
+                    eventsArray.push(data[key]);
+                }
+                this.events = eventsArray;
+                console.log(eventsArray);
             })
         },
         computed: {
@@ -285,6 +299,19 @@
             background-color: $primary;
             border-color: $primary;
             color: $white;
+        }
+    }
+    .event-summary {
+        .event-title {
+            display: block;
+            margin-bottom: 1rem;
+            line-height: 1;
+        }
+        dt {
+            @include summaryHeading();
+        }
+        dd {
+            font-size: 1rem;
         }
     }
 </style>
