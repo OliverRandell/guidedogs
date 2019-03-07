@@ -1,9 +1,9 @@
 <template lang="html">
     <form @submit.prevent="handleSubmit">
         <div class="form-group">
-            <label for="username">Username</label>
-            <input type="text" v-model="username" name="username" class="form-control" :class="{ 'is-invalid': submitted && !username }" v-validate="'required'" />
-            <div v-show="submitted && !username" class="invalid-feedback">Username is required</div>
+            <label for="email">Email</label>
+            <input type="text" v-model="email" name="email" class="form-control" :class="{ 'is-invalid': submitted && !email }" v-validate="'required'" />
+            <div v-show="submitted && !email" class="invalid-feedback">Username is required</div>
         </div>
         <div class="form-group">
             <label htmlFor="password">Password</label>
@@ -30,7 +30,7 @@
         name: 'FormLogin',
         data () {
             return {
-                username: '',
+                email: '',
                 password: '',
                 submitted: false
             }
@@ -44,18 +44,19 @@
         },
         methods: {
             // login: function () {
-            //     const { username, password } = this
+            //     const { email, password } = this
             //     // VUEX ACTIONS RETURNING PROMISES
-            //     this.$store.dispatch(AUTH_REQUEST, { username, password }).then(() => {
+            //     this.$store.dispatch(AUTH_REQUEST, { email, password }).then(() => {
             //         this.$router.push('/')
             //     })
             // }
             ...mapActions('account', ['login', 'logout']),
             handleSubmit() {
                 this.submitted = true;
-                const { username, password } = this;
-                if (username && password) {
-                    this.login({ username, password })
+                const { email, password } = this;
+                if (email && password) {
+                    // console.log('un', email)
+                    this.login({ email, password })
                 }
             }
         }

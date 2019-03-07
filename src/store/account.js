@@ -13,10 +13,12 @@ const actions = {
         userService.login(email, password)
             .then(
                 user => {
-                    commit('loginSuccess', user);
-                    router.push('/');
+                    // commit('loginSuccess', user);
+                    console.log('urserdfsdfd', user)
+                    router.push('/hkjdshkjfhdskdsfh');
                 },
                 error => {
+                    console.log('error?', err)
                     commit('loginFailure', error);
                     dispatch('alert/error', error, { root: true });
                 }

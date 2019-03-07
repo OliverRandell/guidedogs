@@ -12,17 +12,18 @@ export const userService = {
     delete: _delete
 };
 
-function login(username, password) {
-    console.log(username, password);
+function login(email, password) {
     const config = { headers: { 'Content-Type': 'application/json' } }
     // TODO: GET ROSS TO REMOVE USERNAME REQUIEMENT,
     // AND CHANGE USERNAME FIELD TO EMAIL
-    const body = { Username: 'oliverrandell', Password: password, Email: 'oliverrandell@gmail.com' }
+    const body = { Username: email, Password: password, Email: email }
 
     return Vue.http.post(`${apiUrl}/authentication`, body, config)
         .then(handleResponse)
         .then(user => {
-            if (user.token) {
+            const token = JSON.parse(user)
+
+            if (token) {
                 // store user details and jwt token in local storage to keep user logged in between page refreshes
                 localStorage.setItem('user', JSON.stringify(user));
                 // assign headers with token for future api calls
