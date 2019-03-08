@@ -86,6 +86,10 @@
                         <input type="text" name="location" value="" class="form-control" v-model="eventItem.location" />
                     </div>
                     <div class="form-group">
+                        <label for="travelTips">Event travel tips:</label>
+                        <input type="text" name="travelTips" value="travelTips" class="form-control" v-model="eventItem.travelTips" />
+                    </div>
+                    <div class="form-group">
                         <label for="content">Event description:</label>
                         <textarea name="name" rows="4" v-model="eventItem.description" class="form-control"></textarea>
                     </div>
@@ -110,6 +114,8 @@
                         <dt>Host:</dt>
                         <dd>{{ account.user.username }}</dd>
                         <dt>Event location:</dt>
+                        <dd>{{ eventItem.travelTips }}</dd>
+                        <dt>Event travel tips:</dt>
                         <dd>{{ eventItem.location }}</dd>
                         <dt>Event content:</dt>
                         <dd>{{ eventItem.description }}</dd>
@@ -144,15 +150,16 @@
         data () {
             return {
                 eventItem: {
-                    //id: '',
+                    eventId: '',
                     title: '',
+                    eventHostId: '',
+                    eventHostNickname: '',
+                    eventDate: '',
                     location: '',
-                    start: '',
-                    end: '',
-                    description: '',
-                    category: '',
-                    host: 'me',
-                    status: ''
+                    travelTips: '',
+                    eventDetails: '',
+                    contactInformation: '',
+                    eventType: '',
                 },
                 eventCategories: ['information', 'social', 'sports and fitness', 'arts and crafts'],
                 submitted: false

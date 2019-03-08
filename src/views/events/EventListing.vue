@@ -104,39 +104,7 @@
                 // ],
                 //filter: 'All',
                 currentFilter: 'all',
-                events: [
-                    // {
-                    //     id: 0,
-                    //     title: 'Brimbank, Melton & surrounds information session',
-                    //     host: 'Guide Dogs Victoria',
-                    //     price: '$4.00',
-                    //     date: '14-02-19',
-                    //     day: 'Friday',
-                    //     timeBegin: '13:30',
-                    //     timeEnd: '15:30',
-                    //     location: 'Melton Country Club, Reserve Road, Melton VIC, Australia',
-                    //     travelTips: 'Bus – 456, Closest Stop: Melton Valley Dr',
-                    //     eventOpen: 'true',
-                    //     imgSrc: 'http://placekitten.com/600/300',
-                    //     imgAlt: 'This is the alternative text of the image',
-                    //     category: 'sport'
-                    // },
-                    // {
-                    //     id: 1,
-                    //     title: 'Brimbank, Melton & surrounds information session',
-                    //     host: 'Guide Dogs Victoria',
-                    //     date: '14-02-19',
-                    //     day: 'Friday',
-                    //     timeBegin: '13:30',
-                    //     timeEnd: '15:30',
-                    //     location: 'Melton Country Club, Reserve Road, Melton VIC, Australia',
-                    //     travelTips: 'Bus – 456, Closest Stop: Melton Valley Dr',
-                    //     eventOpen: 'false',
-                    //     imgSrc: 'http://placekitten.com/600/300',
-                    //     imgAlt: 'This is the alternative text of the image',
-                    //     category: 'information'
-                    // }
-                ],
+                events: [],
                 searchEvents: ''
             }
         },

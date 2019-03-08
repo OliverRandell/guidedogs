@@ -52,7 +52,7 @@ function register({email, firstName, lastName, password, username}) {
 
     return Vue.http.post(`${apiUrl}/authentication/register`, body, config)
         .then(handleResponse)
-        .catch(err => console.log(err))
+        // .catch(err => console.log(err))
 }
 
 function getAll() {
