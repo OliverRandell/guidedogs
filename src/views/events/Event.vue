@@ -21,20 +21,20 @@
                     <dl class="event-details">
                         <h2>{{ eventItem.title }}</h2>
                         <dt>Event date and time:</dt>
-                        <dd>{{ eventItem.day }}, {{ eventItem.date }}. {{ eventItem.timeBegin }} - {{ eventItem.timeEnd }}</dd>
+                        <dd>{{ eventItem.eventDate }}</dd>
                         <dt>Event location:</dt>
                         <dd>{{ eventItem.location }}</dd>
                         <dt>Event hosted by:</dt>
-                        <dd>{{ eventItem.host }}</dd>
+                        <dd>{{ eventItem.eventHostNickname }}</dd>
                         <dt>Event description:</dt>
-                        <dd>{{ eventItem.desc }}</dd>
-                        <dt>Event Cost:</dt>
-                        <dd>${{ eventItem.cost }}</dd>
-                        <dt>Your response:</dt>
+                        <dd>{{ eventItem.eventDetails }}</dd>
+                        <!-- <dt>Event Cost:</dt> -->
+                        <!-- <dd>${{ eventItem.cost }}</dd>
+                        <dt>Your response:</dt> -->
                         <!-- TOGGLE BUTTON, ON CLICK MAKE
                          INTERESTED OR NOT INTERESTED -->
                          <!-- FOR EVENT ATTENDING OR NOT ATTENDING -->
-                        <dd>Not interested</dd>
+                        <!-- <dd>Not interested</dd> -->
                     </dl>
                     <button type="button" name="button" class="btn btn-primary btn-register" @click="registerInterest(eventItem)">Register your interest!</button>
                 </section>

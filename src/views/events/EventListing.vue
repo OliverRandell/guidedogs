@@ -22,8 +22,8 @@
                 <div class="event-listings">
                     <!-- <div class="row"> -->
                         <transition-group class="filter" name="filter">
-                            <article class="event-pod" v-for="eventItem in filteredEvents" :key="eventItem.id" v-if="currentFilter === eventItem.category || currentFilter === 'all'" role="article">
-                                <router-link :to="'/events/' + eventItem.id">
+                            <article class="event-pod" v-for="eventItem in filteredEvents" :key="eventItem.eventId" v-if="currentFilter === eventItem.category || currentFilter === 'all'" role="article">
+                                <router-link :to="'/events/' + eventItem.eventId">
                                     <figure class="event-thumbnail">
                                         <h5 class="event-privacy">
                                             <template v-if="eventItem.eventOpen === 'true'">Public</template>
@@ -121,7 +121,7 @@
             }).then(function(data) {
                 var eventsArray = [];
                 for (let key in data) {
-                    data[key].id = key
+                    data[key].eventId = key
                     eventsArray.push(data[key]);
                 }
                 this.events = eventsArray;
@@ -136,7 +136,7 @@
         },
         watch: {
             '$route' (to, from) {
-                alert(to.params.eventItem.id);
+                alert(to.params.eventItem.eventId);
             }
         }
     }
