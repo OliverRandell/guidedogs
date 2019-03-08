@@ -12,7 +12,7 @@
             <article class="pg-content" tabindex="-1" role="article" v-if="!submitted">
 
                 <form class="form-create-event col-8" @submit.prevent="handleSubmit">
-                    <!-- <fieldset class="form-group">
+                    <fieldset class="form-group">
                         <div class="row">
                             <legend class="col-form-label col-sm-4 pt-0">
                                 Choose event type:
@@ -32,7 +32,7 @@
                                 </div>
                             </div>
                         </div>
-                    </fieldset> -->
+                    </fieldset>
                     <div class="form-group">
                         <label for="title">Event title:</label>
                         <input type="text" name="" value="" required v-model="eventItem.title" class="form-control">
@@ -101,8 +101,8 @@
                     <h4>Preview Event</h4>
 
                     <dl class="event-details">
-                        <!-- <dt>Event status:</dt>
-                        <dd>{{ eventItem.status | capitalize }}</dd> -->
+                        <dt>Event status:</dt>
+                        <dd>{{ eventItem.status | capitalize }}</dd>
                         <dt>Event title:</dt>
                         <dd>{{ eventItem.title }}</dd>
                         <dt>Event start date:</dt>
@@ -150,17 +150,16 @@
         data () {
             return {
                 eventItem: {
-                    eventId: 1,
-                    //eventId: '',
+                    //id: '',
                     title: '',
-                    eventHostId: '',
-                    eventHostNickname: '',
-                    eventDate: '',
                     location: '',
                     travelTips: '',
-                    eventDetails: '',
-                    contactInformation: '',
-                    eventType: 0,
+                    start: '',
+                    end: '',
+                    description: '',
+                    category: '',
+                    host: 'me',
+                    status: ''
                 },
                 eventCategories: ['information', 'social', 'sports and fitness', 'arts and crafts'],
                 submitted: false
