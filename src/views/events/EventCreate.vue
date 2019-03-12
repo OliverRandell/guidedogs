@@ -167,8 +167,7 @@
         },
         methods: {
             post: function() {
-                // this.$http.post('https://gdvpeersupportplatformapi.azurewebsites.net/api/events', this.eventItem).then(function(data) {
-                this.$http.put(`https://gdvpeersupportplatformapi.azurewebsites.net/api/events/${this.eventItem.id}`, this.eventItem).then(function(data) {
+                this.$http.post('https://gdvpeersupportplatformapi.azurewebsites.net/api/events', this.eventItem).then(function(data) {
                     console.log(data);
                     // title: this.eventItem.title,
                     // body: this.eventItem.content
