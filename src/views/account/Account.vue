@@ -5,16 +5,48 @@
                 <h1>Hi {{ account.user.firstName }}!</h1>
             </template>
             <template slot="description">
-                This is your account page
+                {{ tagline }}
             </template>
         </hero>
 
         <div class="container">
             <section class="pg-content">
+                <article class="item-wrapper" role="article" tabindex="-1">
+                    <h4>Your details</h4>
+                    <p>This information will assit us to currate personalised content.</p>
+                    <!-- INCLUDE AGE DETAILS, NAME, USERNAME, POSTCODE, INTERESTS -->
+                    <form>
+                        <div class="form-group">
+                            <label for="email">Email:</label>
+
+                        </div>
+                        <div class="form-group">
+                            <label for="nickname">Username:</label>
+                            <editable-input v-model="userDetailsForm.name" change-button-label="Edit" save-button-label="Save" @saved="updateProfile"></editable-input>
+                            <input type="text" name="" value="" v-model="account.user.nickName" class="form-control">
+                        </div>
+
+                    </form>
+                </article>
+                <aside class="items-sidebar">
+                    <!-- TABS GO IN HERE. DETAILS, EVENTS & IDEAS & SETTINGS -->
+                </aside>
                 <div class="col-12">
                     <div>
 
 
+                        <!-- <form class="" action="index.html" method="post"> -->
+                            <!-- <div class="form-field">
+                                <label for="">Full name</label>
+                                <input type="text" name="" value="" class="form-control" v-model="">
+                            </div> -->
+                            <!-- <div class="form-group">
+                                <label for="username">Username</label>
+                                <input type="text" v-model="user.username" v-validate="'required'" name="username" class="form-control" :class="{ 'is-invalid': submitted && errors.has('username') }" />
+                                <div v-if="submitted && errors.has('username')" class="invalid-feedback">{{ errors.first('username') }}</div>
+                            </div> -->
+
+                        <!-- </form> -->
 
                         <em v-if="users.loading">Loading users...</em>
                         <span v-if="users.error" class="text-danger">ERROR: {{users.error}}</span>
@@ -43,19 +75,20 @@
                     </div>
                     <section class="change-password">
                         <h4>Change password:</h4>
-                        <form class="form-change-password" action="index.html" method="post">
+                        <form class="form-change-password">
                             <div class="form-group">
-                                <label for="">Enter old password:</label>
-                                <input type="text" name="" value="" class="form-control">
+                                <label for="">Enter existing password:</label>
+                                <input v-model="changePasswordForm.oldPassword" type="password" placeholder="Enter your existing password..." class="form-control">
                             </div>
                             <div class="form-group">
                                 <label for="">Enter new password:</label>
-                                <input type="text" name="" value="" class="form-control">
+                                <input v-model="changePasswordForm.newPassword" type="password" placeholder="Enter new password..." class="form-control">
                             </div>
                             <div class="form-group">
-                                <label for="">Re-enter old password:</label>
-                                <input type="text" name="" value="" class="form-control">
+                                <label for="">New Password again:</label>
+                                <input v-model="changePasswordForm.newPasswordConfirmation" type="password" placeholder="Re-enter new password..." class="form-control">
                             </div>
+                            <button type="button" @click="submitChangePasswordForm" class="btn btn-primary">Change password</button>
                             <button type="button" name="button" class="btn btn-primary">Change Password</button>
                         </form>
                     </section>
@@ -96,6 +129,16 @@
         },
         data() {
             return {
+                title: 'Account page',
+                tagline: 'Review and edit your personal details here',
+                userDetailsForm: {
+                    nickName: 'Nickname'
+                },
+                changePasswordForm: {
+                    oldPassword: '',
+                    newPassword: '',
+                    newPasswordConfirmation: '',
+                },
                 events: [
                     {
                         id: '0',

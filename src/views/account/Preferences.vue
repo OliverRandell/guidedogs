@@ -13,6 +13,8 @@
         <div class="container">
             <section class="pg-content">
                 <div class="col-12">
+                    <!-- http://www.bbc.co.uk/accessibility/guides/factsheets/factsheet_vision_computing.pdf -->
+                    <!-- https://webaccessibility.guide/ -->
                     <p>What is this preferences page all about? Well, this page provides accessibility help, enabling our users to make the most of this application whatever their ability or disability.</p>
                     <p>Text size, contrast, colour,</p>
                 </div>

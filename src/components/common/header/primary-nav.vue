@@ -24,16 +24,21 @@
                     },
                     {
                         id: 2,
-                        title: 'Information',
-                        route: '/information'
+                        title: 'Ideas',
+                        route: '/ideas'
                     },
                     {
                         id: 3,
+                        title: 'Library',
+                        route: '/library'
+                    },
+                    {
+                        id: 4,
                         title: 'My Account',
                         route: '/account'
                     },
                     {
-                        id: 4,
+                        id: 5,
                         title: 'Contact Us',
                         route: '/contact'
                     }

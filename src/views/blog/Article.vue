@@ -12,10 +12,17 @@
         data () {
             return {
                 post: {
-                    title: 'This is the title',
-                    body: 'This is the body text'
+                    //title: 'This is the title',
+                    id: this.$route.params.id,
+                    body: {}
                 }
             }
+        },
+        created() {
+            this.$http.get('https://jsonplaceholder.typicode.com/posts/' + this.id).then(function(data) {
+                console.log(data);
+                this.blog = data.body;
+            });
         }
     }
 </script>

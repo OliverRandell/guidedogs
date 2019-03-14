@@ -9,13 +9,13 @@
             </template> -->
         </Hero>
         <div class="container">
-            <article class="pg-content" role="article" tabindex="-1">
-                <section class="event">
+            <section class="pg-content" tabindex="-1">
+                <article class="event item-wrapper" role="article" tabindex="-1">
 
-                    <div class="event-img">
+                    <div class="featured-img">
                         <time class="event-date">{{ eventItem.date }}</time>
                         <figure>
-                            <img :src="eventItem.imgSrc" alt="">
+                            <img :src="eventItem.imgSrc" :alt="eventItem.imgAlt">
                         </figure>
                     </div>
                     <dl class="event-details">
@@ -37,8 +37,8 @@
                         <!-- <dd>Not interested</dd> -->
                     </dl>
                     <button type="button" name="button" class="btn btn-primary btn-register" @click="registerInterest(eventItem)">Register your interest!</button>
-                </section>
-                <aside class="event-summary" tabindex="-1">
+                </article>
+                <aside class="event-summary items-sidebar" tabindex="-1">
                     <p><router-link to="/events">Back to events page</router-link></p>
                     <p><button type="button" name="button" class="btn btn-primary">Delete event</button></p>
                     <p>
@@ -55,7 +55,7 @@
                     <router-link to="/create-event" class="btn btn-primary">Create an Event</router-link>
 
                 </aside>
-            </article>
+            </section>
         </div>
     </LayoutMaster>
 </template>
@@ -71,9 +71,9 @@
         },
         data() {
             return {
-
                 eventItem: {
                     id: this.$route.params.id,
+                    imgAlt: 'This is the text alternative for the image',
                 }
             }
         },
@@ -97,17 +97,6 @@
 
 <style lang="scss" scoped>
     @import './src/assets/scss/vue.scss';
-    .event {
-        @include make-col-ready();
-        //border: 1px solid $primary;
-        //width: 100%;
-        //padding: 1rem;
-        //height: 20rem;
-        @include media-breakpoint-up(lg) {
-            position: relative;
-            @include make-col(8);
-        }
-    }
     .event-img {
         @include responsiveImg(20rem);
         @include spacer(1.5rem);
@@ -132,38 +121,6 @@
         @include media-breakpoint-up(lg) {
             padding-left: $grid-gutter-width;
         }
-    }
-    .event-summary {
-        @include make-col-ready();
-        @include media-breakpoint-up(lg) {
-            padding-top: 4rem;
-            @include make-col(4);
-        }
-        header {
-            display: block;
-            margin-bottom: 1rem;
-        }
-        h5 {
-            @include summaryHeading();
-        }
-        h4 {
-            font-size: 1.2rem;
-        }
-        .event-date {
-            display: flex;
-            margin-bottom: 1rem;
-        }
-        .btn-group {
-            margin-top: 2rem;
-            display: block;
-            .btn {
-                margin-bottom: 1rem;
-                width: 100%;
-            }
-        }
-    }
-    .pg-content {
-        padding-top: 0;
     }
     .btn-register {
         float: right;

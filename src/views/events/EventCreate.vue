@@ -2,16 +2,16 @@
     <LayoutMaster>
         <Hero>
             <template slot="title">
-                Create a new Event
+                {{ title }}
             </template>
             <template slot="description">
-                This is the area to create a new event...
+                {{ tagline }}
             </template>
         </Hero>
         <div class="container">
             <article class="pg-content" tabindex="-1" role="article" v-if="!submitted">
 
-                <form class="form-create-event col-8" @submit.prevent="handleSubmit">
+                <form class="form-create-event form-create col-8" @submit.prevent="handleSubmit">
                     <fieldset class="form-group">
                         <div class="row">
                             <legend class="col-form-label col-sm-4 pt-0">
@@ -149,6 +149,8 @@
         },
         data () {
             return {
+                title: 'Create a new Event',
+                tagline: 'This is the area to create a new event...',
                 eventItem: {
                     //id: '',
                     title: '',
@@ -228,10 +230,5 @@
         align-items: center;
         justify-content: center;
         flex-direction: column;
-    }
-    .form-create-event {
-        input[type="submit"] {
-            float: right;
-        }
     }
 </style>

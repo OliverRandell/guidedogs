@@ -9,7 +9,6 @@ import ForgotPassword from './views/auth/ForgotPassword.vue';
 // APPLICATION PAGES
 import Home from './views/Home.vue';
 import About from './views/About.vue';
-import Information from './views/Information.vue';
 //import ExpressionsOfInterest from './views/ExpressionsOfInterest.vue';
 import Contact from './views/Contact.vue';
 
@@ -17,6 +16,15 @@ import Contact from './views/Contact.vue';
 import EventListing from './views/events/EventListing.vue';
 import EventCreate from './views/events/EventCreate.vue';
 import Event from './views/events/Event.vue';
+
+// EXPRESSIONS OF INTEREST
+import Ideas from './views/ideas/Ideas.vue';
+import IdeaCreate from './views/ideas/IdeaCreate.vue';
+import Idea from './views/ideas/Idea.vue';
+
+// BLOG PAGES
+import Overview from './views/blog/Overview.vue';
+import Article from './views/blog/Article.vue';
 
 // USER PAGES
 import Account from './views/account/Account.vue';
@@ -93,7 +101,7 @@ export const router =  new Router ({
         },
         {
             path: '/create-event',
-            name: 'CreateEvent',
+            name: 'EventCreate',
             component: EventCreate,
             meta: {
                 title: 'Create an event'
@@ -107,6 +115,7 @@ export const router =  new Router ({
                 title: 'Page for your event'
             }
         },
+
         // {
         //     path: '/expressions-of-interest',
         //     name: 'ExpressionsOfInterest',
@@ -116,11 +125,43 @@ export const router =  new Router ({
         //     }
         // },
         {
-            path: '/information',
-            name: 'Information',
-            component: Information,
+            path: '/ideas',
+            name: 'Ideas',
+            component: Ideas,
+            meta: {
+                title: 'This is where you can float an idea!'
+            }
+        },
+        {
+            path: '/create-idea',
+            name: 'IdeaCreate',
+            component: IdeaCreate,
+            meta: {
+                title: 'Create an idea that you would like to see turned into an event!'
+            }
+        },
+        {
+            path: '/ideas/:id',
+            name: 'Idea',
+            component: Idea,
+            meta: {
+                title: 'This is an idea'
+            }
+        },
+        {
+            path: '/library',
+            name: 'Overview',
+            component: Overview,
             meta: {
                 title: 'Website - latest news and goings on'
+            }
+        },
+        {
+            path: '/articles/:id',
+            name: 'Article',
+            component: Article,
+            meta: {
+                title: 'Blog article'
             }
         },
         {
