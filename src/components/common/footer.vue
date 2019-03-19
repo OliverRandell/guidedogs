@@ -1,7 +1,7 @@
 <template lang="html">
     <footer class="app-footer" role="contentinfo">
         <section class="footer-wrapper container">
-            <p>&copy; Guide Dogs</p>
+            <p>&copy; Guide Dogs Victoria</p>
         </section>
     </footer>
 </template>

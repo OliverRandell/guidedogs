@@ -5,6 +5,10 @@
             <router-link to="/register">create a new account with us</router-link>
         </p>
         <FormLogin></FormLogin>
+
+        <router-link to="/forgot-password" class="btn btn-link">Forgotten Password</router-link>
+        <router-link to="/register" class="btn btn-link">Register</router-link>
+
     </LayoutAuth>
 
 </template>

@@ -6,7 +6,7 @@
 
         <hero>
             <template slot="title">
-                <strong>Welcome</strong> {{ account.user.username }}!
+                <strong>Welcome</strong> {{ account.user.firstName }}!
             </template>
             <template slot="description">
                 Below is the latest news
@@ -44,6 +44,9 @@
         },
         data () {
             return {
+                user: {
+                    firstName: '',
+                },
                 newsArticles: [
                     {
                         title: 'Brand new social platfom launched!',

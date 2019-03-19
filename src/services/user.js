@@ -6,6 +6,7 @@ export const userService = {
     login,
     logout,
     register,
+    forgotPassword,
     getAll,
     getById,
     update,
@@ -16,7 +17,7 @@ function login(email, password) {
     const config = { headers: { 'Content-Type': 'application/json' } }
     // TODO: GET ROSS TO REMOVE USERNAME REQUIEMENT,
     // AND CHANGE USERNAME FIELD TO EMAIL
-    const body = { Username: email, Password: password, Email: email }
+    const body = { Password: password, Email: email }
 
     return Vue.http.post(`${apiUrl}/authentication`, body, config)
         .then(handleResponse)
@@ -40,10 +41,10 @@ function logout() {
     delete Vue.http.headers.common['Authorization']
 }
 
-function register({email, firstName, lastName, password, username}) {
+function register({email, firstName, lastName, password, userName}) {
     const config = { headers: { 'Content-Type': 'application/json' } }
     const body = {
-        Username: username,
+        userName: userName,
         Password: password,
         Email: email,
         FullName: `${firstName} ${lastName}`,
@@ -53,6 +54,16 @@ function register({email, firstName, lastName, password, username}) {
     return Vue.http.post(`${apiUrl}/authentication/register`, body, config)
         .then(handleResponse)
         // .catch(err => console.log(err))
+}
+
+function forgotPassword({email}) {
+    const config = { headers: { 'Content-Type': 'application/json' } }
+    const body = {
+        Email: email
+    }
+
+    return Vue.http.post(`${apiUrl}/authentication/forgot-password`, body, config)
+        .then(handleResponse)
 }
 
 function getAll() {

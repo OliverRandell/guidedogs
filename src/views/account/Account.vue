@@ -21,9 +21,9 @@
 
                         </div>
                         <div class="form-group">
-                            <label for="nickname">Username:</label>
-                            <editable-input v-model="userDetailsForm.name" change-button-label="Edit" save-button-label="Save" @saved="updateProfile"></editable-input>
-                            <input type="text" name="" value="" v-model="account.user.nickName" class="form-control">
+                            <label for="userName">Username:</label>
+                            <!-- <editable-input v-model="userDetailsForm.name" change-button-label="Edit" save-button-label="Save" @saved="updateProfile"></editable-input> -->
+                            <input type="text" name="" value="" v-model="account.user.userName" class="form-control">
                         </div>
 
                     </form>
@@ -132,7 +132,7 @@
                 title: 'Account page',
                 tagline: 'Review and edit your personal details here',
                 userDetailsForm: {
-                    nickName: 'Nickname'
+                    username: 'Username'
                 },
                 changePasswordForm: {
                     oldPassword: '',

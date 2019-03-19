@@ -31,6 +31,11 @@ Vue.use(VueResource);
 import { configureFakeBackend } from './utils/dummy-backend';
 configureFakeBackend();
 
+// CAPITALISE TITLES
+// Vue.filter('capitalize', function (value) {
+//     return value.toCapitalize()
+// })
+
 // FILTERS
 
 new Vue({

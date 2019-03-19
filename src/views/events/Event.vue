@@ -25,7 +25,7 @@
                         <dt>Event location:</dt>
                         <dd>{{ eventItem.location }}</dd>
                         <dt>Event hosted by:</dt>
-                        <dd>{{ eventItem.eventHostNickname }}</dd>
+                        <dd>{{ eventItem.eventHost.username }}</dd>
                         <dt>Event description:</dt>
                         <dd>{{ eventItem.eventDetails }}</dd>
                         <!-- <dt>Event Cost:</dt> -->

@@ -46,6 +46,16 @@ const actions = {
                     dispatch('alert/error', error, { root: true });
                 }
             );
+    },
+    forgotPassword({ dispatch, commit }, email) {
+        commit('forgotPasswordRequest', user);
+
+        userService.forgotPassword(email)
+            .then(
+                user => {
+                    router.push('/forgot-password');
+                }
+            );
     }
 };
 

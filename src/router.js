@@ -24,7 +24,10 @@ import Idea from './views/ideas/Idea.vue';
 
 // BLOG PAGES
 import Overview from './views/blog/Overview.vue';
-import Article from './views/blog/Article.vue';
+//import Article from './views/blog/Article.vue';
+import AccessibilityEntitlements from './views/blog/AccessibilityEntitlements.vue';
+import InsuranceScheme from './views/blog/InsuranceScheme.vue';
+import FinancialEntitlements from './views/blog/FinancialEntitlements.vue';
 
 // USER PAGES
 import Account from './views/account/Account.vue';
@@ -156,12 +159,33 @@ export const router =  new Router ({
                 title: 'Website - latest news and goings on'
             }
         },
+        // {
+        //     path: '/articles/:id',
+        //     name: 'Article',
+        //     component: Article,
+        //     meta: {
+        //         title: 'Blog article'
+        //     }
+        // },
         {
-            path: '/articles/:id',
-            name: 'Article',
-            component: Article,
+            path: '/articles/accessibility-entitlements',
+            name: 'AccessibilityEntitlements',
+            component: AccessibilityEntitlements,
+        },
+        {
+            path: '/articles/insurance-scheme',
+            name: 'InsuranceScheme',
+            component: InsuranceScheme,
             meta: {
-                title: 'Blog article'
+                title: 'News article about becoming a participant of the national disability insurance scheme'
+            }
+        },
+        {
+            path: '/articles/financial-entitlements',
+            name: 'FinancialEntitlements',
+            component: FinancialEntitlements,
+            meta: {
+                title: 'News article: Financial entitlements'
             }
         },
         {

@@ -20,22 +20,22 @@
 
                 </div>
                 <div class="event-listings">
-                    <!-- <div class="row"> -->
-                        <transition-group class="filter" name="filter">
+                    <div class="row">
+                        <!-- <transition-group class="filter" name="filter"> -->
                             <article class="event-pod" v-for="eventItem in filteredEvents" :key="eventItem.id" v-if="currentFilter === eventItem.category || currentFilter === 'all'" role="article">
                                 <router-link :to="'/events/' + eventItem.id">
                                     <figure class="event-thumbnail">
                                         <h5 class="event-privacy">
                                             <template v-if="eventItem.eventOpen === 'true'">Public</template>
                                             <template v-else>Private</template></h5>
-                                        <img :src="eventItem.imgSrc" :alt="eventItem.imgAlt">
+                                        <!-- <img :src="eventItem.image.url" :alt="eventItem.image.altText"> -->
                                     </figure>
                                 </router-link>
                                 <section class="event-content" tabindex="-1">
                                     <p class="category">{{ eventItem.category }}</p>
                                     <time class="event-date">
-                                        <span class="month">Mar</span>
-                                        <span class="day">30</span>
+                                        <span class="month">{{ eventItem.eventDate }}</span>
+                                        <span class="day">{{ eventItem.eventDate }}</span>
                                     </time>
                                     <dl class="event-summary">
                                         <router-link :to="'/events/' + eventItem.eventId" class="event-title">{{ eventItem.title }}</router-link>
@@ -60,8 +60,8 @@
 
                                 <!-- <p v-for="item in eventItem" :key="item.id">{{ item.title }}</p> -->
                             </article>
-                        </transition-group>
-                    <!-- </div> -->
+                        <!-- </transition-group> -->
+                    </div>
                 </div>
 
 
@@ -112,10 +112,13 @@
             setFilter: function(filter) {
                 this.currentFilter = filter;
             },
+            // customFormatter(date) {
+            //     return moment(date).format('MMM');
+            // }
         },
         created() {
             this.$http.get('https://gdvpeersupportplatformapi.azurewebsites.net/api/events').then(function(data) {
-                //this.events = data.body.slice(0,6);
+                // this.events = data.body.slice(0,6);
                 return data.json();
                 //title: this.event.title
             }).then(function(data) {

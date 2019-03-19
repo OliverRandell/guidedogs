@@ -1,5 +1,5 @@
-<template lang="html">
-    <form class="forgot-passord">
+<template>
+    <form class="forgot-password">
         <div class="form-group">
             <label for="email">Email address
                 <strong class="red" aria-hidden="true">*</strong>
