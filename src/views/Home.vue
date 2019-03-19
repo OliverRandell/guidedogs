@@ -25,8 +25,10 @@
                     <div class="col-12">
                         <h4>Event Highlights</h4>
                     </div>
-                    <article class="pod-event" v-for="eventItem in populatedEvents" :key="eventItem.id">
-
+                    <article class="pod-event" v-for="eventItem in events" :key="eventItem.id">
+                        <router-link :to="'/events/' + eventItem.id">
+                            <h2>{{ eventItem.title }}</h2>
+                        </router-link>
                     </article>
                 </section>
             </div>
@@ -86,12 +88,10 @@
                 users: state => state.users.all
             })
         },
-        created () {
+        created() {
             this.getAllUsers();
             this.$http.get('https://gdvpeersupportplatformapi.azurewebsites.net/api/events').then(function(data) {
-                // this.events = data.body.slice(0,6);
                 return data.json();
-                //title: this.event.title
             }).then(function(data) {
                 var eventsArray = [];
                 for (let key in data) {

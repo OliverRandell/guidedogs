@@ -1,7 +1,6 @@
 <template lang="html">
     <LayoutAuth>
         <h1>{{ title }}</h1>
-        <p>Welcome to Guide Dogs...</p>
         <FormRegistration></FormRegistration>
         <router-link to="/login">Back to login</router-link>
     </LayoutAuth>

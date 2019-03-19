@@ -6,8 +6,7 @@
         </p>
         <FormLogin></FormLogin>
 
-        <router-link to="/forgot-password" class="btn btn-link">Forgotten Password</router-link>
-        <router-link to="/register" class="btn btn-link">Register</router-link>
+        <!-- <router-link to="/forgot-password" class="btn btn-link">Forgotten Password</router-link> -->
 
     </LayoutAuth>
 

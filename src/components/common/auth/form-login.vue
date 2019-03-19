@@ -19,8 +19,6 @@
         </div>
 
 
-        <!-- <button type="submit" class="btn btn-primary" :disabled="status.loggingIn">Login</button> -->
-
     </form>
 </template>
 
