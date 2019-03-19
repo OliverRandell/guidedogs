@@ -2,7 +2,7 @@
     <div class="container">
         <div class="pg-content" role="article" tabindex="-1">
             <section class="item-wrapper">
-                <article class="col-12">
+                <article class="article-wrapper">
                     <p class="text-container">
                         <strong class="text-primary">Author: </strong>
                         <slot name="author"></slot>

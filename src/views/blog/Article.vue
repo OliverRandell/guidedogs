@@ -12,7 +12,7 @@
 
             <div class="pg-content" role="article" tabindex="-1">
                 <section class="item-wrapper">
-                    <article class="col-12">
+                    <article class="article-wrapper">
                         <p><strong>Author:</strong>{{ post.author }}</p>
                         <time><strong>Date published:</strong>{{ post.date }}</time>
                         <div class="text-container intro" v-html="post.intro" />

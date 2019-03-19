@@ -60,13 +60,6 @@
     }
 }
 
-.intro {
-    //font-weight: bold;
-    font-size: $font-size-base*1.2;
-    font-weight: $font-weight-normal;
-    font-style: italic;
-}
-
 .text-container {
     display: block;
     @include spacer(0.75rem);
@@ -78,5 +71,29 @@
     margin: 0;
     > li {
         @include spacer(0.5rem);
+    }
+}
+
+
+
+.post .intro {
+    .home & {
+        display: none;
+    }
+}
+
+.form-search {
+    .home & {
+        display: none;
+    }
+}
+
+.article-wrapper {
+    @include make-col-ready();
+    @include make-col(12);
+    .intro {
+        font-size: $font-size-base*1.2;
+        font-weight: $font-weight-normal;
+        font-style: italic;
     }
 }

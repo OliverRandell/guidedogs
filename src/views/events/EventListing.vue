@@ -118,7 +118,7 @@
         },
         created() {
             this.$http.get('https://gdvpeersupportplatformapi.azurewebsites.net/api/events').then(function(data) {
-                // this.events = data.body.slice(0,6);
+                this.events = data.body.slice(0,2);
                 return data.json();
                 //title: this.event.title
             }).then(function(data) {

@@ -1,4 +1,4 @@
-<template lang="html">
+<template>
     <layout-master>
         <!-- <loading v-if="loading"></loading>
         <template v-if="isAuthenticated"> -->
@@ -6,21 +6,30 @@
 
         <hero>
             <template slot="title">
-                <strong>Welcome</strong> {{ account.user.firstName }}!
+                <strong>{{ welcomeMsg }}</strong> {{ account.user.firstName }}!
             </template>
             <template slot="description">
-                Below is the latest news
+                {{ tagline }}
             </template>
         </hero>
         <div class="container">
-            <section class="pg-content">
-                <h2 class="col-12">Latest News items</h2>
-                <article v-for="item in newsArticles" :key="item.id" class="new-article article">
-                    <h2>{{ item.title }}</h2>
-                    <p>{{ item.desc }}</p>
-                    <router-link :to="item.route" class="btn btn-primary">Read more</router-link>
-                </article>
-            </section>
+            <div class="pg-content home" role="article" tabindex="-1">
+                <section class="item-wrapper">
+                    <div class="col-12">
+                        <RecentArticles>
+                            <template slot="btn-title">Read Article</template>
+                        </RecentArticles>
+                    </div>
+                </section>
+                <section class="item-wrapper">
+                    <div class="col-12">
+                        <h4>Event Highlights</h4>
+                    </div>
+                    <article class="pod-event" v-for="eventItem in populatedEvents" :key="eventItem.id">
+
+                    </article>
+                </section>
+            </div>
         </div>
 
         <!-- </template> -->
@@ -36,14 +45,18 @@
     import { mapState, mapActions } from 'vuex';
     import LayoutMaster from '../components/common/layouts/layout-master.vue';
     import Hero from '../components/common/global/hero.vue';
+    import RecentArticles from '../components/common/blog/recent-articles.vue';
     export default {
         name: 'Home',
         components : {
             LayoutMaster,
-            Hero
+            Hero,
+            RecentArticles
         },
         data () {
             return {
+                welcomeMsg: 'Welcome',
+                tagline: 'Latest news and events',
                 user: {
                     firstName: '',
                 },
@@ -64,6 +77,7 @@
                         route: '',
                     }
                 ],
+                events: []
             }
         },
         computed: {
@@ -74,6 +88,18 @@
         },
         created () {
             this.getAllUsers();
+            this.$http.get('https://gdvpeersupportplatformapi.azurewebsites.net/api/events').then(function(data) {
+                // this.events = data.body.slice(0,6);
+                return data.json();
+                //title: this.event.title
+            }).then(function(data) {
+                var eventsArray = [];
+                for (let key in data) {
+                    data[key].eventId = key
+                    eventsArray.push(data[key]);
+                }
+                this.events = eventsArray;
+            })
         },
         methods: {
             ...mapActions('users', {
@@ -94,5 +120,12 @@
     @import './src/assets/scss/vue.scss';
     .new-article {
         @include spacer(2rem);
+    }
+    .pod-event {
+        @include make-col-ready();
+        @include make-col(12);
+        @include media-breakpoint-up(lg) {
+            @include make-col(6);
+        }
     }
 </style>
