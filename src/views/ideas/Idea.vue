@@ -2,7 +2,7 @@
     <LayoutMaster>
         <hero>
             <template slot="title">
-                {{ title }}
+                {{ idea.title }}
             </template>
             <template slot="description">
                 {{ tagline }}
@@ -28,7 +28,9 @@
         data() {
             return {
                 id: this.$route.params.id,
-                ideas: {}
+                idea: {
+                    title: 'This is the idea title',
+                }
             }
         },
         created() {

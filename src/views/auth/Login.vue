@@ -1,11 +1,10 @@
 <template lang="html">
     <LayoutAuth>
         <h1>{{ title }}</h1>
-        <p>Welcome to 'Insert name of product here'! Please login to your account if you're already a user or
-            <router-link to="/register">create a new account with us</router-link>
-        </p>
+        <h4>Welcome to 'Platform'!</h4>
+        <p>Please login to your account below.<br>
+        Or <router-link to="/register">register an account </router-link>to get started.</p>
         <FormLogin></FormLogin>
-
         <!-- <router-link to="/forgot-password" class="btn btn-link">Forgotten Password</router-link> -->
 
     </LayoutAuth>
@@ -19,7 +18,7 @@
         name: 'UserLogin',
         components: {
             LayoutAuth,
-            FormLogin
+            FormLogin,
         },
         data () {
             return {

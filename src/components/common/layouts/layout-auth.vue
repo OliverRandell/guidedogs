@@ -5,16 +5,19 @@
             <section class="wrapper">
                 <slot></slot>
             </section>
+            <ContactInfo />
         </main>
     </article>
 </template>
 
 <script>
     import AuthHeader from '../auth/auth-header.vue';
+    import ContactInfo from '../auth/contact-info.vue';
     export default {
         name: 'LayoutAuth',
         components: {
-            AuthHeader
+            AuthHeader,
+            ContactInfo
         }
     }
 </script>
@@ -39,7 +42,7 @@
         padding: 2rem 1rem;
         border-radius: 0.25rem;
         display: flex;
-        margin: 6rem auto;
+        margin: 6rem auto 2rem;
         flex-direction: column;
         @include media-breakpoint-only(sm) {
             max-width: 80%;

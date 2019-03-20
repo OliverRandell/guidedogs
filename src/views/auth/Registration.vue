@@ -1,6 +1,7 @@
 <template lang="html">
     <LayoutAuth>
         <h1>{{ title }}</h1>
+        <p v-html="intro"></p>
         <FormRegistration></FormRegistration>
         <router-link to="/login">Back to login</router-link>
     </LayoutAuth>
@@ -17,7 +18,8 @@
         },
         data () {
             return {
-                title: 'Create an account',
+                title: 'Register an account!',
+                intro: `Let's get started! Please enter your details below:`,
                 user: {
                     password: null
                 }
