@@ -12,22 +12,29 @@
             <article class="pg-content" tabindex="-1" role="article" v-if="!submitted">
 
                 <form class="form-create-event form-create col-8" @submit.prevent="handleSubmit">
+                    <div class="form-group">
+                        <label for="host">Host:</label>
+                        <input type="text" name="host" value="" v-model="account.user.username" class="form-control" disabled>
+                        <!-- EVENT HOST WILL BE PRESELECTED AS THE USER -->
+                        <!-- <select class="form-control" v-model="eventItem.host">
+                            <option v-for="host in eventHosts">{{ host }}</option>
+                        </select> -->
+                    </div>
                     <fieldset class="form-group">
+
                         <div class="row">
-                            <legend class="col-form-label col-sm-4 pt-0">
-                                Choose event type:
-                            </legend>
+                            <legend class="col-form-label col-sm-12 pt-0">Type:</legend>
                             <div class="col-sm-8">
                                 <div class="form-check">
                                     <div class="form-check">
                                         <input class="form-check-input" type="radio" name="makeEventPrivate" id="private" value="Private" v-model="eventItem.status">
-                                        <label class="form-check-label" for="private">Private</label>
+                                        <label class="form-check-label" for="private">Private Event - limited capacity of attendees</label>
                                     </div>
                                 </div>
                                 <div class="form-check">
                                     <div class="form-check">
                                         <input class="form-check-input" type="radio" name="makeEventPublic" id="public" value="public" v-model="eventItem.status">
-                                        <label class="form-check-label" for="public">Public</label>
+                                        <label class="form-check-label" for="public">Public Event - unlimited capacity</label>
                                     </div>
                                 </div>
                             </div>
@@ -35,19 +42,70 @@
                     </fieldset>
                     <div class="form-group">
                         <label for="title">Event title:</label>
-                        <input type="text" name="" value="" required v-model="eventItem.title" class="form-control">
+                        <input type="text" name="title" value="title" required v-model="eventItem.title" class="form-control">
                     </div>
+                    <fieldset class="form-group">
+
+                        <div class="row">
+                            <legend class="col-form-label col-sm-12 pt-0">Choose category:</legend>
+                            <div class="col-sm-8">
+                                <div class="form-check">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="categorySocial" id="social" value="social" v-model="eventItem.category">
+                                        <label class="form-check-label" for="social">Social</label>
+                                    </div>
+                                </div>
+                                <div class="form-check">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="categoryInformation" id="information" value="information" v-model="eventItem.category">
+                                        <label class="form-check-label" for="information">Information</label>
+                                    </div>
+                                </div>
+                                <div class="form-check">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="categoryArts" id="arts" value="arts" v-model="eventItem.category">
+                                        <label class="form-check-label" for="arts">Arts</label>
+                                    </div>
+                                </div>
+                                <div class="form-check">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="categorySports" id="sports" value="sports" v-model="eventItem.category">
+                                        <label class="form-check-label" for="sports">Sports and fitness</label>
+                                    </div>
+                                </div>
+                                <div class="form-check">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="categoryNone" id="none" value="none" v-model="eventItem.category">
+                                        <label class="form-check-label" for="none">Other</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <div class="form-group">
+                        <label for="date">Event date:</label>
+                        <DatePicker v-model="eventItem.start" class="form-control"></DatePicker>
+                    </div>
+
+                    <!-- START TIME FIELD TO GO HERE -->
+                    <!-- END TIME FIELD TO GO HERE -->
+
                     <div class="form-group">
                         <label for="location">Event location:</label>
                         <input type="text" name="location" value="location" required v-model="eventItem.location" class="form-control">
                     </div>
-                    <div class="form-group">
-                        <label for="date">Event start date:</label>
-                        <DatePicker v-model="eventItem.start" class="form-control"></DatePicker>
-                    </div>
-                    <div class="form-group">
+
+
+
+                    <!-- <div class="form-group">
                         <label for="date">Event end date:</label>
                         <DatePicker v-model="eventItem.end" class="form-control"></DatePicker>
+                    </div> -->
+
+                    <div class="form-group">
+                        <label for="travelTips">Event travel tips:</label>
+                        <input type="text" name="travelTips" value="travelTips" class="form-control" v-model="eventItem.travelTips" />
                     </div>
 
 
@@ -67,33 +125,23 @@
                         <input class="form-check-input" type="checkbox" v-model="eventItem.categories" value="arts" />
                         <label class="form-check-label" for="arts">Arts &amp; crafts</label>
                     </div> -->
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                         <label for="category">Category:</label>
                         <select class="form-control" v-model="eventItem.category">
                             <option v-for="category in eventCategories">{{ category | capitalize }}</option>
                         </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="host">Host:</label>
-                        <input type="text" name="host" value="" v-model="account.user.username" class="form-control" disabled>
-                        <!-- EVENT HOST WILL BE PRESELECTED AS THE USER -->
-                        <!-- <select class="form-control" v-model="eventItem.host">
-                            <option v-for="host in eventHosts">{{ host }}</option>
-                        </select> -->
-                    </div>
-                    <div class="form-group">
+                    </div> -->
+                    <!-- <div class="form-group">
                         <label for="location">Event location:</label>
                         <input type="text" name="location" value="" class="form-control" v-model="eventItem.location" />
-                    </div>
+                    </div> -->
+
                     <div class="form-group">
-                        <label for="travelTips">Event travel tips:</label>
-                        <input type="text" name="travelTips" value="travelTips" class="form-control" v-model="eventItem.travelTips" />
-                    </div>
-                    <div class="form-group">
-                        <label for="content">Event description:</label>
+                        <label for="content">Event details:</label>
                         <textarea name="name" rows="4" v-model="eventItem.description" class="form-control"></textarea>
                     </div>
-                    <input type="submit" v-on:click.prevent="post" class="btn btn-primary" value="Add Event" />
+                    <!-- EVENT IMAGE DETAILS TO GO HERE -->
+                    <input type="submit" v-on:click.prevent="post" class="btn btn-primary" value="Create Event" />
                 </form>
 
                 <aside class="event-preview col-4" aria-labelledby="eventPreview" tabindex="-1">
@@ -107,8 +155,8 @@
                         <dd>{{ eventItem.title }}</dd>
                         <dt>Event start date:</dt>
                         <dd>{{ eventItem.start }}</dd>
-                        <dt>Event end date:</dt>
-                        <dd>{{ eventItem.end }}</dd>
+                        <!-- <dt>Event end date:</dt>
+                        <dd>{{ eventItem.end }}</dd> -->
                         <dt>Category:</dt>
                         <dd>{{ eventItem.category }}</dd>
                         <dt>Host:</dt>
@@ -117,7 +165,7 @@
                         <dd>{{ eventItem.travelTips }}</dd>
                         <dt>Event travel tips:</dt>
                         <dd>{{ eventItem.location }}</dd>
-                        <dt>Event content:</dt>
+                        <dt>Event details:</dt>
                         <dd>{{ eventItem.description }}</dd>
                     </dl>
 
