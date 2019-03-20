@@ -19,13 +19,20 @@
 
                         <p class="host"><span>Host:</span> {{ idea.hostName }}</p>
                         <p>{{ idea.text }}</p>
+                        <router-link :to="'/ideas/' + idea.id" class="btn btn-primary">Read more</router-link>
                         <!-- <button type="button" :class="{ interested: idea.interested === 'true' }" @click="idea.interested = !idea.interested">
                             <span>Interested</span>
                         </button> -->
                     </article>
                 </section>
-                <aside class="items-sidebar">
-                    <p>Filter area</p>
+                <aside class="filters" role="group">
+                    <h4>Filter Ideas</h4>
+                    <button type="button" :class="['btn-filter', { active: currentFilter === 'all' }]" @click="setFilter('all')">All</button>
+                    <button type="button" :class="['btn-filter', { active: currentFilter === 'information' }]" @click="setFilter('information')">Information</button>
+                    <button type="button" :class="['btn-filter', { active: currentFilter === 'social' }]" @click="setFilter('social')">Social</button>
+                    <button type="button" :class="['btn-filter', { active: currentFilter === 'sport' }]" @click="setFilter('sport')">Sport and fitness</button>
+                    <button type="button" :class="['btn-filter', { active: currentFilter === 'art' }]" @click="setFilter('art')">Arts</button>
+
                 </aside>
 
                 <article class="ideas-footer">

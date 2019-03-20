@@ -65,7 +65,7 @@
                 </div>
 
 
-                <aside class="event-filters" role="group">
+                <aside class="filters" role="group">
                     <h3>Filter:</h3>
                     <button type="button" :class="['btn-filter', { active: currentFilter === 'all' }]" @click="setFilter('all')">All</button>
                     <button type="button" :class="['btn-filter', { active: currentFilter === 'information' }]" @click="setFilter('information')">Information</button>
@@ -196,7 +196,7 @@
             background-color: $white;
         }
     }
-    .event-filters {
+    .filters {
         @include make-col-ready();
         @include make-col(12);
         @include media-breakpoint-up(lg) {
