@@ -34,4 +34,7 @@ export default {
     .cls-6 {
         fill:#fff;
     }
+    #path22 {
+        fill: transparent;
+    }
 </style>
