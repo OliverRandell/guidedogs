@@ -11,12 +11,16 @@
 
         <div class="container">
             <div class="pg-content">
-                
+
                 <div class="event-listings">
 
                     <div class="col-12">
                         <h3>Host your own Event!</h3>
-                        <router-link to="/create-event" class="btn btn-primary">Create event</router-link>
+                        <router-link to="/create-event" class="btn btn-primary">+ Create event</router-link>
+                    </div>
+
+                    <div class="col-12">
+                        <router-link to="/my-hosting" class="btn-link">Events that I'm hosting</router-link>
                     </div>
 
                     <div class="col-12">
@@ -93,7 +97,7 @@
                 return this.allEvents;
                 return this.allEvents.filter((eventItem) => {
                     const titlesMatch = eventItem.title.toLowerCase().match(this.searchQuery.toLowerCase());
-                    
+
                     if (this.currentFilter !== 'all') {
                         const categoriesMatch = eventItem.eventCategories.filter(eventCategory => {
                             return eventCategory.category.categoryId.toString() === this.currentFilter;

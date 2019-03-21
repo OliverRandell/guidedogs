@@ -32,6 +32,7 @@ import FinancialEntitlements from './views/blog/FinancialEntitlements.vue';
 // USER PAGES
 import Account from './views/account/Account.vue';
 import Preferences from './views/account/Preferences.vue';
+import HostingOverview from './views/account/HostingOverview.vue';
 
 Vue.use(Router);
 
@@ -76,6 +77,14 @@ export const router =  new Router ({
             component: Preferences,
             meta: {
                 title: 'My preferences'
+            }
+        },
+        {
+            path: '/my-hosting',
+            name: 'HostingOverview',
+            component: HostingOverview,
+            meta: {
+                title: 'My events and ideas!',
             }
         },
         {

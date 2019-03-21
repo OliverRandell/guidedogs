@@ -1,0 +1,11 @@
+.event-pod {
+    width: 100%;
+    box-sizing: border-box;
+    @include spacer(1rem);
+    @include make-col-ready();
+    @include make-col(12);
+    @include media-breakpoint-up(lg) {
+        @include make-col(6);
+        //@include make-col-offset(0);
+    }
+}

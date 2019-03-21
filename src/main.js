@@ -16,6 +16,10 @@ import App from './App.vue';
 import { router } from './router';
 import { store } from './store';
 
+// COMMON COMPONENTS
+import LayoutMaster from './components/common/layouts/layout-master.vue';
+import Hero from './components/common/global/hero.vue';
+
 // IMPORTING OUR STYLES
 //import './assets/scss/app.scss';
 
