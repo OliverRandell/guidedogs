@@ -14,7 +14,10 @@
 }
 
 .featured-img {
-    @include responsiveImg(26rem);
+    &:not(.no-img) {
+        @include responsiveImg(26rem);
+    }
+    @include responsiveImg(3rem);
     @include spacer(1.5rem);
     @include media-breakpoint-up(lg) {
         margin-left: -$grid-gutter-width/2;

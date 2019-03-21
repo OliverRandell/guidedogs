@@ -2,56 +2,46 @@
     <LayoutMaster>
         <Hero>
             <template slot="title">
-                {{ eventItem.title }}
+                {{ event.title }}
             </template>
-            <!-- <template slot="description">
-                Claptone’s ‘The Masquerade’ returns to Melbourne this April, to ignite fans into an extraordinary soirée of veiled faces!
-            </template> -->
         </Hero>
         <div class="container">
             <section class="pg-content" tabindex="-1">
                 <article class="event item-wrapper" role="article" tabindex="-1">
 
-                    <div class="featured-img">
-                        <time class="event-date">{{ eventItem.date }}</time>
+                    <div class="featured-img" v-bind:class="{'no-img': !event.image}">
+                        <time class="event-date">{{ event.eventDate | moment("DD MMM") }}</time>
                         <figure>
-                            <img :src="eventItem.imgSrc" :alt="eventItem.imgAlt">
+                            <img v-if="event.image" :src="event.image.url" :alt="event.image.altText">
                         </figure>
                     </div>
                     <dl class="event-details">
-                        <h2>{{ eventItem.title }}</h2>
-                        <dt>Event date and time:</dt>
-                        <dd>{{ eventItem.eventDate }}</dd>
-                        <dt>Event location:</dt>
-                        <dd>{{ eventItem.location }}</dd>
-                        <dt>Event hosted by:</dt>
-                        <dd>{{ eventItem.eventHost.username }}</dd>
-                        <dt>Event description:</dt>
-                        <dd>{{ eventItem.eventDetails }}</dd>
-                        <!-- <dt>Event Cost:</dt> -->
-                        <!-- <dd>${{ eventItem.cost }}</dd>
-                        <dt>Your response:</dt> -->
-                        <!-- TOGGLE BUTTON, ON CLICK MAKE
-                         INTERESTED OR NOT INTERESTED -->
-                         <!-- FOR EVENT ATTENDING OR NOT ATTENDING -->
-                        <!-- <dd>Not interested</dd> -->
+                        <h2>{{ event.title }}</h2>
+                        <!-- TODO: link to host profile -->
+                        <dt>Host:</dt>
+                        <dd>{{ event.eventHostNickName }}</dd>
+                        <dt>When:</dt>
+                        <dd>
+                            <time>
+                                {{ event.eventDate | moment("dddd Do MMMM") }}
+                                <br>
+                                <!-- TODO: specify start and end times from model -->
+                                {{ event.eventDate | moment("h:mm a") }}
+                            </time>
+                        </dd>
+                        <dt>Where:</dt>
+                        <dd>{{ event.location }}</dd>
+                        <dt>Travel Tips:</dt>
+                        <dd>{{ event.travelTips }}</dd>
+                        <dt>Details:</dt>
+                        <dd>{{ event.eventDetails }}</dd>
                     </dl>
-                    <button type="button" name="button" class="btn btn-primary btn-register" @click="registerInterest(eventItem)">Register your interest!</button>
+                    <button type="button" name="button" class="btn btn-primary" @click="registerInterest(event)">Interested</button>
+                    <button type="button" name="button" class="btn btn-outline-primary mx-3" @click="registerRsvp(event)">RSVP</button>
                 </article>
                 <aside class="event-summary items-sidebar" tabindex="-1">
-                    <p><router-link to="/events">Back to events page</router-link></p>
-                    <p><button type="button" name="button" class="btn btn-primary">Delete event</button></p>
-                    <p>
-                        <!-- IF EVENT HOST ID == USER ID  -->
-                        <!-- <router-link :to="{ 'editAccount': '', params: { eventId: event.eventId } }">Edit event</router-link> -->
-                    </p>
-
-
-                    <!-- <time class="event-date">
-                        <span class="month">Mar</span>
-                        <span class="day">30</span>
-                    </time> -->
-
+                    <p><router-link to="/events">&lt; Back to events page</router-link></p>
+                    <p><button v-if="event.userIsHost" @click="onDeleteEvent(event)" type="button" name="button" class="btn btn-primary">Delete event</button></p>
                     <router-link to="/create-event" class="btn btn-primary">Create an Event</router-link>
 
                 </aside>
@@ -61,6 +51,8 @@
 </template>
 
 <script>
+    import { userService } from '../../services/user';
+    import { mapGetters, mapActions } from 'vuex';
     import LayoutMaster from '../../components/common/layouts/layout-master.vue';
     import Hero from '../../components/common/global/hero.vue';
     export default {
@@ -71,26 +63,33 @@
         },
         data() {
             return {
-                eventItem: {
-                    id: this.$route.params.id,
-                    imgAlt: 'This is the text alternative for the image',
-                }
+                
             }
         },
         created() {
-            this.$http.get('https://gdvpeersupportplatformapi.azurewebsites.net/api/events/' + this.eventItem.id).then(function(data) {
-                return data.json();
-            }).then(function(data){
-                this.eventItem = data;
-            });
+            this.getEvent(this.$route.params.id);
         },
         methods: {
+            ...mapActions(['getEvent', 'deleteEvent', 'rsvpEvent']),
             backToEvents() {
                 this.$router.push('/events');
             },
-            registerInterest(eventItem) {
-                this.$emit('register-interest', eventItem);
+            registerInterest(event) {
+                event.rsvpType = 'Interested';
+                this.rsvpEvent(event);
+            },
+            registerRsvp(event) {
+                event.rsvpType = 'Attending';
+                this.rsvpEvent(event);
+            },
+            onDeleteEvent(event) {
+                this.deleteEvent(event.eventId).then(response => {
+                    this.$router.push('/events');
+                });
             }
+        },
+        computed: {
+            ...mapGetters(['event'])
         }
     }
 </script>
@@ -121,8 +120,16 @@
         @include media-breakpoint-up(lg) {
             padding-left: $grid-gutter-width;
         }
-    }
-    .btn-register {
-        float: right;
+        .event-title {
+            display: block;
+            margin-bottom: 1rem;
+            line-height: 1;
+        }
+        dt {
+            @include summaryHeading();
+        }
+        dd {
+            font-size: 1rem;
+        }
     }
 </style>
