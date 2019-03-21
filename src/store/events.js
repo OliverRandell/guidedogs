@@ -1,8 +1,96 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
+import axios from 'axios';
+import { authHeader } from '../utils/auth-header';
+import { apiUrl } from '../utils/api';
 
-Vue.use(Vuex)
+const state = {
+    events: [],
+    event: {}
+};
 
-export const store = new Vuex.Store({
-    
-})
+const getters = {
+    allEvents: (state) => state.events,
+    event: (state) => state.event
+};
+
+const actions = {
+    async getEvents({ commit, state }, category) {
+        category = category || null;
+
+        // TODO: handle what object property can be considered as attending
+        if (category === 'attending') {
+            commit('setEvents', []);
+            return;
+        }
+
+        // determine which endpoint to call
+        const getUrl = category === 'all' || category === null ? 'events/paged' : `categories/${category}`;
+        
+        const response = await axios.get(`${apiUrl}/${getUrl}`,
+        {
+            headers: { ...authHeader() }
+        });
+        
+        // 'reset' to initial response data until we have an api to call
+        if (category === 'all' || category === null) {
+
+            commit('setEvents', response.data);
+            return;
+
+        }
+
+        response.data = [
+            ...response.data.events
+        ];
+        
+        commit('setEvents', response.data);
+
+    },
+    async searchEvents({ commit, state }, query) {
+        query = query || '';
+        
+        const response = await axios.get(`${apiUrl}/events/paged?SearchString=${query}`,
+        {
+            headers: { ...authHeader() }
+        });
+
+        commit('setEvents', response.data);
+
+    },
+    async getEvent({ commit }, id) {
+        const response = await axios.get(`${apiUrl}/events/${id}`,
+        {
+            headers: { ...authHeader() }
+        });
+        
+        commit('setEvent', response.data);
+    },
+    async deleteEvent({ commit }, id) {
+        await axios.delete(`${apiUrl}/events/${id}`,
+        {
+            headers: { ...authHeader() }
+        });
+    },
+    async rsvpEvent({ commit }, event) {
+        // TODO: get user info to populate POST payload
+        await axios.post(`${apiUrl}/events/${event.eventId}/rsvps`,
+        {
+            "eventId": event.eventId,
+            "responseType": event.rsvpType
+        },
+        {
+            headers: { ...authHeader() }
+        });
+    }
+};
+
+const mutations = {
+    setEvents: (state, events) => state.events = events,
+    setEvent: (state, event) => state.event = event
+};
+
+export const events = {
+    state,
+    getters,
+    actions,
+    mutations
+};
