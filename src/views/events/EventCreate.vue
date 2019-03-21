@@ -27,7 +27,7 @@
                             <div class="col-sm-8">
                                 <div class="form-check">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="makeEventPrivate" id="private" value="Private" v-model="eventItem.status">
+                                        <input class="form-check-input" type="radio" name="makeEventPrivate" id="private" value="private" v-model="eventItem.status">
                                         <label class="form-check-label" for="private">Private Event - limited capacity of attendees</label>
                                     </div>
                                 </div>
@@ -40,6 +40,14 @@
                             </div>
                         </div>
                     </fieldset>
+                    <!-- ONLY VISIBLE IF EVENT IS PRIVATE -->
+                    <div class="form-group" v-if="eventItem.status === 'private'">
+                        <label for="capacity">Event capacity</label>
+                        <input type="number" name="capacity" value="capacity" class="form-control">
+                        <small class="form-text text-muted">
+                            Provide a capacity limitation of members who can attend this event.
+                        </small>
+                    </div>
                     <div class="form-group">
                         <label for="title">Event title:</label>
                         <input type="text" name="title" value="title" required v-model="eventItem.title" class="form-control">
@@ -141,6 +149,16 @@
                         <textarea name="name" rows="4" v-model="eventItem.description" class="form-control"></textarea>
                     </div>
                     <!-- EVENT IMAGE DETAILS TO GO HERE -->
+                    <div class="form-group">
+                        <label for="eventItem.imgSrc">Add an event image</label>
+                        <input type="file" id="eventImg" name="" value="" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="imageAlt">Image description</label>
+                        <input type="text" name="" value="imageAlt" class="form-control" v-model="eventItem.imageAlt" placeholder="Please provide a short description of image provided">
+                    </div>
+                    <h4>Important Information</h4>
+                    <p v-html="importantInfo"></p>
                     <input type="submit" v-on:click.prevent="post" class="btn btn-primary" value="Create Event" />
                 </form>
 
@@ -201,6 +219,7 @@
                 tagline: 'This is the area to create a new event...',
                 eventItem: {
                     //id: '',
+                    private: true,
                     title: '',
                     location: '',
                     travelTips: '',
@@ -212,7 +231,8 @@
                     status: ''
                 },
                 eventCategories: ['information', 'social', 'sports and fitness', 'arts and crafts'],
-                submitted: false
+                submitted: false,
+                importantInfo: `Please note, you will not be able to edit event information 24 hours prior to your event start time. This is to assist attendees to confirm their travel plans.`
             }
         },
         methods: {
