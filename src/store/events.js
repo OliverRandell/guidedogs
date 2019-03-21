@@ -101,6 +101,8 @@ const actions = {
                 'Content-Type': 'multipart/form-data',
                 ...authHeader()
             }
+        }).catch((error) => {
+            console.error('Image upload failed:', error.response);
         });
     }
 };

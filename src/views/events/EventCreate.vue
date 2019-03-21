@@ -49,28 +49,11 @@
                     <fieldset class="form-group">
 
                         <div class="row">
-                            <!-- TODO: get category from api -->
                             <legend class="col-form-label col-sm-12 pt-0">Choose category:</legend>
                             <div class="col-sm-8">
-                                <div class="custom-control custom-radio mb-2">
-                                    <input class="custom-control-input" type="radio" name="category" id="social" value="social" v-model="eventItem.category">
-                                    <label class="custom-control-label" for="social">Social</label>
-                                </div>
-                                <div class="custom-control custom-radio mb-2">
-                                    <input class="custom-control-input" type="radio" name="category" id="information" value="information" v-model="eventItem.category">
-                                    <label class="custom-control-label" for="information">Information</label>
-                                </div>
-                                <div class="custom-control custom-radio mb-2">
-                                    <input class="custom-control-input" type="radio" name="category" id="arts" value="arts" v-model="eventItem.category">
-                                    <label class="custom-control-label" for="arts">Arts</label>
-                                </div>
-                                <div class="custom-control custom-radio mb-2">
-                                    <input class="custom-control-input" type="radio" name="category" id="sports" value="sports" v-model="eventItem.category">
-                                    <label class="custom-control-label" for="sports">Sports and fitness</label>
-                                </div>
-                                <div class="custom-control custom-radio mb-2">
-                                    <input class="custom-control-input" type="radio" name="category" id="none" value="none" v-model="eventItem.category">
-                                    <label class="custom-control-label" for="none">Other</label>
+                                <div class="custom-control custom-radio mb-2" v-for="category in allCategories" :key="category.categoryId">
+                                    <input class="custom-control-input" type="radio" name="category" :id="category.title + category.categoryId" :value="category.title" v-model="eventItem.category">
+                                    <label class="custom-control-label" :for="category.title + category.categoryId">{{category.title}}</label>
                                 </div>
                             </div>
                         </div>
@@ -98,6 +81,7 @@
                     
                     <img v-if="imagePreviewUrl" :src="imagePreviewUrl" />
                     <div class="form-group">
+                        <!-- TODO: style upload as button -->
                         <label for="eventItem.imgSrc">Add an event image</label>
                         <input type="file" id="eventImg" name="" value="" class="form-control" @change="onImageChange">
                     </div>
@@ -115,12 +99,10 @@
                     <h4>Preview Event</h4>
 
                     <dl class="event-details">
-                        <dt>Event status:</dt>
-                        <dd>{{ eventItem.status | capitalize }}</dd>
                         <dt>Event title:</dt>
                         <dd>{{ eventItem.title }}</dd>
                         <dt>Event start date:</dt>
-                        <dd>{{ eventItem.start }}</dd>
+                        <dd>{{ eventItem.eventDate | moment("dddd Do MMMM") }}</dd>
                         <dt>Category:</dt>
                         <dd>{{ eventItem.category }}</dd>
                         <dt>Event location:</dt>
@@ -128,13 +110,14 @@
                         <dt>Event travel tips:</dt>
                         <dd>{{ eventItem.location }}</dd>
                         <dt>Event details:</dt>
-                        <dd>{{ eventItem.description }}</dd>
+                        <dd>{{ eventItem.eventDetails }}</dd>
                     </dl>
 
 
                 </aside>
 
             </article>
+            <!-- TODO: set submitted -->
             <section v-if="submitted" class="msg-success">
                 <h3>Congratulations! You have successfully created an event.</h3>
                 <button type="button" name="" @click="backToEvents" class="btn btn-primary">Go back to events page</button>
@@ -146,7 +129,7 @@
 </template>
 
 <script>
-    import { mapState, mapActions } from 'vuex';
+    import { mapState, mapActions, mapGetters } from 'vuex';
     import LayoutMaster from '../../components/common/layouts/layout-master.vue';
     import Hero from '../../components/common/global/hero.vue';
     import DatePicker from 'vuejs-datepicker';
@@ -163,6 +146,7 @@
                 title: 'Create Event!',
                 tagline: 'Organise and host your own event',
                 eventItem: {
+                    // TODO: seek out correct object format for categories in POST request
                     category: '',
 
                     title: '',
@@ -229,7 +213,12 @@
                     formData.append('eventId', response.eventId);
                     formData.append('altText', this.eventItem.imageAlt);
 
-                    this.uploadEventImage(formData);
+                    return formData;
+                })
+                .then(data => {
+                    this.uploadEventImage(data).then(response => {
+                        this.submitted = true;
+                    });
                 });
             },
             backToEvents() {
@@ -237,7 +226,8 @@
             },
             ...mapActions({
                 'createEvent': 'createEvent',
-                'uploadEventImage': 'uploadEventImage'
+                'uploadEventImage': 'uploadEventImage',
+                'getCategories': 'getCategories'
             })
         },
         filters: {
@@ -250,8 +240,12 @@
         computed: {
             ...mapState({
                 account: state => state.account,
-            })
+            }),
+            ...mapGetters(['allCategories'])
         },
+        created() {
+            this.getCategories();
+        }
     }
 </script>
 
