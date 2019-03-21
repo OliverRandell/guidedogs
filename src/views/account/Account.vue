@@ -2,10 +2,8 @@
     <LayoutMaster>
         <hero>
             <template slot="title">
-                <h1>Hi {{ account.user.firstName }}!</h1>
-            </template>
-            <template slot="description">
-                {{ tagline }}
+                <!-- <h1>Hi {{ account.user.firstName }}!</h1> -->
+                <h1>My account!</h1>
             </template>
         </hero>
 
@@ -17,15 +15,26 @@
                     <!-- INCLUDE AGE DETAILS, NAME, USERNAME, POSTCODE, INTERESTS -->
                     <form>
                         <div class="form-group">
-                            <label for="email">Email:</label>
-
+                            <label for="givenName">First Name:</label>
+                            <input type="text" name="" value="" placeholder="" v-model="user.givenName" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="familyName">Last Name:</label>
+                            <input type="text" name="" value="" placeholder="" v-model="user.familyName" class="form-control">
                         </div>
                         <div class="form-group">
                             <label for="userName">Username:</label>
                             <!-- <editable-input v-model="userDetailsForm.name" change-button-label="Edit" save-button-label="Save" @saved="updateProfile"></editable-input> -->
-                            <input type="text" name="" value="" v-model="account.user.userName" class="form-control">
+                            <input type="text" name="" value="" v-model="user.userName" class="form-control">
                         </div>
-
+                        <div class="form-group">
+                            <label for="age">Age:</label>
+                            <input type="number" name="" value="" class="form-control" v-model="user.age">
+                        </div>
+                        <div class="form-group">
+                            <label for="postcode">Postcode:</label>
+                            <input type="text" name="postcode" value="postcode" class="form-control" v-model="user.postcode">
+                        </div>
                     </form>
                 </article>
                 <aside class="items-sidebar">
@@ -48,7 +57,7 @@
 
                         <!-- </form> -->
 
-                        <em v-if="users.loading">Loading users...</em>
+                        <!-- <em v-if="users.loading">Loading users...</em>
                         <span v-if="users.error" class="text-danger">ERROR: {{users.error}}</span>
                         <ul v-if="users.items">
                             <li v-for="user in users.items" :key="user.id">
@@ -58,22 +67,21 @@
                                 <span v-else> - <button @click="deleteUser(user.id)" class="btn btn-secondary text-danger">Delete</button>
                                 </span>
                             </li>
-                        </ul>
+                        </ul> -->
                         <p>
                             <router-link to="/login" class="btn btn-primary">Logout</router-link>
                         </p>
-                        <p>First name:</p>
-                        <p>Last name:</p>
-                        <p>email:</p>
-                        <p>Bio:</p>
+
                     </div>
                     <div class="my-events">
                         <h4>My Events:</h4>
                         <ul>
-                            <li v-for="eventItem in events" :key="eventItem.id">This is an event</li>
+                            <li v-for="eventItem in events" :key="eventItem.id">
+                                {{ eventItem.title }}
+                            </li>
                         </ul>
                     </div>
-                    <section class="change-password">
+                    <!-- <section class="change-password">
                         <h4>Change password:</h4>
                         <form class="form-change-password">
                             <div class="form-group">
@@ -91,7 +99,7 @@
                             <button type="button" @click="submitChangePasswordForm" class="btn btn-primary">Change password</button>
                             <button type="button" name="button" class="btn btn-primary">Change Password</button>
                         </form>
-                    </section>
+                    </section> -->
 
 
                 </div>
@@ -117,7 +125,7 @@
 </template>
 
 <script>
-    import { mapState, mapActions } from 'vuex';
+    //import { mapState, mapActions } from 'vuex';
     import LayoutMaster from '../../components/common/layouts/layout-master.vue';
     import Hero from '../../components/common/global/hero.vue';
 
@@ -131,9 +139,21 @@
             return {
                 title: 'Account page',
                 tagline: 'Review and edit your personal details here',
-                userDetailsForm: {
-                    username: 'Username'
+                user: {
+                    givenName: '',
+                    familyName: '',
+                    userName: '',
+                    age: '',
+                    postcode: '',
+                    interests: {},
+                    bio: '',
+                    phoneNumber: '',
+                    email: '',
+                    password: '',
                 },
+                // userDetailsForm: {
+                //     username: 'Username',
+                // },
                 changePasswordForm: {
                     oldPassword: '',
                     newPassword: '',
@@ -151,21 +171,21 @@
                 ]
             }
         },
-        computed: {
-            ...mapState({
-                account: state => state.account,
-                users: state => state.users.all
-            })
-        },
-        created () {
-            this.getAllUsers();
-        },
-        methods: {
-            ...mapActions('users', {
-                getAllUsers: 'getAll',
-                deleteUser: 'delete'
-            })
-        }
+        // computed: {
+        //     ...mapState({
+        //         account: state => state.account,
+        //         users: state => state.users.all
+        //     })
+        // },
+        // created () {
+        //     this.getAllUsers();
+        // },
+        // methods: {
+        //     ...mapActions('users', {
+        //         getAllUsers: 'getAll',
+        //         deleteUser: 'delete'
+        //     })
+        // }
     }
 </script>
 

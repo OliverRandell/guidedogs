@@ -93,11 +93,19 @@
 
                     <div class="form-group">
                         <label for="date">Event date:</label>
-                        <DatePicker v-model="eventItem.start" class="form-control"></DatePicker>
+                        <DatePicker v-model="eventItem.eventDate" class="form-control"></DatePicker>
                     </div>
 
                     <!-- START TIME FIELD TO GO HERE -->
+                    <div class="form-group">
+                        <label for="startTime">Event start time:</label>
+                        <VueTimepicker v-model="eventItem.eventStartTime" format="hh:mm A" class="form-control"></VueTimepicker>
+                    </div>
                     <!-- END TIME FIELD TO GO HERE -->
+                    <div class="form-group">
+                        <label for="startTime">Event start time:</label>
+                        <VueTimepicker v-model="eventItem.eventStartTime" format="hh:mm A" class="form-control"></VueTimepicker>
+                    </div>
 
                     <div class="form-group">
                         <label for="location">Event location:</label>
@@ -171,8 +179,12 @@
                         <dd>{{ eventItem.status | capitalize }}</dd>
                         <dt>Event title:</dt>
                         <dd>{{ eventItem.title }}</dd>
-                        <dt>Event start date:</dt>
-                        <dd>{{ eventItem.start }}</dd>
+                        <dt>Event date:</dt>
+                        <dd>{{ eventItem.eventDate }}</dd>
+                        <dt>Event start time:</dt>
+                        <dd>{{ eventItem.eventStartTime }}</dd>
+                        <dt>Event end time:</dt>
+                        <dd>{{ eventItem.eventEndTime }}</dd>
                         <!-- <dt>Event end date:</dt>
                         <dd>{{ eventItem.end }}</dd> -->
                         <dt>Category:</dt>
@@ -206,12 +218,14 @@
     import LayoutMaster from '../../components/common/layouts/layout-master.vue';
     import Hero from '../../components/common/global/hero.vue';
     import DatePicker from 'vuejs-datepicker';
+    import VueTimepicker from 'vue2-timepicker';
     export default {
         name: 'EventCreate',
         components: {
             LayoutMaster,
             Hero,
-            DatePicker
+            DatePicker,
+            VueTimepicker,
         },
         data () {
             return {
@@ -223,8 +237,9 @@
                     title: '',
                     location: '',
                     travelTips: '',
-                    start: '',
-                    end: '',
+                    eventDate: '',
+                    eventStartTime: '',
+                    eventEndTime: '',
                     description: '',
                     category: '',
                     host: 'me',
