@@ -117,7 +117,6 @@
                 </aside>
 
             </article>
-            <!-- TODO: set submitted -->
             <section v-if="submitted" class="msg-success">
                 <h3>Congratulations! You have successfully created an event.</h3>
                 <button type="button" name="" @click="backToEvents" class="btn btn-primary">Go back to events page</button>

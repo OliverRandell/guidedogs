@@ -7,7 +7,7 @@
         </Hero>
         <div class="container">
             <section class="pg-content" tabindex="-1">
-                <article class="event item-wrapper" role="article" tabindex="-1">
+                <article class="event item-wrapper" role="article" tabindex="-1" v-if="!submitted">
 
                     <div class="featured-img" v-bind:class="{'no-img': !event.image}">
                         <time class="event-date">{{ event.eventDate | moment("DD MMM") }}</time>
@@ -39,12 +39,16 @@
                     <button type="button" name="button" class="btn btn-primary" @click="registerInterest(event)">Interested</button>
                     <button type="button" name="button" class="btn btn-outline-primary mx-3" @click="registerRsvp(event)">RSVP</button>
                 </article>
-                <aside class="event-summary items-sidebar" tabindex="-1">
+                <aside class="event-summary items-sidebar" tabindex="-1" v-if="!submitted">
                     <p><router-link to="/events">&lt; Back to events page</router-link></p>
                     <p><button v-if="event.userIsHost" @click="onDeleteEvent(event)" type="button" name="button" class="btn btn-primary">Delete event</button></p>
                     <router-link to="/create-event" class="btn btn-primary">Create an Event</router-link>
 
                 </aside>
+                <section v-if="submitted" class="msg-success">
+                    <h3>Thank you for responding to this event!</h3>
+                    <router-link to="/events" class="btn btn-primary">Back to events page</router-link>
+                </section>
             </section>
         </div>
     </LayoutMaster>
@@ -63,7 +67,7 @@
         },
         data() {
             return {
-                
+                submitted: false
             }
         },
         created() {
@@ -77,10 +81,12 @@
             registerInterest(event) {
                 event.rsvpType = 'Interested';
                 this.rsvpEvent(event);
+                this.submitted = true;
             },
             registerRsvp(event) {
                 event.rsvpType = 'Attending';
                 this.rsvpEvent(event);
+                this.submitted = true;
             },
             onDeleteEvent(event) {
                 this.deleteEvent(event.eventId).then(response => {
@@ -131,5 +137,20 @@
         dd {
             font-size: 1rem;
         }
+    }
+    .msg-success {
+        position: fixed;
+        background: rgba(0, 0, 0, 0.95);
+        top: 0;
+        bottom: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        z-index: 2;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
     }
 </style>
