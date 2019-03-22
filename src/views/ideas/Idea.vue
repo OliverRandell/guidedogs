@@ -60,14 +60,12 @@
             return {
                 id: this.$route.params.id,
                 submitted: false,
+                isInterested: false,
             }
         },
 
         computed: {
             ...mapGetters(['idea']),
-            isInterested: function() {
-                return false;
-            }
         },
 
         created() {
