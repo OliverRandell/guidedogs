@@ -41,39 +41,37 @@
 </template>
 
 <script>
+    import { mapGetters, mapActions } from 'vuex';
     import LayoutMaster from '../../components/common/layouts/layout-master.vue';
     import Hero from '../../components/common/global/hero.vue';
     export default {
         name: 'Idea',
+
         components: {
             LayoutMaster,
             Hero
         },
+
         data() {
             return {
-                //id: this.$route.params.id,
-                idea: {
-                    eventId: 0,
-                    title: 'This is the idea title',
-                    eventHostNickName: 'Dorothy123',
-                    eventHostContactEmail: 'dorothy@gmail.com',
-                    eventDetails: `<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                    <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>`,
-                    interested: false,
-                }
+                id: this.$route.params.id
             }
         },
+
+        computed: {
+            ...mapGetters(['idea'])
+        },
+
+        created() {
+            this.getIdea(this.id);
+        },
+
         methods: {
+            ...mapActions(['getIdea']),
             toggleInterested() {
                 this.idea.interested = !this.idea.interested;
-            }
-        }
-        // created() {
-        //     this.$http.get('https://jsonplaceholder.typicode.com/posts/' + this.id).then(function(data) {
-        //         console.log(data);
-        //         this.ideas = data.body;
-        //     })
-        // }
+            },
+        },
     }
 </script>
 
