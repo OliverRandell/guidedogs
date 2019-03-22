@@ -13,6 +13,7 @@ const getters = {
 };
 
 const actions = {
+    // TODO: combine getEvents and searchEvents into one by setting axios.get(url, {params, headers})
     async getEvents({ commit, state }, category) {
         category = category || null;
 

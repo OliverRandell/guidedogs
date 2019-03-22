@@ -6,6 +6,7 @@ import { account } from './account';
 import { users } from './users';
 import { events } from './events';
 import { categories } from './categories';
+import { ideas } from './ideas';
 
 Vue.use(Vuex);
 
@@ -16,5 +17,6 @@ export const store = new Vuex.Store({
         users,
         events,
         categories,
+        ideas,
     }
 });
