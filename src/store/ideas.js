@@ -39,9 +39,9 @@ const actions = {
         });
     },
     async rsvpIdea({ commit }, idea) {
-        await axios.post(`${apiUrl}/eois/${idea.ideaId}/rsvps`,
+        await axios.post(`${apiUrl}/eois/${idea.eventId}/rsvps`,
         {
-            "ideaId": idea.ideaId,
+            "eventId": idea.eventId,
             "responseType": idea.rsvpType
         },
         {
