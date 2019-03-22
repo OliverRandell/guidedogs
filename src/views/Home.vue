@@ -6,7 +6,7 @@
 
         <hero>
             <template slot="title">
-                <strong>{{ welcomeMsg }}</strong> {{ account.user.firstName }}!
+                <strong>{{ welcomeMsg }}</strong> !
             </template>
             <template slot="description">
                 {{ tagline }}
@@ -23,13 +23,16 @@
                 </section>
                 <section class="item-wrapper">
                     <div class="col-12">
-                        <h4>Event Highlights</h4>
+                        <h4>Latest events</h4>
                     </div>
-                    <article class="pod-event" v-for="eventItem in events" :key="eventItem.id">
+                    <article class="event-pod" v-for="eventItem in events" :key="eventItem.id" role="article">
+                        <EventListingItem v-bind:eventItem="eventItem" />
+                    </article>
+                    <!-- <article class="pod-event" v-for="eventItem in events" :key="eventItem.id">
                         <router-link :to="'/events/' + eventItem.id">
                             <h2>{{ eventItem.title }}</h2>
                         </router-link>
-                    </article>
+                    </article> -->
                 </section>
             </div>
         </div>
@@ -44,16 +47,18 @@
 </template>
 
 <script>
-    import { mapState, mapActions } from 'vuex';
+    import { mapGetters, mapActions } from "vuex";
     import LayoutMaster from '../components/common/layouts/layout-master.vue';
     import Hero from '../components/common/global/hero.vue';
     import RecentArticles from '../components/common/blog/recent-articles.vue';
+    import EventListingItem from './events/EventListingItem.vue';
     export default {
         name: 'Home',
         components : {
             LayoutMaster,
             Hero,
-            RecentArticles
+            RecentArticles,
+            EventListingItem,
         },
         data () {
             return {
@@ -82,37 +87,45 @@
                 events: []
             }
         },
-        computed: {
-            ...mapState({
-                account: state => state.account,
-                users: state => state.users.all
-            })
-        },
+        // computed: {
+        //     ...mapState({
+        //         account: state => state.account,
+        //         users: state => state.users.all
+        //     })
+        // },
         created() {
-            this.getAllUsers();
-            this.$http.get('https://gdvpeersupportplatformapi.azurewebsites.net/api/events').then(function(data) {
-                return data.json();
-            }).then(function(data) {
-                var eventsArray = [];
-                for (let key in data) {
-                    data[key].eventId = key
-                    eventsArray.push(data[key]);
-                }
-                this.events = eventsArray;
-            })
+            this.getEvents()
+            // this.getAllUsers();
+            // this.$http.get('https://gdvpeersupportplatformapi.azurewebsites.net/api/events').then(function(data) {
+            //     return data.json();
+            // }).then(function(data) {
+            //     var eventsArray = [];
+            //     for (let key in data) {
+            //         data[key].eventId = key
+            //         eventsArray.push(data[key]);
+            //     }
+            //     this.events = eventsArray;
+            // })
         },
         methods: {
-            ...mapActions('users', {
-                getAllUsers: 'getAll',
-                deleteUser: 'delete'
-            })
-        }
-        // computed: {
+            ...mapActions(['getEvents']),
+            // ...mapActions('users', {
+            //     getAllUsers: 'getAll',
+            //     deleteUser: 'delete'
+            // })
+        },
+        computed: {
+            ...mapGetters(['allEvents']),
         //     ...mapGetters(['isAuthenticated', 'authStatus']),
         //     loading: function () {
         //         return this.authStatus === 'loading' && !this.isAuthenticated
         //     }
-        // }
+        },
+        watch: {
+            '$route' (to, from) {
+                alert(to.params.eventItem.id);
+            }
+        }
     }
 </script>
 
