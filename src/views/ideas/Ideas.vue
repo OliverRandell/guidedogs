@@ -23,6 +23,7 @@
                     </article>
                 </section>
                 <aside class="filters" role="group">
+                    <!-- TODO: refactor so that "my event RSVP's" doesn't appear for ideas -->
                     <EventListingFilter v-on:filter-events="filterEvents" v-bind:currentFilter="currentFilter" />
                 </aside>
 
