@@ -36,11 +36,11 @@
                     </div>
 
                     <div class="row">
-                        <!-- <transition-group class="filter" name="filter"> -->
-                            <article class="event-pod" v-for="eventItem in filteredEvents" :key="eventItem.id" role="article">
-                                <EventListingItem v-bind:eventItem="eventItem" v-bind:selectedCategory="currentFilter" />
-                            </article>
-                        <!-- </transition-group> -->
+
+                        <article class="event-pod" v-for="eventItem in filteredEvents" :key="eventItem.id" role="article">
+                            <EventListingItem v-bind:eventItem="eventItem" v-bind:selectedCategory="currentFilter" />
+                        </article>
+                        <router-link to="/events/event-request" class="btn-link">Request to join event</router-link>
                     </div>
                 </div>
 

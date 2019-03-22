@@ -16,6 +16,7 @@ import Contact from './views/Contact.vue';
 import EventListing from './views/events/EventListing.vue';
 import EventCreate from './views/events/EventCreate.vue';
 import Event from './views/events/Event.vue';
+import EventRequest from './views/events/EventRequest.vue';
 
 // EXPRESSIONS OF INTEREST
 import Ideas from './views/ideas/Ideas.vue';
@@ -127,7 +128,14 @@ export const router =  new Router ({
                 title: 'Page for your event'
             }
         },
-
+        {
+            path: '/events/event-request',
+            name: 'EventRequest',
+            component: EventRequest,
+            meta: {
+                title: 'Request attendence to this event.'
+            }
+        },
         // {
         //     path: '/expressions-of-interest',
         //     name: 'ExpressionsOfInterest',

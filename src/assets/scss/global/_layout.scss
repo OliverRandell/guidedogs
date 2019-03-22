@@ -30,3 +30,12 @@ body {
 //     display: flex;
 //     align-items: space-between;
 // }
+
+.layout-single-col > div {
+    @include make-col-ready();
+    @include make-col(12);
+    @include media-breakpoint-up(lg) {
+        @include make-col(6);
+        @include make-col-offset(3)
+    }
+}
