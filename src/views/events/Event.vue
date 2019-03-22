@@ -40,7 +40,7 @@
                     <button type="button" name="button" class="btn btn-outline-primary mx-3" @click="registerRsvp(event)">RSVP</button>
                 </article>
                 <aside class="event-summary items-sidebar" tabindex="-1" v-if="!submitted">
-                    <p><router-link to="/events">&lt; Back to events page</router-link></p>
+                    <p><router-link to="/events">&larr; Back to events page</router-link></p>
                     <p><button v-if="event.userIsHost" @click="onDeleteEvent(event)" type="button" name="button" class="btn btn-primary">Delete event</button></p>
                     <router-link to="/create-event" class="btn btn-primary">Create an Event</router-link>
 

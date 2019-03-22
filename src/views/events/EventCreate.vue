@@ -95,7 +95,7 @@
                 </form>
 
                 <aside class="event-preview col-4" aria-labelledby="eventPreview" tabindex="-1">
-                    <router-link to="/events">&lt; Back to events page</router-link>
+                    <router-link to="/events">&larr; Back to events page</router-link>
                     <h4>Preview Event</h4>
 
                     <dl class="event-details">
