@@ -5,13 +5,19 @@
                 {{ title }}
             </template>
             <template slot="description">
-                {{ tagline }}
+                <span>{{ tagline }}</span>
             </template>
         </hero>
         <div class="container">
             <div class="pg-content">
                 <div class="col-12 col-lg-8">
-                    <form @submit.prevent="createIdea" v-if="!submitted" class="form-create">
+                    <form @submit.prevent="onSubmit" v-if="!submitted" class="form-create">
+                        <p v-if="formErrors.length" role="alert" aria-atomic="true">
+                            <b>Please correct the following error(s):</b>
+                            <ul>
+                                <li v-for="(error, index) in formErrors" :key="index">{{ error }}</li>
+                            </ul>
+                        </p>
                         <div class="form-group">
                             <label for="title">Idea title:</label>
                             <input type="text" name="" value="" required v-model="idea.title" class="form-control">
@@ -32,35 +38,9 @@
                             <div class="row">
                                 <legend class="col-form-label col-sm-12 pt-0">Choose category:</legend>
                                 <div class="col-sm-8">
-                                    <div class="form-check">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="categorySocial" id="social" value="social" v-model="idea.category">
-                                            <label class="form-check-label" for="social">Social</label>
-                                        </div>
-                                    </div>
-                                    <div class="form-check">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="categoryInformation" id="information" value="information" v-model="idea.category">
-                                            <label class="form-check-label" for="information">Information</label>
-                                        </div>
-                                    </div>
-                                    <div class="form-check">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="categoryArts" id="arts" value="arts" v-model="idea.category">
-                                            <label class="form-check-label" for="arts">Arts</label>
-                                        </div>
-                                    </div>
-                                    <div class="form-check">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="categorySports" id="sports" value="sports" v-model="idea.category">
-                                            <label class="form-check-label" for="sports">Sports and fitness</label>
-                                        </div>
-                                    </div>
-                                    <div class="form-check">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="categoryNone" id="none" value="none" v-model="idea.category">
-                                            <label class="form-check-label" for="none">Other</label>
-                                        </div>
+                                    <div class="custom-control custom-radio mb-2" v-for="category in allCategories" :key="category.categoryId">
+                                        <input class="custom-control-input" type="radio" name="category" :id="category.title + category.categoryId" :value="category.title" v-model="idea.category">
+                                        <label class="custom-control-label" :for="category.title + category.categoryId">{{category.title}}</label>
                                     </div>
                                 </div>
                             </div>
@@ -74,18 +54,18 @@
                         <div class="form-group">
                             <!-- PUT A CHARACTER LIMIT ON THIS DESCRIPTION -->
                             <label for="description">Idea description:</label>
-                            <textarea name="name" rows="4" v-model="idea.desc" class="form-control"></textarea>
+                            <textarea name="name" rows="4" v-model="idea.eventDetails" class="form-control"></textarea>
                         </div>
                         <h4>Important Information</h4>
                         <p v-html="importantInfo"></p>
-                        <input type="submit" class="btn btn-primary" @click.prevent="post" value="Create idea"></input>
+                        <input type="submit" class="btn btn-primary" v-on:click.prevent="onSubmit" value="Create idea"></input>
                     </form>
                 </div>
                 <div v-if="submitted" class="col-12">
-                    <h3>Thanks for adding your post</h3>
+                    <h3>Thanks for adding your idea</h3>
                 </div>
                 <aside class="col-12 col-lg-4">
-                    <router-link to="/ideas">Back to ideas</router-link>
+                    <router-link to="/ideas">&larr; Back to ideas</router-link>
                     <dl class="object-details">
                         <dt>Idea title:</dt>
                         <dd>{{ idea.title }}</dd>
@@ -94,7 +74,7 @@
                         <dt>Idea Category:</dt>
                         <dd>{{ idea.category }}</dd>
                         <dt>Idea description:</dt>
-                        <dd>{{ idea.desc }}</dd>
+                        <dd>{{ idea.eventDetails }}</dd>
                     </dl>
                 </aside>
 
@@ -104,43 +84,84 @@
 </template>
 
 <script>
+    import { mapState, mapActions, mapGetters } from 'vuex';
     import LayoutMaster from '../../components/common/layouts/layout-master.vue';
     import Hero from '../../components/common/global/hero.vue';
     export default {
         name: 'IdeaCreate',
+
         components: {
             LayoutMaster,
             Hero
         },
-        data() {
-            return {
-                title: 'Create ideas',
-                tagline: 'This is the tagline',
-                idea: {
-                    title: '',
-                    //desc: '',
-                    eventDetails: '',
-                    category: '',
-                    eventDetails: ''
-                },
-                categories: [
-                    'Sports', 'Cat 2', 'etc',
-                ],
-                submitted: false,
-                importantInfo: `You can convert your idea into an Event at any time. Further information will be required at that time. Ideas can be longstanding and do not have an expiry date.`
+
+        filters: {
+            capitalize: function (value) {
+                if (!value) return ''
+                value = value.toString()
+                return value.charAt(0).toUpperCase() + value.slice(1)
             }
         },
-        methods: {
-            post: function() {
-                this.$http.post('https://jsonplaceholder.typicode.com/posts', {
-                    title: this.idea.title,
-                    desc: this.idea.content,
-                    hostId: 1,
-                }).then(function(data) {
-                    console.log(data);
-                    this.submitted = true;
-                });
+
+        data() {
+            return {
+                formErrors: [],
+                title: 'Create Ideas!',
+                tagline: 'Share an expression of interest for the community',
+                idea: {
+                    category: '',
+
+                    title: '',
+                    eventCategories: [],
+                    eventDetails: '',
+                },
+                submitted: false,
+                importantInfo: `You can convert your idea into an Event at any time. Further information will be required at that time. Ideas can be longstanding and do not have an expiry date.`,
             }
+        },
+
+        computed: {
+            ...mapGetters(['allCategories'])
+        },
+
+        created() {
+            this.getCategories();
+        },
+
+        methods: {
+            checkForm() {
+                this.formErrors = [];
+                
+                if (!this.idea.title) { this.formErrors.push('Title is required') }
+                if (!this.idea.eventCategories) { this.formErrors.push('A category is required') }
+                if (!this.idea.eventDetails) { this.formErrors.push('Event details are required') }
+
+                return this.formErrors.length > 0;
+            },
+            onSubmit() {
+                const formHasErrors = this.checkForm();
+
+                if ( formHasErrors ) return;
+
+                // destructure to only include relevant properties
+                const { image, imageAlt, ...eventProps } = this.idea;
+
+                const isDateInvalid = this.$moment(eventProps.eventDate).format('YYYY-MM-DD') === 'Invalid date';
+                const formattedDate = isDateInvalid ? this.$moment(new Date()).format('YYYY-MM-DD') : this.$moment(eventProps.eventDate).format('YYYY-MM-DD');
+
+                const eventFormData = {
+                    ...eventProps,
+                    eventDate: formattedDate,
+                };
+
+                this.createIdea({idea: eventFormData}).then(data => {
+                    this.submitted = true;
+                });;
+            },
+            ...mapActions({
+                'createIdea': 'createIdea',
+                'getCategories': 'getCategories'
+            })
         }
     }
 </script>
