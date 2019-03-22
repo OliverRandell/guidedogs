@@ -29,9 +29,7 @@
                             <input type="text" name="" value="" class="form-control" v-model="phoneNumber">
                         </div>
 
-                        <textarea name="name" rows="8" cols="80" class="form-control" v-model="message">
-
-                        </textarea>
+                        <textarea name="name" rows="8" cols="80" class="form-control" v-model="message"></textarea>
                     </form>
                 </div>
 
