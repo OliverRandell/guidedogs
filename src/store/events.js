@@ -23,7 +23,7 @@ const actions = {
         }
 
         // determine which endpoint to call
-        const getUrl = category === 'all' || category === null ? 'events/paged' : `categories/${category}`;
+        const getUrl = category === 'all' || category === null ? 'events/paged?ItemsPerPage=20' : `categories/${category}`;
         
         const response = await axios.get(`${apiUrl}/${getUrl}`,
         {
@@ -48,7 +48,7 @@ const actions = {
     async searchEvents({ commit, state }, query) {
         query = query || '';
         
-        const response = await axios.get(`${apiUrl}/events/paged?SearchString=${query}`,
+        const response = await axios.get(`${apiUrl}/events/paged?SearchString=${query}&ItemsPerPage=20`,
         {
             headers: { ...authHeader() }
         });
@@ -79,6 +79,30 @@ const actions = {
         },
         {
             headers: { ...authHeader() }
+        });
+    },
+    async createEvent({ commit }, { event }) {
+        const response = await axios.post(`${apiUrl}/events`,
+        {
+            ...event,
+        },
+        {
+            headers: { ...authHeader() }
+        });
+
+        commit('setEvent', response.data);
+        return response.data;
+    },
+    async uploadEventImage({ commit }, image){
+        await axios.post(`${apiUrl}/eventimages`,
+        image,
+        {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                ...authHeader()
+            }
+        }).catch((error) => {
+            console.error('Image upload failed:', error.response);
         });
     }
 };
