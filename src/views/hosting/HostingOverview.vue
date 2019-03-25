@@ -25,6 +25,7 @@
                                 </time>
 
                                 <h2>{{ eventItem.title }}</h2>
+                                <router-link to="/event-management" class="btn-link">Event management</router-link>
                                 <router-link :to="'/events/' + eventItem.id" class="btn btn-primary">Edit event</router-link>
                             </section>
 

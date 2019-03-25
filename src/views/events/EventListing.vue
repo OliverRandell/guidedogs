@@ -15,18 +15,14 @@
                 <div class="event-listings">
 
                     <div class="col-12">
-                        <h3>Host your own Event!</h3>
+                        <h4>Create your own Event!</h4>
                         <router-link to="/create-event" class="btn btn-primary">+ Create event</router-link>
-                    </div>
-
-                    <div class="col-12">
-                        <router-link to="/my-hosting" class="btn-link">Events that I'm hosting</router-link>
                     </div>
 
                     <div class="col-12">
                         <form v-on:submit.prevent="onSearch">
                             <div class="form-group my-5">
-                                <label for="searchQuery" class="h3">Search</label>
+                                <label for="searchQuery" class="h4">Search</label>
                                 <div class="form-inline">
                                     <input type="text" name="Search events" placeholder="Event keyword search" v-model="searchQuery" class="form-control" id="searchQuery">
                                     <input type="submit" value="Search" class="btn btn-primary mx-2">
@@ -45,6 +41,11 @@
                 </div>
 
                 <aside class="event-filters" role="group">
+                    <section class="my-events">
+                        <h6>View the events you are hosting.</h6>
+                        <router-link to="/my-hosting" class="btn btn-primary full-width">My events</router-link>
+                    </section>
+
                     <EventListingFilter v-on:filter-events="filterEvents" v-bind:currentFilter="currentFilter" />
                 </aside>
 
@@ -145,5 +146,11 @@
         @include media-breakpoint-up(lg) {
             @include make-col(3);
         }
+    }
+    .full-width {
+        width: 100%;
+    }
+    .my-events {
+        @include spacer(0.5rem);
     }
 </style>

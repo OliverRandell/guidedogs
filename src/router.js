@@ -17,6 +17,8 @@ import EventListing from './views/events/EventListing.vue';
 import EventCreate from './views/events/EventCreate.vue';
 import Event from './views/events/Event.vue';
 import EventRequest from './views/events/EventRequest.vue';
+import EventManagement from './views/events/EventManagement.vue';
+import EventAttendees from './views/events/EventAttendees.vue';
 
 // EXPRESSIONS OF INTEREST
 import IdeaListing from './views/ideas/IdeaListing.vue';
@@ -34,7 +36,11 @@ import FinancialEntitlements from './views/blog/FinancialEntitlements.vue';
 // USER PAGES
 import Account from './views/account/Account.vue';
 import Preferences from './views/account/Preferences.vue';
-import HostingOverview from './views/account/HostingOverview.vue';
+
+// HOSTING PAGES
+import HostContact from './views/hosting/HostContact.vue';
+import HostProfile from './views/hosting/HostProfile.vue';
+import HostingOverview from './views/hosting/HostingOverview.vue';
 
 Vue.use(Router);
 
@@ -90,6 +96,22 @@ export const router =  new Router ({
             }
         },
         {
+            path: '/host-profile',
+            name: 'HostProfile',
+            component: HostProfile,
+            meta: {
+                title: 'Host profile',
+            }
+        },
+        {
+            path: '/contact-host',
+            name: 'HostContact',
+            component: HostContact,
+            meta: {
+                title: 'Contact host'
+            }
+        },
+        {
             path: '/',
             name: 'Home',
             component: Home,
@@ -137,14 +159,22 @@ export const router =  new Router ({
                 title: 'Request attendence to this event.'
             }
         },
-        // {
-        //     path: '/expressions-of-interest',
-        //     name: 'ExpressionsOfInterest',
-        //     component: ExpressionsOfInterest,
-        //     meta: {
-        //         title: 'Register an expression of interest'
-        //     }
-        // },
+        {
+            path: '/event-management',
+            name: 'EventManagement',
+            component: EventManagement,
+            meta: {
+                title: `Manage the event that you've created`
+            }
+        },
+        {
+            path: '/event-attendees',
+            name: 'EventAttendees',
+            component: EventAttendees,
+            meta: {
+                title: 'List of event attendees'
+            }
+        },
         {
             path: '/ideas',
             name: 'IdeaListing',

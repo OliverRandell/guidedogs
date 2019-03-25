@@ -19,7 +19,10 @@
                         <h2>{{ event.title }}</h2>
                         <!-- TODO: link to host profile -->
                         <dt>Host:</dt>
-                        <dd>{{ event.eventHostNickName }}</dd>
+                        <dd>
+                            <!-- <router-link :to="'/events/' + event.eventHostId">{{ event.eventHostNickName }}</router-link> -->
+                            <router-link to="/host-profile">{{ event.eventHostNickName }}</router-link>
+                        </dd>
                         <dt>When:</dt>
                         <dd>
                             <time>

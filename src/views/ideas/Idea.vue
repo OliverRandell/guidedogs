@@ -1,10 +1,10 @@
 <template>
     <LayoutMaster>
-        <hero>
+        <Hero>
             <template slot="title">
                 {{ idea.title }}
             </template>
-        </hero>
+        </Hero>
         <div class="container">
             <section class="pg-content" tabindex="-1">
 
@@ -13,7 +13,10 @@
                     <router-link to="/ideas" class="link-back">&larr; Back to ideas</router-link>
                     <dl>
                         <dt>Host:</dt>
-                        <dd>{{ idea.eventHostNickName }}</dd>
+                        <!-- TODO: link to the hosts page -->
+                        <dd>
+                            <router-link to="/host-profile">{{ idea.eventHostNickName }}</router-link>
+                        </dd>
                     </dl>
                     <dl>
                         <dt>Details:</dt>
@@ -29,7 +32,7 @@
                                 <template v-if="isInterested">Not </template>Interested
                             </button>
                             <!-- NB: NO TEMPLATE, ROUTE OR USER FLOW FOR THIS AT THE MOMENT -->
-                            <button type="button" class="btn btn-secondary">Contact host</button>
+                            <router-link to="/contact-host" class="btn btn-primary">Contact host</router-link>
                         </div>
                     </div>
 
