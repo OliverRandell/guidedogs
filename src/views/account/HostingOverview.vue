@@ -33,12 +33,12 @@
                         </article>
                     </div>
 
-                    <h4>My Hosted ideas</h4>
+                    <h4>My Ideas</h4>
                     <div class="row">
                         <article class="idea-pod" v-for="idea in hostedIdeas" :key="idea.id">
                             <h3>{{ idea.title }}</h3>
                             <p>{{ idea.description }}</p>
-                            <router-link to="">Edit idea</router-link>
+                            <router-link :to="idea.route">Edit idea</router-link>
                         </article>
                     </div>
 
@@ -76,8 +76,16 @@
                 ],
                 hostedIdeas: [
                     {
-                        title: 'Idea 1',
-                        description: '',
+                        id: 1,
+                        title: 'Coffee chats in Kew',
+                        description: `I'm looking to socialise with like-minded coffee loving indivduals`,
+                        route: '/ideas/manage-idea',
+                    },
+                    {
+                        id: 2,
+                        title: 'Coffee chats in Kew',
+                        description: `I'm looking to socialise with like-minded coffee loving indivduals`,
+                        route: '/ideas/manage-idea',
                     }
                 ],
             }
@@ -85,5 +93,13 @@
     }
 </script>
 
-<style lang="css">
+<style lang="scss" scoped>
+    @import './src/assets/scss/app.scss';
+    .idea-pod {
+        @include make-col-ready();
+        @include make-col(12);
+        @include media-breakpoint-up(lg) {
+            @include make-col(6);
+        }
+    }
 </style>

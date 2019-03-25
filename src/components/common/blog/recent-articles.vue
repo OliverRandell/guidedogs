@@ -87,6 +87,11 @@
     }
     .post {
         @include spacer(1rem);
+        .btn {
+            //text-align: right;
+            // float: right;
+            //display: block;
+        }
     }
     .article-date,
     .article-author {

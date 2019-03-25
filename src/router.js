@@ -22,6 +22,7 @@ import EventRequest from './views/events/EventRequest.vue';
 import IdeaListing from './views/ideas/IdeaListing.vue';
 import IdeaCreate from './views/ideas/IdeaCreate.vue';
 import Idea from './views/ideas/Idea.vue';
+import IdeaManagement from './views/ideas/IdeaManagement.vue';
 
 // BLOG PAGES
 import Overview from './views/blog/Overview.vue';
@@ -166,6 +167,14 @@ export const router =  new Router ({
             component: Idea,
             meta: {
                 title: 'This is an idea'
+            }
+        },
+        {
+            path: '/ideas/manage-idea',
+            name: 'IdeaManagement',
+            component: IdeaManagement,
+            meta: {
+                title: 'Manage your idea and the users interested in it'
             }
         },
         {

@@ -6,7 +6,7 @@
 
         <hero>
             <template slot="title">
-                <strong>{{ welcomeMsg }}</strong> !
+                <strong>{{ welcomeMsg }}</strong>
             </template>
             <template slot="description">
                 {{ tagline }}
@@ -62,7 +62,7 @@
         },
         data () {
             return {
-                welcomeMsg: 'Welcome',
+                welcomeMsg: 'Welcome!',
                 tagline: 'Latest news and events',
                 user: {
                     firstName: '',

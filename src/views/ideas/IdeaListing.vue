@@ -12,6 +12,12 @@
         <div class="container">
             <div class="pg-content">
                 <section class="item-wrapper">
+                    <article class="idea-create-section">
+                        <p>Can't find what you're looking for? Create your own idea!</p>
+                        <router-link to="/create-idea" class="btn btn-primary">Create idea</router-link>
+                    </article>
+                    <router-link to="/my-hosting">My ideas</router-link>
+                    
                     <article class="idea-pod" v-for="idea in allIdeas" :key="idea.eventId">
                         <IdeaListingItem v-bind:idea="idea" v-bind:selectedCategory="currentFilter" />
                     </article>
@@ -20,11 +26,6 @@
                     <!-- TODO: refactor so that "my event RSVP's" doesn't appear for ideas -->
                     <EventListingFilter v-on:filter-events="filterEvents" v-bind:currentFilter="currentFilter" />
                 </aside>
-
-                <article class="ideas-footer">
-                    <p>Can't find what you're looking for? Create your own idea!</p>
-                    <router-link to="/create-idea" class="btn btn-primary">Create idea</router-link>
-                </article>
 
             </div>
         </div>
@@ -80,12 +81,11 @@
     .idea-pod {
         @include spacer(1.5rem);
     }
-    .ideas-footer {
-        @include make-col-ready();
-        @include make-col(12);
-        text-align: center;
-    }
     .interested {
         color: red;
+    }
+    .idea-create-section {
+        text-align: center;
+        @include spacer(2rem);
     }
 </style>
