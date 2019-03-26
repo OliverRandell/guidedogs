@@ -54,6 +54,10 @@
                 type: String,
                 default: ''
             },
+            hosting: {
+                type: Boolean,
+                default: false
+            }
         },
 
         data () {
@@ -63,7 +67,7 @@
         },
 
         methods: {
-            ...mapActions(['searchEvents', 'searchEventsAttending']),
+            ...mapActions(['searchEvents', 'searchEventsAttending', 'searchEventsHosting']),
 
             filterEvents: function(filter) {
                 this.searchEvents({...this.searchParams, CategoryId: filter});
@@ -71,12 +75,16 @@
 
             // determine which endpoint to call based on categoryId string
             // categoryId will be an id number (as string) or 'attending'
-            searchEventsOrAttending: function(categoryId) {
+            saerchEventsEndpoint: function(categoryId) {
+                if (this.hosting) {
+                    this.searchEventsHosting(this.searchParams);
+                }
+
                 if (categoryId === 'attending' || this.categoryId === 'attending') {
                     this.searchEventsAttending({...this.searchParams, CategoryId: ''});
-                } else {
-                    this.searchEvents(this.searchParams);
                 }
+                
+                this.searchEvents(this.searchParams);
             }
         },
 
@@ -106,15 +114,15 @@
             },
 
             categoryId (to, from) {
-                this.searchEventsOrAttending(to);
+                this.saerchEventsEndpoint(to);
             },
 
             searchString (to, from) {
-                this.searchEventsOrAttending();
+                this.saerchEventsEndpoint();
             },
 
             pageNumber (to, from) {
-                this.searchEventsOrAttending();
+                this.saerchEventsEndpoint();
             },
 
             allEvents (to, from) {

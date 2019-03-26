@@ -49,6 +49,18 @@ const actions = {
 
     },
 
+    async searchEvents({ commit, dispatch }, queryParams) {
+        const url = await dispatch('makeUrlStringWithParams', { queryParams, uriSegment: 'myhostedpaged' });
+        
+        const response = await axios.get(url,
+        {
+            headers: { ...authHeader() }
+        });
+
+        commit('setEvents', response.data);
+
+    },
+
     async getEvent({ commit }, id) {
         const response = await axios.get(`${apiUrl}/events/${id}`,
         {
