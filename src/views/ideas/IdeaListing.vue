@@ -16,13 +16,15 @@
                         <p>Can't find what you're looking for? Create your own idea!</p>
                         <router-link to="/create-idea" class="btn btn-primary">Create idea</router-link>
                     </article>
-                    <router-link to="/my-hosting">My ideas</router-link>
-                    
+
                     <article class="idea-pod" v-for="idea in allIdeas" :key="idea.eventId">
                         <IdeaListingItem v-bind:idea="idea" v-bind:selectedCategory="currentFilter" />
                     </article>
                 </section>
                 <aside class="filters" role="group">
+                    <!-- TODO: IF USER HAS ANY IDEAS CREATED -->
+                    <p>Ideas that you've created:</p>
+                    <router-link to="/my-hosting" class="btn btn-primary">My ideas</router-link>
                     <!-- TODO: refactor so that "my event RSVP's" doesn't appear for ideas -->
                     <EventListingFilter v-on:filter-events="filterEvents" v-bind:currentFilter="currentFilter" />
                 </aside>
@@ -85,7 +87,6 @@
         color: red;
     }
     .idea-create-section {
-        text-align: center;
         @include spacer(2rem);
     }
 </style>

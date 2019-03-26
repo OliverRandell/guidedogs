@@ -15,9 +15,14 @@
                     <h4>My Hosted events</h4>
                     <div class="row">
 
-                        <article v-for="eventItem in hostedEvents" :key="eventItem.id" class="event-pod">
+                        <article class="event-pod" v-for="eventItem in filteredEvents" :key="eventItem.id" role="article">
+                            <EventListingItem v-bind:eventItem="eventItem" v-bind:selectedCategory="currentFilter" />
+                        </article>
+
+                        <!-- <article v-for="eventItem in hostedEvents" :key="eventItem.id" class="event-pod"> -->
+
                             <!-- IMG GOES HERE -->
-                            <router-link :to="'/events/' + eventItem.eventId"></router-link>
+                            <!-- <router-link :to="'/events/' + eventItem.eventId"></router-link>
                             <section class="event-content" tabindex="-1">
                                 <time class="event-date">
                                   <span class="month">{{ eventItem.eventDate | moment("MMM") }}</span>
@@ -31,7 +36,7 @@
 
 
 
-                        </article>
+                        </article> -->
                     </div>
 
                     <h4>My Ideas</h4>
@@ -53,28 +58,33 @@
 </template>
 
 <script>
+    import { mapGetters, mapActions } from 'vuex';
     import LayoutMaster from '../../components/common/layouts/layout-master.vue';
     import Hero from '../../components/common/global/hero.vue';
+    import EventListingItem from '../events/EventListingItem.vue';
     export default {
         name: 'HostingOverview',
         components: {
             LayoutMaster,
             Hero,
+            EventListingItem,
         },
         data() {
             return {
                 title: 'My Events and Ideas!',
                 tagline: `Review and edit your hosted activities here.`,
-                hostedEvents: [
-                    {
-                        title: 'Event 1',
-                        eventDate: '',
-                    },
-                    {
-                        title: 'Event 2',
-                        eventDate: '',
-                    }
-                ],
+                currentFilter: 'all',
+                events: [],
+                // hostedEvents: [
+                //     {
+                //         title: 'Event 1',
+                //         eventDate: '',
+                //     },
+                //     {
+                //         title: 'Event 2',
+                //         eventDate: '',
+                //     }
+                // ],
                 hostedIdeas: [
                     {
                         id: 1,
@@ -89,6 +99,39 @@
                         route: '/ideas/manage-idea',
                     }
                 ],
+            }
+        },
+        methods: {
+            ...mapActions(['getEvents']),
+            filterEvents: function(filter) {
+                this.currentFilter = filter;
+                this.getEvents(filter);
+            },
+        },
+        created() {
+            this.getEvents()
+        },
+        computed: {
+            ...mapGetters(['allEvents']),
+            filteredEvents: function() {
+                return this.allEvents;
+                return this.allEvents.filter((eventItem) => {
+                    const titlesMatch = eventItem.title.toLowerCase().match(this.searchQuery.toLowerCase());
+
+                    if (this.currentFilter !== 'all') {
+                        const categoriesMatch = eventItem.eventCategories.filter(eventCategory => {
+                            return eventCategory.category.categoryId.toString() === this.currentFilter;
+                        });
+                        return titlesMatch && categoriesMatch.length > 0;
+                    }
+
+                    return titlesMatch;
+                });
+            }
+        },
+        watch: {
+            '$route' (to, from) {
+                alert(to.params.eventItem.id);
             }
         }
     }

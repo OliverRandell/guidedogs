@@ -15,6 +15,7 @@
     @include spacer(1.5rem);
     @include media-breakpoint-up(lg) {
         margin-left: -$grid-gutter-width/2;
+        margin-top: -4rem;
         .event-date {
             position: absolute;
             bottom: 0;

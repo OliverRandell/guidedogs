@@ -17,10 +17,18 @@
       </time>
       <dl class="event-summary">
         <h4 class="event-title">{{ eventItem.title }}</h4>
-        
+
         <dt>Host:</dt>
         <dd>{{ eventItem.eventHostNickName }}</dd>
-        
+
+        <!-- <div v-if="userIsHost">
+            <p>Is user host</p>
+        </div>
+
+        <div v-else>
+            <p>Is not user host</p>
+        </div> -->
+
         <dt>When:</dt>
         <dd>
             <time>
@@ -30,7 +38,7 @@
                 {{ eventItem.eventDate | moment("h:mm a") }}
             </time>
         </dd>
-        
+
         <dt>Where:</dt>
         <dd>{{ eventItem.location }}</dd>
 
