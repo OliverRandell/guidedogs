@@ -20,7 +20,7 @@
                     </p>
 
                     <div class="form-group">
-                        <label for="hostName">Host</label>
+                        <label for="hostName">Host Name</label>
                         <input type="text" id="hostName" required v-model="memberProfile.userName" disabled class="form-control">
                     </div>
 
@@ -42,7 +42,7 @@
                     </fieldset>
                     
                     <div class="form-group">
-                        <label for="title">Event title</label>
+                        <label for="title">Event Title</label>
                         <input type="text" id="title" required v-model="eventItem.title" class="form-control">
                     </div>
                     <fieldset class="form-group">
@@ -59,12 +59,46 @@
                     </fieldset>
 
                     <div class="form-group">
-                        <label for="date">Event date (DD/MM/YYYY)</label>
-                        <DatePicker v-model="eventItem.eventDate" class="form-control"></DatePicker>
+                        <label for="date">Event Date (DD/MM/YYYY)</label>
+                        <DatePicker v-model="eventStartDate" class="form-control"></DatePicker>
+                    </div>
+
+                    <div class="form-group meridiem-time">
+                        <label for="timeStart">Start Time (HH:MM)</label>
+                        <div class="meridiem-time__input">
+                            <input type="text" id="timeStart" required v-model="eventStartTime" class="form-control">
+                        </div>
+                        <div class="meridiem-time__radio">
+                            <div class="custom-control custom-radio mb-2">
+                                <input class="custom-control-input" type="radio" name="startMeridiem" id="startMeridiemAM" value="AM" v-model="eventStartTimeMeridiem">
+                                <label class="custom-control-label" for="startMeridiemAM">AM</label>
+                            </div>
+                            <div class="custom-control custom-radio mb-2">
+                                <input class="custom-control-input" type="radio" name="startMeridiem" id="startMeridiemPM" value="PM" v-model="eventStartTimeMeridiem">
+                                <label class="custom-control-label" for="startMeridiemPM">PM</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group meridiem-time">
+                        <label for="timeEnd">End Time (HH:MM)</label>
+                        <div class="meridiem-time__input">
+                            <input type="text" id="timeEnd" required v-model="eventEndTime" class="form-control">
+                        </div>
+                        <div class="meridiem-time__radio">
+                            <div class="custom-control custom-radio mb-2">
+                                <input class="custom-control-input" type="radio" name="endMeridiem" id="endMeridiemAM" value="AM" v-model="eventEndTimeMeridiem">
+                                <label class="custom-control-label" for="endMeridiemAM">AM</label>
+                            </div>
+                            <div class="custom-control custom-radio mb-2">
+                                <input class="custom-control-input" type="radio" name="endMeridiem" id="endMeridiemPM" value="PM" v-model="eventEndTimeMeridiem">
+                                <label class="custom-control-label" for="endMeridiemPM">PM</label>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="location">Event location</label>
+                        <label for="location">Event Location</label>
                         <small class="form-text">
                             Insert Address
                         </small>
@@ -72,7 +106,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="travelTips">Travel tips</label>
+                        <label for="travelTips">Travel Tips</label>
                         <small class="form-text">
                             example: closest public transport stop
                         </small>
@@ -81,7 +115,7 @@
 
                     <!-- ONLY VISIBLE IF EVENT IS PRIVATE -->
                     <div class="form-group" v-if="eventItem.eventPublicity === 'private'">
-                        <label for="capacity">Estimated capacity</label>
+                        <label for="capacity">Estimated Capacity</label>
                         <small class="form-text">
                             Please provide your preferred number of people who can attend this event
                         </small>
@@ -89,7 +123,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="details">Event details</label>
+                        <label for="details">Event Details</label>
                         <small class="form-text">
                             Describe who should join and what your event is about
                         </small>
@@ -99,12 +133,16 @@
                     
                     <img v-if="imagePreviewUrl" :src="imagePreviewUrl" class="my-2" />
                     <div class="form-group">
-                        <label for="eventImg" class="btn btn-primary">Add an event image</label>
+                        <div>
+                            <label for="eventImg">Event Image</label>
+                        </div>
+                        <label for="eventImg" class="btn btn-primary mr-2" tabindex="0">Upload Image</label>
+                        <span>(optional)</span>
                         <input type="file" id="eventImg" @change="onImageChange">
                     </div>
 
                     <div class="form-group">
-                        <label for="imageAlt">Image description</label>
+                        <label for="imageAlt">Image Description</label>
                         <small class="form-text">
                             Please provide short description of image provided
                         </small>
@@ -156,7 +194,6 @@
                     category: '',
 
                     title: '',
-                    eventDate: '',
                     location: '',
                     eventCategories: [],
                     travelTips: '',
@@ -174,6 +211,11 @@
                 importantInfo: `Please note, you will not be able to edit event information 24 hours prior to your event start time. This is to assist attendees to confirm their travel plans.`,
                 detailsCharacterLimitEntered: 0,
                 detailsCharacterLimit: 1000,
+                eventStartDate: '',
+                eventStartTime: '',
+                eventStartTimeMeridiem : '',
+                eventEndTime: '',
+                eventEndTimeMeridiem: '',
             }
         },
         methods: {
@@ -187,7 +229,9 @@
                 this.formErrors = [];
                 
                 if (!this.eventItem.title) { this.formErrors.push('Title is required') }
-                if (!this.eventItem.eventDate) { this.formErrors.push('Event date is required') }
+                if (!this.eventStartDate) { this.formErrors.push('Event date is required') }
+                if (!this.eventStartTime || !this.eventStartTimeMeridiem) { this.formErrors.push('Event start time is required') }
+                if (!this.eventEndTime || !this.eventEndTimeMeridiem) { this.formErrors.push('Event end time is required') }
                 if (!this.eventItem.location) { this.formErrors.push('Location is required') }
                 if (!this.eventItem.eventCategories) { this.formErrors.push('A category is required') }
                 if (!this.eventItem.travelTips) { this.formErrors.push('Travel tips are required') }
@@ -210,15 +254,18 @@
                     return;
                 };
 
+                const eventTimes = this.calculateEventTimes();
+
                 // destructure to only include relevant properties
                 const { image, imageAlt, ...eventProps } = this.eventItem;
 
-                const isDateInvalid = this.$moment(eventProps.eventDate).format('YYYY-MM-DD') === 'Invalid date';
-                const formattedDate = isDateInvalid ? this.$moment(new Date()).format('YYYY-MM-DD') : this.$moment(eventProps.eventDate).format('YYYY-MM-DD');
+                // const isDateInvalid = this.$moment(eventProps.eventDate).format('YYYY-MM-DD') === 'Invalid date';
+                // const formattedDate = isDateInvalid ? this.$moment(new Date()).format('YYYY-MM-DD') : this.$moment(eventProps.eventDate).format('YYYY-MM-DD');
 
                 const eventFormData = {
                     ...eventProps,
-                    eventDate: formattedDate,
+                    // eventDate: formattedDate,
+                    ...eventTimes
                 };
 
                 // only handling one category at the moment (radio button form input)
@@ -258,6 +305,25 @@
 
             setFocusToErrorListing() {
                 this.$refs.formCreate.focus();
+            },
+
+            calculateEventTimes() {                
+                let startHour = Number(this.eventStartTime.split(':')[0]);
+                const startMinute = Number(this.eventStartTime.split(':')[1]);
+                if (this.eventStartTimeMeridiem === 'PM') {
+                    startHour += 12;
+                }
+
+                let endHour = Number(this.eventEndTime.split(':')[0]);
+                const endMinute = Number(this.eventEndTime.split(':')[1]);
+                if (this.eventEndTimeMeridiem === 'PM') {
+                    endHour += 12;
+                }
+
+                const eventDate = this.$moment(this.eventStartDate).hour(startHour).minute(startMinute).format('YYYY-MM-DDTHH:mm:00');
+                const eventEndDate = this.$moment(this.eventStartDate).hour(endHour).minute(endMinute).format('YYYY-MM-DDTHH:mm:00');
+                
+                return { eventDate, eventEndDate };
             },
 
             ...mapActions({
@@ -326,5 +392,21 @@
     }
     input[type="file"] {
         display: none;
+    }
+    .meridiem-time {
+        @include make-row();
+        padding: 0 15px;
+        > label {
+            width: 100%;
+        }
+        &__input {
+            @include make-col-ready();
+            @include make-col(3);
+            padding: 0;
+        }
+        &__radio {
+            @include make-col-ready();
+            @include make-col(3);
+        }
     }
 </style>
