@@ -2,10 +2,10 @@
     <LayoutMaster>
         <hero>
             <template slot="title">
-                <h1>Contact us</h1>
+                {{ title }}
             </template>
             <template slot="description">
-                Get in touch!
+                <span>{{ tagline }}</span>
             </template>
         </hero>
 
@@ -15,25 +15,35 @@
 
                     <form class="form-contact" @submit.prevent="submitContactForm">
                         <fieldset>
-                            <legend>'Name of app' contact form</legend>
+                            <legend>Share any feedback or questions you have with us.</legend>
                             <div class="form-group">
-                                <label for="name">Name</label>
-                                <input type="text" name="name" v-model="name" v-validate="'required|alpha'" :class="['form-control', {'input': true, 'is-danger': errors.has('name') }]" placeholder="Enter your name">
+                                <label for="givenName">First name:</label>
+                                <input type="text" name="givenName" v-model="givenName" v-validate="'required|alpha'" :class="['form-control', {'input': true, 'is-danger': errors.has('givenName') }]" placeholder="Enter your first name">
+                                <small class="form-text">Enter your first name</small>
                             </div>
                             <div class="form-group">
-                                <label for="email">Email</label>
+                                <label for="familyName">Last name:</label>
+                                <input type="text" name="familyName" v-model="familyName" v-validate="'required|alpha'" :class="['form-control', {'input': true, 'is-danger': errors.has('familyName') }]" placeholder="Enter your last name">
+                                <small class="form-text">Enter your last name</small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="email">Email address:</label>
                                 <input type="email" name="email" v-model="email" v-validate="'required|email'" :class="['form-control', {'input': true, 'is-danger': errors.has('email')}]" placeholder="Enter your email...">
                             </div>
                             <div class="form-group">
-                                <label for="phone">Phone Number</label>
-                                <input type="text" name="phone" v-validate="'required|numeric'" :class="['form-control', {'inout': true, 'is-danger': errors.has('phone') }]" placeholder="Enter your phone number">
+                                <label for="phoneNumber">Phone Number:</label>
+                                <input type="text" name="phoneNumber" v-validate="'required|numeric'" :class="['form-control', {'input': true, 'is-danger': errors.has('phoneNumber') }]" placeholder="Enter your phone number">
                             </div>
                             <div class="form-group">
-                                <label for="message">Message</label>
+                                <label for="message">Write your message:</label>
                                 <textarea name="message" rows="8" cols="80" class="form-control" id="message" v-model="message.text" :maxlength="message.maxlength"></textarea>
                                 <span class="counter">{{ message.text.length }} / {{ message.maxlength }}</span>
                             </div>
-                            <input type="submit" name="" value="Send form" class="btn btn-primary">
+                            <div class="btn-wrapper">
+                                <input type="submit" name="" value="Send form" class="btn btn-primary">
+                            </div>
+
                         </fieldset>
 
 
@@ -48,6 +58,7 @@
 </template>
 
 <script>
+
     import LayoutMaster from '../components/common/layouts/layout-master.vue';
     import Hero from '../components/common/global/hero.vue';
     export default {
@@ -58,19 +69,22 @@
         },
         data () {
             return {
-                name: '',
+                title: 'Contact us.',
+                tagline: 'Use the form below to get in touch.',
+                givenName: '',
+                familyName: '',
                 email: '',
-                phone: '',
+                phoneNumber: '',
                 message: {
                     text: `Write your message in here...`,
-                    maxlength: 255
+                    maxlength: 1000
                 },
                 submitted: false
             }
         },
         methods: {
             submitContactForm() {
-                this.$validate.validateAll().then((result) => {
+                this.$validator.validateAll().then((result) => {
                     if (result) {
                         alert('Form Submitted!');
                         return;

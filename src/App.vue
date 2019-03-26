@@ -1,5 +1,6 @@
 <template>
-    <div id="app">
+    <div id="app" :class="toggleContrast">
+        <button class="btn btn-primary" type="button" @click="highContrast = !highContrast">Toggle Contrast</button>
         <div :class="`alert ${alert.type}`" v-if="alert.message">{{ alert.message }}</div>
         <router-view></router-view>
     </div>
@@ -9,7 +10,17 @@
     import { mapState, mapActions } from 'vuex';
     export default {
         name: 'App',
+        data() {
+            return {
+                highContrast: false,
+            }
+        },
         computed: {
+            toggleContrast: function() {
+                return {
+                    highContrast: this.highContrast
+                }
+            },
             ...mapState({
                 alert: state => state.alert
             })

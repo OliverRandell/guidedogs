@@ -3,25 +3,34 @@
 
         <hero>
             <template slot="title">
-                <h1>My preferences</h1>
+                {{ title }}
             </template>
             <template slot="description">
-                A useful guide on how to change your browser preference settings.
+                <span>{{ tagline }}</span>
             </template>
         </hero>
 
         <div class="container">
             <section class="pg-content">
-                <div class="col-12">
+                <div class="col-8">
                     <!-- http://www.bbc.co.uk/accessibility/guides/factsheets/factsheet_vision_computing.pdf -->
                     <!-- https://webaccessibility.guide/ -->
-                    <p>What is this preferences page all about? Well, this page provides accessibility help, enabling our users to make the most of this application whatever their ability or disability.</p>
-                    <p>Text size, contrast, colour,</p>
+                    <p v-html="intro"></p>
                 </div>
                 <div class="col-12">
-                    <!-- THIS BUTTON WILL ADD A CLASS TO THE BODY -->
-                    <button type="button" name="button" class="btn btn-primary">Change the contract</button>
+                    <!-- THIS BUTTON WILL ADD A CLASS TO THE APP -->
+                    <button class="btn btn-primary" type="button" @click="highContrast = !highContrast">Toggle Contrast</button>
+                    <!-- <ToggleContrast :highContrast /> -->
                 </div>
+                <!-- <div class="col-12">
+                    <div class="btn-group">
+                        <button type="button" @click="fontSizeIncrease">Increase font size</button>
+                        <button type="button" @click="fontSizeDecrease">Decrease font size</button>
+                    </div>
+
+                    <p v-bind:style="{ fontSize: fontSize + 'px' }">Font size is: {{ fontSize }}</p>
+
+                </div> -->
             </section>
         </div>
 
@@ -32,12 +41,24 @@
 <script>
     import LayoutMaster from '../../components/common/layouts/layout-master.vue';
     import Hero from '../../components/common/global/hero.vue';
+    import ToggleContrast from '../../components/common/global/toggle-contrast.vue';
     export default {
         name: 'Preferences',
         components: {
             LayoutMaster,
-            Hero
-        }
+            Hero,
+            ToggleContrast,
+        },
+        //props: ['highContrast'],
+        data() {
+            return {
+                title: 'Preferences.',
+                tagline: 'Alter your accessibility settings.',
+                intro: `What is this preferences page all about? Well, this page provides accessibility help, enabling our users to make the most of this application whatever their ability or disability.`,
+                //fontSize: 10,
+                highContrast: false,
+            }
+        },
     }
 </script>
 
