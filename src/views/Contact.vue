@@ -82,6 +82,16 @@
                 submitted: false
             }
         },
+        computed: {
+            message: {
+                get () {
+                    return this.$store.state.message;
+                },
+                set (val) {
+                    this.$store.commit('UPDATE_MESSAGE', val);
+                }
+            }
+        },
         methods: {
             submitContactForm() {
                 this.$validator.validateAll().then((result) => {

@@ -152,7 +152,7 @@ export const router =  new Router ({
             }
         },
         {
-            path: '/events/event-request',
+            path: '/event-request',
             name: 'EventRequest',
             component: EventRequest,
             meta: {

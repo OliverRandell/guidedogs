@@ -1,7 +1,7 @@
 <template lang="html">
     <nav class="account-nav">
         <!-- <template v-if="isProfileLoaded"> -->
-        <router-link to="/preferences" class="nav-item">Preferences</router-link>
+        <!-- <router-link to="/preferences" class="nav-item">Preferences</router-link> -->
         <!-- </template> -->
         <router-link to="/login" class="btn btn-primary">Logout</router-link>
         <!-- <button v-if="isAuthenticated" @click="logout" role="button" >

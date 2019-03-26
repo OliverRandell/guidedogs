@@ -39,6 +39,11 @@
                     },
                     {
                         id: 5,
+                        title: 'Preferences',
+                        route: '/preferences',
+                    },
+                    {
+                        id: 6,
                         title: 'Contact Us',
                         route: '/contact'
                     }
