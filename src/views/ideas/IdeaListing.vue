@@ -23,8 +23,11 @@
                 </section>
                 <aside class="filters" role="group">
                     <!-- TODO: IF USER HAS ANY IDEAS CREATED -->
-                    <p>Ideas that you've created:</p>
-                    <router-link to="/my-hosting" class="btn btn-primary">My ideas</router-link>
+                    <section class="my-events">
+                        <h6>Ideas that you've created:</h6>
+                        <router-link to="/my-hosting" class="btn btn-primary full-width">My ideas</router-link>
+                    </section>
+
                     <!-- TODO: refactor so that "my event RSVP's" doesn't appear for ideas -->
                     <EventListingFilter v-on:filter-events="filterEvents" v-bind:currentFilter="currentFilter" />
                 </aside>

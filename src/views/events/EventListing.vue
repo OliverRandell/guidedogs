@@ -147,10 +147,4 @@
             @include make-col(3);
         }
     }
-    .full-width {
-        width: 100%;
-    }
-    .my-events {
-        @include spacer(0.5rem);
-    }
 </style>

@@ -45,6 +45,7 @@
                                 </div>
                             </div>
                         </fieldset>
+
                         <!-- <div class="form-group">
                             <label for="category">Category:</label>
                             <select class="form-control" v-model="idea.category">
@@ -110,7 +111,6 @@
                 tagline: 'Share an expression of interest for the community',
                 idea: {
                     category: '',
-
                     title: '',
                     eventCategories: [],
                     eventDetails: '',
@@ -131,7 +131,7 @@
         methods: {
             checkForm() {
                 this.formErrors = [];
-                
+
                 if (!this.idea.title) { this.formErrors.push('Title is required') }
                 if (!this.idea.eventCategories) { this.formErrors.push('A category is required') }
                 if (!this.idea.eventDetails) { this.formErrors.push('Event details are required') }

@@ -8,15 +8,24 @@
         <div class="container">
             <div class="pg-content">
 
-                <div class="col-8">
-                    <h2>{{ eventTitle }}</h2>
-                    <h4>Guests attending:</h4>
-                    <ul class="guest-list">
-                        <li v-for="guest in eventAttendees" :key="guest.id">
-                            <router-link :to="guest.route">{{ guest.rsvpParticipantNickName }}</router-link>
-                        </li>
-                    </ul>
-                    <h4>Total: {{ attendanceString }}</h4>
+                <div class="col-8 spacer">
+                    <h2 class="spacer">{{ eventTitle }}</h2>
+                    <div class="row">
+                        <div class="col-6">
+                            <h4>Guests attending:</h4>
+                            <ul class="guest-list">
+                                <li v-for="guest in eventAttendees" :key="guest.id">
+                                    <router-link :to="guest.route">{{ guest.rsvpParticipantNickName }}</router-link>
+                                </li>
+                            </ul>
+                            <h4>Total: {{ attendanceString }}</h4>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-12 col-lg-4">
+                    <router-link to="/manage-idea">&larr; Back to managing idea</router-link>
                 </div>
             </div>
         </div>
@@ -78,6 +87,8 @@
         padding: 0;
         > li {
             @include spacer(0.25rem);
+            border-bottom: 1px solid $gray-300;
+            padding: 1rem 0;
 
         }
     }

@@ -200,7 +200,7 @@ export const router =  new Router ({
             }
         },
         {
-            path: '/ideas/manage-idea',
+            path: '/manage-idea',
             name: 'IdeaManagement',
             component: IdeaManagement,
             meta: {

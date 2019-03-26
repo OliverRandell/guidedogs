@@ -235,9 +235,4 @@
             padding: 0;
         }
     }
-
-    .btn-wrapper {
-        display: flex;
-        justify-content: flex-end;
-    }
 </style>

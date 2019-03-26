@@ -61,3 +61,7 @@ body {
         @include make-col(8);
     }
 }
+
+.spacer {
+    @include spacer(1rem);
+}

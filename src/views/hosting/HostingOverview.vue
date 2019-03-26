@@ -90,13 +90,13 @@
                         id: 1,
                         title: 'Coffee chats in Kew',
                         description: `I'm looking to socialise with like-minded coffee loving indivduals`,
-                        route: '/ideas/manage-idea',
+                        route: '/manage-idea',
                     },
                     {
                         id: 2,
                         title: 'Coffee chats in Kew',
                         description: `I'm looking to socialise with like-minded coffee loving indivduals`,
-                        route: '/ideas/manage-idea',
+                        route: '/manage-idea',
                     }
                 ],
             }

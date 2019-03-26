@@ -41,6 +41,7 @@
                     </dl>
                     <button type="button" name="button" class="btn btn-primary" @click="registerInterest(event)">Interested</button>
                     <button type="button" name="button" class="btn btn-outline-primary mx-3" @click="registerRsvp(event)">RSVP</button>
+                    <router-link to="/contact-host" class="btn btn-primary">Contact host</router-link>
                 </article>
                 <aside class="event-summary items-sidebar" tabindex="-1" v-if="!submitted">
                     <p><router-link to="/events">&larr; Back to events page</router-link></p>
