@@ -9,7 +9,7 @@
             </template>
         </Hero>
         <div class="container">
-            <article class="pg-content" tabindex="-1" role="article" v-if="!submitted">
+            <article class="pg-content" tabindex="-1" role="article" v-if="!submitted" ref="formCreate">
 
                 <form class="form-create-event form-create col-8" @submit.prevent="onSubmit">
                     <p v-if="formErrors.length" role="alert" aria-atomic="true">
@@ -18,10 +18,16 @@
                             <li v-for="(error, index) in formErrors" :key="index">{{ error }}</li>
                         </ul>
                     </p>
+
+                    <div class="form-group">
+                        <label for="hostName">Host</label>
+                        <input type="text" id="hostName" required v-model="memberProfile.userName" disabled class="form-control">
+                    </div>
+
                     <fieldset class="form-group">
 
                         <div class="row">
-                            <legend class="col-form-label col-sm-12 pt-0">Type:</legend>
+                            <legend class="col-form-label col-sm-12 pt-0">Type</legend>
                             <div class="col-sm-12">
                                 <div class="custom-control custom-radio mb-2">
                                     <input class="custom-control-input" type="radio" name="publicOrPrivate" id="public" value="public" v-model="eventItem.eventPublicity">
@@ -34,22 +40,15 @@
                             </div>
                         </div>
                     </fieldset>
-                    <!-- ONLY VISIBLE IF EVENT IS PRIVATE -->
-                    <div class="form-group" v-if="eventItem.eventPublicity === 'private'">
-                        <label for="capacity">Event capacity</label>
-                        <input type="number" name="capacity" value="capacity" class="form-control" placeholder="e.g. 16" v-model="eventItem.attendanceString">
-                        <small class="form-text text-muted">
-                            Provide a capacity limitation of members who can attend this event.
-                        </small>
-                    </div>
+                    
                     <div class="form-group">
-                        <label for="title">Event title:</label>
-                        <input type="text" name="title" value="title" required v-model="eventItem.title" class="form-control">
+                        <label for="title">Event title</label>
+                        <input type="text" id="title" required v-model="eventItem.title" class="form-control">
                     </div>
                     <fieldset class="form-group">
 
                         <div class="row">
-                            <legend class="col-form-label col-sm-12 pt-0">Choose category:</legend>
+                            <legend class="col-form-label col-sm-12 pt-0">Category</legend>
                             <div class="col-sm-8">
                                 <div class="custom-control custom-radio mb-2" v-for="category in allCategories" :key="category.categoryId">
                                     <input class="custom-control-input" type="radio" name="category" :id="category.title + category.categoryId" :value="category.categoryId" v-model="eventItem.category">
@@ -60,60 +59,66 @@
                     </fieldset>
 
                     <div class="form-group">
-                        <label for="date">Event date:</label>
+                        <label for="date">Event date (DD/MM/YYYY)</label>
                         <DatePicker v-model="eventItem.eventDate" class="form-control"></DatePicker>
                     </div>
 
                     <div class="form-group">
-                        <label for="location">Event location:</label>
-                        <input type="text" name="location" value="location" required v-model="eventItem.location" class="form-control">
+                        <label for="location">Event location</label>
+                        <small class="form-text">
+                            Insert Address
+                        </small>
+                        <input type="text" id="location" required v-model="eventItem.location" class="form-control">
                     </div>
 
                     <div class="form-group">
-                        <label for="travelTips">Event travel tips:</label>
-                        <input type="text" name="travelTips" value="travelTips" class="form-control" v-model="eventItem.travelTips" />
+                        <label for="travelTips">Travel tips</label>
+                        <small class="form-text">
+                            example: closest public transport stop
+                        </small>
+                        <input type="text" id="travelTips"  class="form-control" v-model="eventItem.travelTips" />
+                    </div>
+
+                    <!-- ONLY VISIBLE IF EVENT IS PRIVATE -->
+                    <div class="form-group" v-if="eventItem.eventPublicity === 'private'">
+                        <label for="capacity">Estimated capacity</label>
+                        <small class="form-text">
+                            Please provide your preferred number of people who can attend this event
+                        </small>
+                        <input type="number" id="capacity" class="form-control" v-model="eventItem.attendanceString">
                     </div>
 
                     <div class="form-group">
-                        <label for="content">Event details:</label>
-                        <textarea name="name" rows="4" v-model="eventItem.eventDetails" class="form-control"></textarea>
+                        <label for="details">Event details</label>
+                        <small class="form-text">
+                            Describe who should join and what your event is about
+                        </small>
+                        <textarea id="details" rows="4" v-on:input="checkDetailsCharacterLength" v-model="eventItem.eventDetails" max-length="1000" class="form-control"></textarea>
+                        <p class="character-limit">{{ detailsCharacterLimitDisplay }}</p>
                     </div>
                     
-                    <img v-if="imagePreviewUrl" :src="imagePreviewUrl" />
+                    <img v-if="imagePreviewUrl" :src="imagePreviewUrl" class="my-2" />
                     <div class="form-group">
-                        <!-- TODO: style upload as button -->
-                        <label for="eventItem.imgSrc">Add an event image</label>
-                        <input type="file" id="eventImg" name="" value="" class="form-control" @change="onImageChange">
+                        <label for="eventImg" class="btn btn-primary">Add an event image</label>
+                        <input type="file" id="eventImg" @change="onImageChange">
                     </div>
+
                     <div class="form-group">
                         <label for="imageAlt">Image description</label>
-                        <input type="text" name="" value="imageAlt" class="form-control" v-model="eventItem.imageAlt" placeholder="Please provide a short description of image provided">
+                        <small class="form-text">
+                            Please provide short description of image provided
+                        </small>
+                        <input type="text" id="imageAlt" class="form-control" v-model="eventItem.imageAlt">
                     </div>
+
                     <h4>Important Information</h4>
                     <p v-html="importantInfo"></p>
+
                     <input type="submit" v-on:click.prevent="onSubmit" class="btn btn-primary" value="Create Event" />
                 </form>
 
                 <aside class="event-preview col-4" aria-labelledby="eventPreview" tabindex="-1">
                     <router-link to="/events">&larr; Back to events page</router-link>
-                    <h4>Preview Event</h4>
-
-                    <dl class="event-details">
-                        <dt>Event title:</dt>
-                        <dd>{{ eventItem.title }}</dd>
-                        <dt>Event start date:</dt>
-                        <dd>{{ eventItem.eventDate | moment("dddd Do MMMM") }}</dd>
-                        <dt>Category:</dt>
-                        <dd>{{ eventItem.category }}</dd>
-                        <dt>Event location:</dt>
-                        <dd>{{ eventItem.travelTips }}</dd>
-                        <dt>Event travel tips:</dt>
-                        <dd>{{ eventItem.location }}</dd>
-                        <dt>Event details:</dt>
-                        <dd>{{ eventItem.eventDetails }}</dd>
-                    </dl>
-
-
                 </aside>
 
             </article>
@@ -166,7 +171,9 @@
                 imageFile: '',
                 eventCategories: ['information', 'social', 'sports and fitness', 'arts and crafts'],
                 submitted: false,
-                importantInfo: `Please note, you will not be able to edit event information 24 hours prior to your event start time. This is to assist attendees to confirm their travel plans.`
+                importantInfo: `Please note, you will not be able to edit event information 24 hours prior to your event start time. This is to assist attendees to confirm their travel plans.`,
+                detailsCharacterLimitEntered: 0,
+                detailsCharacterLimit: 1000,
             }
         },
         methods: {
@@ -175,6 +182,7 @@
                 this.imageFile = image;
                 this.imagePreviewUrl = URL.createObjectURL(image);
             },
+
             checkForm() {
                 this.formErrors = [];
                 
@@ -187,15 +195,20 @@
                 if (!this.eventItem.eventPublicity) { this.formErrors.push('Type of event is required') }
                 // if (!this.eventItem.eventType) { this.formErrors.push('Other event type/category is required') } // all events are type of Event right now
                 if (!this.eventItem.attendanceString && this.eventItem.eventPublicity.toLowerCase() === 'private') { this.formErrors.push('Attendance capacity is required') }
-                if (!this.imagePreviewUrl) { this.formErrors.push('An image is required') }
-                if (!this.eventItem.imageAlt) { this.formErrors.push('An image description is required') }
+                // if (!this.imagePreviewUrl) { this.formErrors.push('An image is required') }
+                if (this.imagePreviewUrl && !this.eventItem.imageAlt) { this.formErrors.push('An image description is required') }
 
                 return this.formErrors.length > 0;
             },
+
             onSubmit() {
                 const formHasErrors = this.checkForm();
 
-                if ( formHasErrors ) return;
+                if ( formHasErrors ) {
+                    window.scrollTo(0, this.topOffset);
+                    this.setFocusToErrorListing();
+                    return;
+                };
 
                 // destructure to only include relevant properties
                 const { image, imageAlt, ...eventProps } = this.eventItem;
@@ -234,16 +247,28 @@
                     this.putEventCategories({ id: eventId, categories: [category] });
                 });
             },
+
             backToEvents() {
                 this.$router.push('/events');
             },
+
+            checkDetailsCharacterLength(e) {
+                this.detailsCharacterLimitEntered = e.target.value.length;
+            },
+
+            setFocusToErrorListing() {
+                this.$refs.formCreate.focus();
+            },
+
             ...mapActions({
                 'createEvent': 'createEvent',
                 'uploadEventImage': 'uploadEventImage',
                 'getCategories': 'getCategories',
-                'putEventCategories': 'putEventCategories'
+                'putEventCategories': 'putEventCategories',
+                'getMemberProfile': 'getMemberProfile'
             })
         },
+
         filters: {
             capitalize: function (value) {
                 if (!value) return ''
@@ -251,14 +276,24 @@
                 return value.charAt(0).toUpperCase() + value.slice(1)
             }
         },
+
         computed: {
-            ...mapState({
-                account: state => state.account,
-            }),
-            ...mapGetters(['allCategories'])
+            ...mapGetters(['allCategories', 'memberProfile']),
+
+            detailsCharacterLimitDisplay: function() {
+                return `${this.detailsCharacterLimitEntered}/${this.detailsCharacterLimit}`;
+            },
+
+            topOffset: function() {
+                const element = this.$refs.formCreate;
+                const top = element.offsetTop;
+                return top;
+            },
         },
+
         created() {
             this.getCategories();
+            this.getMemberProfile();
         }
     }
 </script>
@@ -285,5 +320,11 @@
         align-items: center;
         justify-content: center;
         flex-direction: column;
+    }
+    .character-limit {
+        text-align: right;
+    }
+    input[type="file"] {
+        display: none;
     }
 </style>
