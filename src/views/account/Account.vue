@@ -35,13 +35,79 @@
                             <label for="postcode">Postcode:</label>
                             <input type="text" name="postcode" value="postcode" class="form-control" v-model="user.postcode">
                         </div>
+                        <fieldset class="form-group">
+
+                            <div class="row">
+                                <legend class="col-form-label col-sm-12 pt-0">Type:</legend>
+
+                                <div class="col-sm-12">
+                                    <small class="form-text">You can select multiple interests</small>
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="social">
+                                        <label class="custom-control-label" for="social">Social</label>
+                                    </div>
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="arts">
+                                        <label class="custom-control-label" for="arts">Arts</label>
+                                    </div>
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="information">
+                                        <label class="custom-control-label" for="information">Information</label>
+                                    </div>
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="sports">
+                                        <label class="custom-control-label" for="sports">Sports and fitness</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <div class="form-group">
+                            <label for="">Talk to me about</label>
+                            <textarea name="name" rows="8" cols="80" class="form-control" placeholder="Example: my new guide dog Toby, best coffee spots in Kew and I want to learn more about JAWS"></textarea>
+                            <small class="sr-only form-text">Example: my new guide dog Toby, best coffee spots in Kew and I want to learn more about JAWS</small>
+                        </div>
+
                     </form>
+                    <form class="">
+                        <h4>Manage your account</h4>
+                        <!-- NB: I DON'T THINK THAT THE USER CAN CHANGE THEIR EMAIL -->
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="text" name="" value="" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Contact Number</label>
+                            <input type="text" name="" value="" class="form-control">
+                        </div>
+                    </form>
+                    <form class="form-change-password">
+                        <h4>Change password</h4>
+                        <div class="form-group">
+                            <label for="password">Curent Password</label>
+                            <input type="password" name="" value="" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="password">New Password</label>
+                            <input type="password" name="" value="" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Confirm new Password</label>
+                            <input type="password" name="" value="" class="form-control">
+                        </div>
+                        <div class="btn-wrapper">
+                            <input type="submit" name="" value="Change password" class="btn btn-primary">
+                        </div>
+                    </form>
+
+                    <p>No longer want to be part of the Peer Support Platform community?</p>
+                    <div class="btn-wrapper">
+                        <button type="button" class="btn btn-primary">Delete account</button>
+                    </div>
                 </article>
                 <aside class="items-sidebar">
                     <!-- TABS GO IN HERE. DETAILS, EVENTS & IDEAS & SETTINGS -->
                 </aside>
-                <div class="col-12">
-                    <div>
+
 
 
                         <!-- <form class="" action="index.html" method="post"> -->
@@ -68,22 +134,12 @@
                                 </span>
                             </li>
                         </ul> -->
-                        <p>
-                            <router-link to="/login" class="btn btn-primary">Logout</router-link>
-                        </p>
 
-                    </div>
-                    <div class="my-events">
-                        <h4>My Events:</h4>
-                        <ul>
-                            <li v-for="eventItem in events" :key="eventItem.id">
-                                {{ eventItem.title }}
-                            </li>
-                        </ul>
-                    </div>
+
+
                     <!-- <section class="change-password">
                         <h4>Change password:</h4>
-                        <form class="form-change-password">
+                        <form class="">
                             <div class="form-group">
                                 <label for="">Enter existing password:</label>
                                 <input v-model="changePasswordForm.oldPassword" type="password" placeholder="Enter your existing password..." class="form-control">
@@ -102,24 +158,8 @@
                     </section> -->
 
 
-                </div>
-
             </section>
         </div>
-
-        <!-- <p v-if="profile.name">Hello <span>{{ profile.title }} {{ profile.name }}</span> this is your profile area. Feel free to add as many details as you can to this area. It increases your experiences with this app.</p>
-        <section class="profile-pod">
-            <img src="../../assets/imgs/profile-pic.jpg" :alt="['Profile picture for', profile.name]">
-            <p v-if="profile.name">
-                <strong>Name: </strong>
-                <span>{{ profile.title }} {{ profile.name }}</span> -->
-            <!-- </p>
-            <p>Email</p>
-            <p>username</p>
-            <p>update password form</p>
-            <p>Interests</p>
-            <p>Talk to me about...</p>
-        </section> -->
 
     </LayoutMaster>
 </template>
@@ -171,21 +211,6 @@
                 ]
             }
         },
-        // computed: {
-        //     ...mapState({
-        //         account: state => state.account,
-        //         users: state => state.users.all
-        //     })
-        // },
-        // created () {
-        //     this.getAllUsers();
-        // },
-        // methods: {
-        //     ...mapActions('users', {
-        //         getAllUsers: 'getAll',
-        //         deleteUser: 'delete'
-        //     })
-        // }
     }
 </script>
 
@@ -210,9 +235,9 @@
             padding: 0;
         }
     }
-    .form-change-password {
-        button {
-            float: right;
-        }
+
+    .btn-wrapper {
+        display: flex;
+        justify-content: flex-end;
     }
 </style>

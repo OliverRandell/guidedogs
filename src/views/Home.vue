@@ -26,7 +26,7 @@
                         <h4>Upcoming events</h4>
                     </div>
                     <article class="event-pod" v-for="eventItem in filteredEvents" :key="eventItem.id" role="article">
-                        <EventListingItem v-bind:eventItem="eventItem" v-bind:selectedCategory="currentFilter" />
+                        <EventListingItem v-bind:eventItem="eventItem" v-bind:selectedCategory="currentFilter" v-bind:ItemsPerPage="2" />
                     </article>
                     <!-- <article class="pod-event" v-for="eventItem in events" :key="eventItem.id">
                         <router-link :to="'/events/' + eventItem.id">

@@ -51,7 +51,7 @@
 <script>
 export default {
   name: "EventListingItem",
-  props: ["eventItem"]
+  props: ["eventItem", "ItemsPerPage"]
 };
 </script>
 
