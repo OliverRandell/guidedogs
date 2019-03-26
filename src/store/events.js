@@ -1,55 +1,46 @@
 import axios from 'axios';
 import { authHeader } from '../utils/auth-header';
 import { apiUrl } from '../utils/api';
+import buildQuery from '../utils/query-string';
 
 const state = {
     events: [],
-    event: {}
+    event: {},
 };
 
 const getters = {
     allEvents: (state) => state.events,
-    event: (state) => state.event
+    event: (state) => state.event,
 };
 
 const actions = {
-    // TODO: combine getEvents and searchEvents into one by setting axios.get(url, {params, headers})
-    async getEvents({ commit, state }, category) {
-        category = category || null;
-
-        // TODO: handle what object property can be considered as attending
-        if (category === 'attending') {
-            commit('setEvents', []);
-            return;
+    makeUrlStringWithParams({ commit }, { queryParams, uriSegment}) {
+        let queryString;
+        
+        queryParams = queryParams || null;
+        
+        if (queryParams !== null) {
+            queryString = buildQuery(queryParams);
         }
 
-        // determine which endpoint to call
-        const getUrl = category === 'all' || category === null ? 'events/paged?ItemsPerPage=20' : `categories/${category}`;
+        return `${apiUrl}/events/${uriSegment}?${queryString}`;
+    },
+
+    async searchEventsAttending({ commit, dispatch }, queryParams ) {
+        const url = await dispatch('makeUrlStringWithParams', { queryParams, uriSegment: 'myattendingpaged' });
         
-        const response = await axios.get(`${apiUrl}/${getUrl}`,
+        const response = await axios.get(url,
         {
             headers: { ...authHeader() }
         });
-        
-        // 'reset' to initial response data until we have an api to call
-        if (category === 'all' || category === null) {
 
-            commit('setEvents', response.data);
-            return;
-
-        }
-
-        response.data = [
-            ...response.data.events
-        ];
-        
         commit('setEvents', response.data);
-
     },
-    async searchEvents({ commit, state }, query) {
-        query = query || '';
+
+    async searchEvents({ commit, dispatch }, queryParams) {
+        const url = await dispatch('makeUrlStringWithParams', { queryParams, uriSegment: 'paged' });
         
-        const response = await axios.get(`${apiUrl}/events/paged?SearchString=${query}&ItemsPerPage=20`,
+        const response = await axios.get(url,
         {
             headers: { ...authHeader() }
         });
@@ -57,6 +48,7 @@ const actions = {
         commit('setEvents', response.data);
 
     },
+
     async getEvent({ commit }, id) {
         const response = await axios.get(`${apiUrl}/events/${id}`,
         {
@@ -65,12 +57,14 @@ const actions = {
         
         commit('setEvent', response.data);
     },
+
     async deleteEvent({ commit }, id) {
         await axios.delete(`${apiUrl}/events/${id}`,
         {
             headers: { ...authHeader() }
         });
     },
+
     async rsvpEvent({ commit }, event) {
         // TODO: get user info to populate POST payload
         await axios.post(`${apiUrl}/events/${event.eventId}/rsvps`,
@@ -82,6 +76,7 @@ const actions = {
             headers: { ...authHeader() }
         });
     },
+
     async createEvent({ commit }, { event }) {
         const response = await axios.post(`${apiUrl}/events`,
         {
@@ -94,6 +89,7 @@ const actions = {
         commit('setEvent', response.data);
         return response.data;
     },
+
     async uploadEventImage({ commit }, image){
         await axios.post(`${apiUrl}/eventimages`,
         image,
@@ -105,12 +101,12 @@ const actions = {
         }).catch((error) => {
             console.error('Image upload failed:', error.response);
         });
-    }
+    },
 };
 
 const mutations = {
     setEvents: (state, events) => state.events = events,
-    setEvent: (state, event) => state.event = event
+    setEvent: (state, event) => state.event = event,
 };
 
 export const events = {

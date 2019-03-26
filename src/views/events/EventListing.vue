@@ -1,134 +1,133 @@
 <template lang="html">
-    <layout-master>
-        <hero>
-            <template slot="title">
-                {{ title }}!
-            </template>
-            <template slot="description">
-                <span>Find events in your community here</span>
-            </template>
-        </hero>
-
-        <div class="container">
-            <div class="pg-content">
-
-                <div class="event-listings">
-
-                    <div class="col-12">
-                        <h4>Create your own Event!</h4>
-                        <router-link to="/create-event" class="btn btn-primary">+ Create event</router-link>
-                    </div>
-
-                    <div class="col-12">
-                        <form v-on:submit.prevent="onSearch">
-                            <div class="form-group my-5">
-                                <label for="searchQuery" class="h4">Search</label>
-                                <div class="form-inline">
-                                    <input type="text" name="Search events" placeholder="Event keyword search" v-model="searchQuery" class="form-control" id="searchQuery">
-                                    <input type="submit" value="Search" class="btn btn-primary mx-2">
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-
-                    <div class="row">
-
-                        <article class="event-pod" v-for="eventItem in filteredEvents" :key="eventItem.id" role="article">
-                            <EventListingItem v-bind:eventItem="eventItem" v-bind:selectedCategory="currentFilter" />
-                        </article>
-                        <router-link to="/event-request" class="btn-link">Request to join event</router-link>
-                    </div>
-                </div>
-
-                <aside class="event-filters" role="group">
-                    <section class="my-events">
-                        <h6>View the events you are hosting.</h6>
-                        <router-link to="/my-hosting" class="btn btn-primary full-width">My events</router-link>
-                    </section>
-
-                    <EventListingFilter v-on:filter-events="filterEvents" v-bind:currentFilter="currentFilter" />
-                </aside>
-
-            </div><!-- .pg-content -->
-        </div><!-- .container -->
-    </layout-master>
+    <div>
+        <div class="row" v-if="allEvents.length" >
+            <article class="event-pod" v-for="eventItem in allEvents" :key="eventItem.id" role="article">
+                <EventListingItem v-bind:eventItem="eventItem" />
+            </article>
+        </div>
+            
+        <div class="col-12">
+            <article v-if="!allEvents.length" role="article">
+                <p>There are no results matching your search.</p>
+            </article>
+        </div>
+    </div>
 </template>
 
 <script>
-    import { mapGetters, mapActions } from "vuex";
-    import LayoutMaster from '../../components/common/layouts/layout-master.vue';
-    import Hero from '../../components/common/global/hero.vue';
+    import { mapGetters, mapActions } from 'vuex';
     import EventListingItem from './EventListingItem.vue';
-    import EventListingFilter from './EventListingFilter.vue';
 
     export default {
-        name: 'Events',
+        name: 'EventsListing',
+
         components : {
-            LayoutMaster,
-            Hero,
-            EventListingItem,
-            EventListingFilter
+            EventListingItem
         },
+
+        props: {
+            sortField: {
+                type: String,
+                default: 'eventDate'
+            },
+            sortDirection: {
+                type: String,
+                default: 'Ascending'
+            },
+            searchString: {
+                type: String,
+                default: ''
+            },
+            itemsPerPage: {
+                type: String,
+                default: '10'
+            },
+            pageNumber: {
+                type: Number,
+                default: 1
+            },
+            rowOffset: {
+                type: String,
+                default: '0'
+            },
+            categoryId: {
+                type: String,
+                default: ''
+            },
+        },
+
         data () {
             return {
                 title: 'Events',
-                currentFilter: 'all',
-                events: [],
-                searchQuery: ''
             }
         },
+
         methods: {
-            ...mapActions(['getEvents', 'searchEvents']),
-            filterEvents: function(filter) { // using arrow function here will change context of `this` and break things
-                this.currentFilter = filter;
-                this.getEvents(filter); // this will fetch from api
+            ...mapActions(['searchEvents', 'searchEventsAttending']),
+
+            filterEvents: function(filter) {
+                this.searchEvents({...this.searchParams, CategoryId: filter});
             },
-            onSearch() {
-                this.currentFilter = 'all';
-                this.searchEvents(this.searchQuery.toLowerCase());
+
+            // determine which endpoint to call based on categoryId string
+            // categoryId will be an id number (as string) or 'attending'
+            searchEventsOrAttending: function(categoryId) {
+                if (categoryId === 'attending' || this.categoryId === 'attending') {
+                    this.searchEventsAttending({...this.searchParams, CategoryId: ''});
+                } else {
+                    this.searchEvents(this.searchParams);
+                }
             }
         },
+
         created() {
-            this.getEvents()
+            this.searchEvents(this.searchParams);
         },
+
         computed: {
+            searchParams: function() {
+                return {
+                    SortField: this.sortField,
+                    SortDirection: this.sortDirection,
+                    SearchString: this.searchString.toLowerCase(),
+                    ItemsPerPage: this.itemsPerPage,
+                    PageNumber: this.pageNumber.toString(),
+                    RowOffset: this.rowOffset,
+                    CategoryId: this.categoryId,
+                };
+            },
+
             ...mapGetters(['allEvents']),
-            filteredEvents: function() {
-                // TODO: remove when api has category query
-                return this.allEvents;
-                return this.allEvents.filter((eventItem) => {
-                    const titlesMatch = eventItem.title.toLowerCase().match(this.searchQuery.toLowerCase());
-
-                    if (this.currentFilter !== 'all') {
-                        const categoriesMatch = eventItem.eventCategories.filter(eventCategory => {
-                            return eventCategory.category.categoryId.toString() === this.currentFilter;
-                        });
-                        return titlesMatch && categoriesMatch.length > 0;
-                    }
-
-                    return titlesMatch;
-                });
-            }
         },
+
         watch: {
             '$route' (to, from) {
                 alert(to.params.eventItem.id);
-            }
+            },
+
+            categoryId (to, from) {
+                this.searchEventsOrAttending(to);
+            },
+
+            searchString (to, from) {
+                this.searchEventsOrAttending();
+            },
+
+            pageNumber (to, from) {
+                this.searchEventsOrAttending();
+            },
+
+            allEvents (to, from) {
+                if (this.allEvents.length < this.itemsPerPage) {
+                    this.$emit('reached-last');
+                }
+            },
         }
     }
 </script>
 
 <style lang="scss" scoped>
     @import './src/assets/scss/vue.scss';
-    .event-listings {
-        @include spacer(2rem);
-        @include make-col-ready();
-        @include make-col(12);
-        @include media-breakpoint-up(lg) {
-            @include make-col(9);
-            //@include make-col-offset(0);
-        }
-    }
     .event-pod {
         width: 100%;
         box-sizing: border-box;
@@ -137,14 +136,6 @@
         @include make-col(12);
         @include media-breakpoint-up(lg) {
             @include make-col(6);
-            //@include make-col-offset(0);
-        }
-    }
-    .event-filters {
-        @include make-col-ready();
-        @include make-col(12);
-        @include media-breakpoint-up(lg) {
-            @include make-col(3);
         }
     }
 </style>
