@@ -81,7 +81,7 @@
                     </div>
                     
                     <div class="form-group meridiem-time">
-                        <label for="timeEnd">End Time (HH:MM)</label>
+                        <label for="timeEnd">End Time (HH:MM) (optional)</label>
                         <div class="meridiem-time__input">
                             <input type="text" id="timeEnd" required v-model="eventEndTime" class="form-control">
                         </div>
@@ -136,9 +136,9 @@
                         <div>
                             <label for="eventImg">Event Image</label>
                         </div>
-                        <label for="eventImg" class="btn btn-primary mr-2" tabindex="0">Upload Image</label>
+                        <label for="eventImg" class="btn btn-primary mr-2" tabindex="0" @keyup.enter="triggerUploadImageButton">Upload Image</label>
                         <span>(optional)</span>
-                        <input type="file" id="eventImg" @change="onImageChange">
+                        <input type="file" id="eventImg" @change="onImageChange" ref="uploadBtn">
                     </div>
 
                     <div class="form-group">
@@ -231,7 +231,7 @@
                 if (!this.eventItem.title) { this.formErrors.push('Title is required') }
                 if (!this.eventStartDate) { this.formErrors.push('Event date is required') }
                 if (!this.eventStartTime || !this.eventStartTimeMeridiem) { this.formErrors.push('Event start time is required') }
-                if (!this.eventEndTime || !this.eventEndTimeMeridiem) { this.formErrors.push('Event end time is required') }
+                // if (!this.eventEndTime || !this.eventEndTimeMeridiem) { this.formErrors.push('Event end time is required') }
                 if (!this.eventItem.location) { this.formErrors.push('Location is required') }
                 if (!this.eventItem.eventCategories) { this.formErrors.push('A category is required') }
                 if (!this.eventItem.travelTips) { this.formErrors.push('Travel tips are required') }
@@ -324,6 +324,11 @@
                 const eventEndDate = this.$moment(this.eventStartDate).hour(endHour).minute(endMinute).format('YYYY-MM-DDTHH:mm:00');
                 
                 return { eventDate, eventEndDate };
+            },
+
+            triggerUploadImageButton() {
+                // make accessible via keyboard enter
+                this.$refs.uploadBtn.click();
             },
 
             ...mapActions({
