@@ -19,8 +19,7 @@
                 </div>
                 <div class="col-12">
                     <!-- THIS BUTTON WILL ADD A CLASS TO THE APP -->
-                    <button class="btn btn-primary" type="button" @click="highContrast = !highContrast">Toggle Contrast</button>
-                    <!-- <ToggleContrast :highContrast /> -->
+                    <ToggleContrast v-on:toggle-contrast="emitToggleContrast" />
                 </div>
                 <!-- <div class="col-12">
                     <div class="btn-group">
@@ -49,16 +48,19 @@
             Hero,
             ToggleContrast,
         },
-        //props: ['highContrast'],
         data() {
             return {
                 title: 'Preferences.',
                 tagline: 'Alter your accessibility settings.',
                 intro: `What is this preferences page all about? Well, this page provides accessibility help, enabling our users to make the most of this application whatever their ability or disability.`,
                 //fontSize: 10,
-                highContrast: false,
             }
         },
+        methods: {
+            emitToggleContrast: function(highContrast) {
+                this.$emit('toggle-contrast', highContrast);
+            }
+        }
     }
 </script>
 

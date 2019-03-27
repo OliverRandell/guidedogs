@@ -1,8 +1,7 @@
 <template>
-    <div id="app" :class="toggleContrast">
-        <button class="btn btn-primary" type="button" @click="highContrast = !highContrast">Toggle Contrast</button>
+    <div id="app" :class="{ 'highContrast': highContrast}">
         <div :class="`alert ${alert.type}`" v-if="alert.message">{{ alert.message }}</div>
-        <router-view></router-view>
+        <router-view v-on:toggle-contrast="toggleContrast"></router-view>
     </div>
 </template>
 
@@ -16,16 +15,14 @@
             }
         },
         computed: {
-            toggleContrast: function() {
-                return {
-                    highContrast: this.highContrast
-                }
-            },
             ...mapState({
                 alert: state => state.alert
             })
         },
         methods: {
+            toggleContrast: function(highContrast) {
+                this.highContrast = highContrast;
+            },
             ...mapActions({
                 clearAlert: 'alert/clear'
             })
