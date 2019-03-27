@@ -13,27 +13,33 @@
             <section class="pg-content layout-single-col" tabindex="-1">
                 <div>
 
-                    <form class="form-contact" @submit.prevent="submitContactForm">
+                    <form class="form-contact" @submit.prevent="submitContactForm" v-if="!submitted">
                         <fieldset>
                             <legend>Share any feedback or questions you have with us.</legend>
+                            <p v-if="formErrors.length" role="alert" aria-atomic="true">
+                                <b>Please correct the following error(s):</b>
+                                <ul>
+                                    <li v-for="(error, index) in formErrors" :key="index">{{ error }}</li>
+                                </ul>
+                            </p>
                             <div class="form-group">
                                 <label for="givenName">First name:</label>
-                                <input type="text" name="givenName" v-model="givenName" v-validate="'required|alpha'" :class="['form-control', {'input': true, 'is-danger': errors.has('givenName') }]" placeholder="Enter your first name">
+                                <input type="text" name="givenName" v-model="user.givenName" v-validate="'required|alpha'" :class="['form-control', {'input': true, 'is-danger': errors.has('givenName') }]" placeholder="Enter your first name">
                                 <small class="form-text">Enter your first name</small>
                             </div>
                             <div class="form-group">
                                 <label for="familyName">Last name:</label>
-                                <input type="text" name="familyName" v-model="familyName" v-validate="'required|alpha'" :class="['form-control', {'input': true, 'is-danger': errors.has('familyName') }]" placeholder="Enter your last name">
+                                <input type="text" name="familyName" v-model="user.familyName" v-validate="'required|alpha'" :class="['form-control', {'input': true, 'is-danger': errors.has('familyName') }]" placeholder="Enter your last name">
                                 <small class="form-text">Enter your last name</small>
                             </div>
 
                             <div class="form-group">
                                 <label for="email">Email address:</label>
-                                <input type="email" name="email" v-model="email" v-validate="'required|email'" :class="['form-control', {'input': true, 'is-danger': errors.has('email')}]" placeholder="Enter your email...">
+                                <input type="email" name="email" v-model="user.email" v-validate="'required|email'" :class="['form-control', {'input': true, 'is-danger': errors.has('email')}]" placeholder="Enter your email...">
                             </div>
                             <div class="form-group">
                                 <label for="phoneNumber">Phone Number:</label>
-                                <input type="text" name="phoneNumber" v-validate="'required|numeric'" :class="['form-control', {'input': true, 'is-danger': errors.has('phoneNumber') }]" placeholder="Enter your phone number">
+                                <input type="text" name="phoneNumber" v-model="user.phoneNumber" v-validate="'required|numeric'" :class="['form-control', {'input': true, 'is-danger': errors.has('phoneNumber') }]" placeholder="Enter your phone number">
                             </div>
                             <div class="form-group">
                                 <label for="message">Write your message:</label>
@@ -41,13 +47,17 @@
                                 <span class="counter">{{ message.text.length }} / {{ message.maxlength }}</span>
                             </div>
                             <div class="btn-wrapper">
-                                <input type="submit" name="" value="Send form" class="btn btn-primary">
+                                <input type="submit" @click.prevent="submitContactForm" value="Send form" class="btn btn-primary">
                             </div>
 
                         </fieldset>
 
 
                     </form>
+
+                    <section class="msg-thanks" v-if="submitted">
+                        <h3>Thanks for your message</h3>
+                    </section>
 
                 </div>
 
@@ -58,7 +68,7 @@
 </template>
 
 <script>
-
+    import { mapState, mapActions } from 'vuex';
     import LayoutMaster from '../components/common/layouts/layout-master.vue';
     import Hero from '../components/common/global/hero.vue';
     export default {
@@ -69,40 +79,59 @@
         },
         data () {
             return {
+                formErrors: [],
                 title: 'Contact us.',
                 tagline: 'Use the form below to get in touch.',
-                givenName: '',
-                familyName: '',
-                email: '',
-                phoneNumber: '',
+                user: {
+                    givenName: '',
+                    familyName: '',
+                    email: '',
+                    phoneNumber: '',
+                },
                 message: {
                     text: `Write your message in here...`,
                     maxlength: 1000
                 },
-                submitted: false
+                submitted: false,
             }
         },
-        computed: {
-            message: {
-                get () {
-                    return this.$store.state.message;
-                },
-                set (val) {
-                    this.$store.commit('UPDATE_MESSAGE', val);
-                }
-            }
-        },
-        methods: {
-            submitContactForm() {
-                this.$validator.validateAll().then((result) => {
-                    if (result) {
-                        alert('Form Submitted!');
-                        return;
-                    }
-                    alert('Correct the errors!');
-                });
-            }
-        }
+        // computed: {
+        //     ...mapState('account')
+            // message: {
+            //     get () {
+            //         return this.$store.state.message;
+            //     },
+            //     set (val) {
+            //         this.$store.commit('UPDATE_MESSAGE', val);
+            //     }
+            // }
+        // },
+        // methods: {
+        //     ...mapActions('account'),
+            // checkForm() {
+            //     this.formErrors = [];
+            //     if (!this.message.text) { this.formErrors.push('Message is required') }
+            //     return this.formErrors.length > 0;
+            // }
+
+            // handleSubmit() {
+            //     this.submitted = true;
+            //     this.$validator.validate().then(valid => {
+            //         if(valid) {
+            //             this.
+            //         }
+            //     })
+            // },
+            // submitContactForm() {
+            //     this.$validator.validateAll().then((result) => {
+            //         if (result) {
+            //             alert('Form Submitted!');
+            //             return;
+            //         }
+            //         alert('Correct the errors!');
+            //     });
+            // }
+        // }
     }
 </script>
 

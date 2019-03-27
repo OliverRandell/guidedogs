@@ -78,7 +78,7 @@
                         <label for="content">Event details:</label>
                         <textarea name="name" rows="4" v-model="eventItem.eventDetails" class="form-control"></textarea>
                     </div>
-                    
+
                     <img v-if="imagePreviewUrl" :src="imagePreviewUrl" />
                     <div class="form-group">
                         <!-- TODO: style upload as button -->
@@ -89,8 +89,11 @@
                         <label for="imageAlt">Image description</label>
                         <input type="text" name="" value="imageAlt" class="form-control" v-model="eventItem.imageAlt" placeholder="Please provide a short description of image provided">
                     </div>
-                    <h4>Important Information</h4>
-                    <p v-html="importantInfo"></p>
+                    <section class="spacer">
+                        <h4>Important Information</h4>
+                        <p v-html="importantInfo"></p>
+                    </section>
+
                     <input type="submit" v-on:click.prevent="onSubmit" class="btn btn-primary" value="Create Event" />
                 </form>
 
@@ -177,7 +180,7 @@
             },
             checkForm() {
                 this.formErrors = [];
-                
+
                 if (!this.eventItem.title) { this.formErrors.push('Title is required') }
                 if (!this.eventItem.eventDate) { this.formErrors.push('Event date is required') }
                 if (!this.eventItem.location) { this.formErrors.push('Location is required') }

@@ -2,7 +2,7 @@
     <LayoutMaster>
         <Hero>
             <template slot="title">
-                {{ title }}!
+                {{ title }}
             </template>
             <!-- <template slot="description">
                 <span>{{ tagline }}</span>
