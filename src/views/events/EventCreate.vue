@@ -52,7 +52,7 @@
                             <legend class="col-form-label col-sm-12 pt-0">Choose category:</legend>
                             <div class="col-sm-8">
                                 <div class="custom-control custom-radio mb-2" v-for="category in allCategories" :key="category.categoryId">
-                                    <input class="custom-control-input" type="radio" name="category" :id="category.title + category.categoryId" :value="category.title" v-model="eventItem.category">
+                                    <input class="custom-control-input" type="radio" name="category" :id="category.title + category.categoryId" :value="category.categoryId" v-model="eventItem.category">
                                     <label class="custom-control-label" :for="category.title + category.categoryId">{{category.title}}</label>
                                 </div>
                             </div>
@@ -147,7 +147,7 @@
                 title: 'Create Event!',
                 tagline: 'Organise and host your own event',
                 eventItem: {
-                    // TODO: seek out correct object format for categories in POST request
+                    // TODO: allow multiple categories? (then use this.eventCategories[])
                     category: '',
 
                     title: '',
@@ -208,6 +208,12 @@
                     eventDate: formattedDate,
                 };
 
+                // only handling one category at the moment (radio button form input)
+                const category = {
+                    "categoryId": this.eventItem.category,
+                    "checkBoxTicked": true
+                };
+
                 this.createEvent({event: eventFormData}).then(response => {
                     const formData = new FormData();
                     formData.append('formFile', this.imageFile);
@@ -217,9 +223,15 @@
                     return formData;
                 })
                 .then(data => {
+                    // add image to event
                     this.uploadEventImage(data).then(response => {
                         this.submitted = true;
                     });
+                    
+                    // add category to event
+                    const eventId = data.get('eventId');
+
+                    this.putEventCategories({ id: eventId, categories: [category] });
                 });
             },
             backToEvents() {
@@ -228,7 +240,8 @@
             ...mapActions({
                 'createEvent': 'createEvent',
                 'uploadEventImage': 'uploadEventImage',
-                'getCategories': 'getCategories'
+                'getCategories': 'getCategories',
+                'putEventCategories': 'putEventCategories'
             })
         },
         filters: {

@@ -102,6 +102,21 @@ const actions = {
             console.error('Image upload failed:', error.response);
         });
     },
+
+    async putEventCategories({ commit }, { id, categories }) {
+        await axios.put(`${apiUrl}/events/${id}/categories`,
+        {
+            categories: categories
+        },
+        {
+            headers: {
+                ...authHeader()
+            }
+        }).catch((error) => {
+            console.error('Adding event categories failed:', error.response);
+        });
+
+    }
 };
 
 const mutations = {
