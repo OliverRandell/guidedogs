@@ -14,7 +14,7 @@
 
                 <div class="idea-listings" ref="ideaListing" tabindex="-1">
 
-                    <div class="col-12 mb-5">
+                    <div class="mb-5">
                         <h4>Create your own Idea!</h4>
                         <router-link to="/create-idea" class="btn btn-primary">+ Create idea</router-link>
                     </div>
@@ -117,7 +117,7 @@
         },
 
         created() {
-            
+
         },
 
         computed: {
