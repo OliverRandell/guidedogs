@@ -49,7 +49,7 @@ const actions = {
 
     },
 
-    async searchEvents({ commit, dispatch }, queryParams) {
+    async searchEventsHosting({ commit, dispatch }, queryParams) {
         const url = await dispatch('makeUrlStringWithParams', { queryParams, uriSegment: 'myhostedpaged' });
         
         const response = await axios.get(url,

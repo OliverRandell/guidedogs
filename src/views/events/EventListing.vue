@@ -2,7 +2,7 @@
     <div>
         <div class="row" v-if="allEvents.length" >
             <article class="event-pod" v-for="eventItem in allEvents" :key="eventItem.id" role="article">
-                <EventListingItem v-bind:eventItem="eventItem" />
+                <EventListingItem v-bind:eventItem="eventItem" v-bind:hosting="hosting" />
             </article>
         </div>
             
@@ -78,10 +78,12 @@
             saerchEventsEndpoint: function(categoryId) {
                 if (this.hosting) {
                     this.searchEventsHosting(this.searchParams);
+                    return;
                 }
 
                 if (categoryId === 'attending' || this.categoryId === 'attending') {
                     this.searchEventsAttending({...this.searchParams, CategoryId: ''});
+                    return;
                 }
                 
                 this.searchEvents(this.searchParams);
@@ -89,7 +91,7 @@
         },
 
         created() {
-            this.searchEvents(this.searchParams);
+            this.saerchEventsEndpoint(this.searchParams);
         },
 
         computed: {
