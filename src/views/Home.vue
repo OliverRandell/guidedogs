@@ -25,14 +25,7 @@
                     <div class="col-12">
                         <h4>Upcoming events</h4>
                     </div>
-                    <article class="event-pod" v-for="eventItem in filteredEvents" :key="eventItem.id" role="article">
-                        <EventListingItem v-bind:eventItem="eventItem" v-bind:selectedCategory="currentFilter" v-bind:ItemsPerPage="2" />
-                    </article>
-                    <!-- <article class="pod-event" v-for="eventItem in events" :key="eventItem.id">
-                        <router-link :to="'/events/' + eventItem.id">
-                            <h2>{{ eventItem.title }}</h2>
-                        </router-link>
-                    </article> -->
+                    <EventListing itemsPerPage="2" />
                 </section>
             </div>
         </div>
@@ -51,14 +44,14 @@
     import LayoutMaster from '../components/common/layouts/layout-master.vue';
     import Hero from '../components/common/global/hero.vue';
     import RecentArticles from '../components/common/blog/recent-articles.vue';
-    import EventListingItem from './events/EventListingItem.vue';
+    import EventListing from './events/EventListing.vue';
     export default {
         name: 'Home',
         components : {
             LayoutMaster,
             Hero,
             RecentArticles,
-            EventListingItem,
+            EventListing,
         },
         data () {
             return {
@@ -81,37 +74,15 @@
                         route: '',
                     }
                 ],
-                currentFilter: 'all',
-                events: [],
             }
         },
         methods: {
-            ...mapActions(['getEvents']),
-            filterEvents: function(filter) {
-                this.currentFilter = filter;
-                this.getEvents(filter);
-            },
+            
         },
         created() {
-            this.getEvents()
         },
         computed: {
-            ...mapGetters(['allEvents']),
-            filteredEvents: function() {
-                return this.allEvents;
-                return this.allEvents.filter((eventItem) => {
-                    const titlesMatch = eventItem.title.toLowerCase().match(this.searchQuery.toLowerCase());
 
-                    if (this.currentFilter !== 'all') {
-                        const categoriesMatch = eventItem.eventCategories.filter(eventCategory => {
-                            return eventCategory.category.categoryId.toString() === this.currentFilter;
-                        });
-                        return titlesMatch && categoriesMatch.length > 0;
-                    }
-
-                    return titlesMatch;
-                });
-            }
         },
         watch: {
             '$route' (to, from) {

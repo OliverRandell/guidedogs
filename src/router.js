@@ -13,7 +13,7 @@ import About from './views/About.vue';
 import Contact from './views/Contact.vue';
 
 // EVENTS PAGES
-import EventListing from './views/events/EventListing.vue';
+import Events from './views/events/Events.vue';
 import EventCreate from './views/events/EventCreate.vue';
 import Event from './views/events/Event.vue';
 import EventRequest from './views/events/EventRequest.vue';
@@ -130,7 +130,7 @@ export const router =  new Router ({
         {
             path: '/events',
             name: 'Events',
-            component: EventListing,
+            component: Events,
             meta: {
                 title: 'Website - Events page'
             }

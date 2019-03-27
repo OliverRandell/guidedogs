@@ -32,17 +32,18 @@
         <dt>When:</dt>
         <dd>
             <time>
-                {{ eventItem.eventDate | moment("dddd Do MMMM") }}
+                {{ eventItem.eventDate | moment('dddd Do MMMM') }}
                 <br>
-                <!-- TODO: specify start and end times from model -->
-                {{ eventItem.eventDate | moment("h:mm a") }}
+                {{ eventItem.eventDate | moment("h:mma") }}<span v-if="eventItem.eventEndDate"> - </span>{{ eventItem.eventEndDate | moment("h:mma") }}
             </time>
         </dd>
 
         <dt>Where:</dt>
         <dd>{{ eventItem.location }}</dd>
 
-        <router-link :to="'/events/' + eventItem.eventId" class="btn btn-primary">Read more</router-link>
+        <router-link v-if="eventItem.userIsHost && hosting" :to="'/event-management'" class="btn btn-primary">Read more</router-link>
+        <router-link v-if="!hosting" :to="'/events/' + eventItem.eventId" class="btn btn-primary">Read more</router-link>
+
       </dl>
     </section>
   </div>
@@ -50,13 +51,13 @@
 
 <script>
 export default {
-  name: "EventListingItem",
-  props: ["eventItem", "ItemsPerPage"]
+  name: 'EventListingItem',
+  props: ['eventItem', 'ItemsPerPage', 'hosting']
 };
 </script>
 
 <style lang="scss" scoped>
-    @import "./src/assets/scss/vue.scss";
+    @import './src/assets/scss/vue.scss';
     .event-thumbnail {
         width: 100%;
         margin: 0;
