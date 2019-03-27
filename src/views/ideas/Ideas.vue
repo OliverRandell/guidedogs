@@ -5,52 +5,48 @@
                 {{ title }}!
             </template>
             <template slot="description">
-                <span>Find events in your community here</span>
+                <span>See what ideas are being floated for events in your community</span>
             </template>
         </hero>
 
         <div class="container">
             <div class="pg-content">
 
-                <div class="event-listings" ref="eventListing" tabindex="-1">
+                <div class="idea-listings" ref="ideaListing" tabindex="-1">
 
-                    <div class="col-12">
-                        <h4>Create your own Event!</h4>
-                        <router-link to="/create-event" class="btn btn-primary">+ Create event</router-link>
+                    <div class="col-12 mb-5">
+                        <h4>Create your own Idea!</h4>
+                        <router-link to="/create-idea" class="btn btn-primary">+ Create idea</router-link>
                     </div>
 
-                    <div class="col-12">
+                    <!-- <div class="col-12">
                         <form v-on:submit.prevent="onSearch">
                             <div class="form-group my-5">
                                 <label for="searchQuery" class="h4">Search</label>
                                 <div class="form-inline">
-                                    <input type="text" name="searchEvents" placeholder="Event keyword search" v-model="searchQuery" class="form-control" id="searchQuery">
+                                    <input type="text" name="searchIdeas" placeholder="Idea keyword search" v-model="searchQuery" class="form-control" id="searchQuery">
                                     <input type="submit" value="Search" class="btn btn-primary mx-2">
                                 </div>
                             </div>
                         </form>
-                    </div>
+                    </div> -->
 
-                    <EventListing :categoryId="categoryId" :searchString="searchString" :pageNumber="pageNumber" v-on:last-page="setLastPage" />
+                    <IdeaListing :categoryId="categoryId" :searchString="searchString" :pageNumber="pageNumber" v-on:last-page="setLastPage" />
 
                     <div class="col-12">
                         <button class="btn btn-outline-primary pagination-button" @click="onPrevPage" v-if="!firstPage">Previous page</button>
                         <button class="btn btn-outline-primary pagination-button" @click="onNextPage" v-if="!lastPage">Next page</button>
                     </div>
 
-                    <div class="col-12">
-                        <router-link to="/events/event-request" class="btn-link">Request to join event</router-link>
-                    </div>
-
                 </div>
 
-                <aside class="event-filters" role="group">
-                    <section class="my-events">
-                        <h6>View the events you are hosting.</h6>
-                        <router-link to="/my-hosting" class="btn btn-primary full-width">My events</router-link>
+                <aside class="idea-filters" role="group">
+                    <section class="my-ideas">
+                        <h6>Ideas that you've created</h6>
+                        <router-link to="/my-hosting" class="btn btn-primary full-width">My ideas</router-link>
                     </section>
 
-                    <CategoryListingFilter v-on:filter="categoryFilterEvents" v-bind:categoryId="categoryId" />
+                    <CategoryListingFilter v-on:filter="categoryFilterIdeas" v-bind:categoryId="categoryId" subType="idea" />
                 </aside>
 
             </div><!-- .pg-content -->
@@ -62,22 +58,22 @@
     import { mapGetters, mapActions } from "vuex";
     import LayoutMaster from '../../components/common/layouts/layout-master.vue';
     import Hero from '../../components/common/global/hero.vue';
-    import EventListing from './EventListing.vue';
+    import IdeaListing from './IdeaListing.vue';
     import CategoryListingFilter from '../../components/common/CategoryListingFilter.vue';
 
     export default {
-        name: 'Events',
+        name: 'Ideas',
 
         components : {
             LayoutMaster,
             Hero,
-            EventListing,
+            IdeaListing,
             CategoryListingFilter
         },
 
         data () {
             return {
-                title: 'Events',
+                title: 'Ideas',
                 categoryId: '',
                 searchQuery: '',
                 searchString: '',
@@ -87,33 +83,32 @@
         },
 
         methods: {
-            categoryFilterEvents: function(id) {
+            categoryFilterIdeas: function(id) {
                 this.categoryId = id;
                 this.pageNumber = 1;
             },
 
             onSearch() {
                 this.searchString = this.searchQuery;
-                this.pageNumber = 1;
             },
 
             onNextPage() {
                 this.pageNumber++;
                 window.scrollTo(0, this.topOffset);
-                this.setFocusToEventListing();
+                this.setFocusToIdeaListing();
             },
 
             onPrevPage() {
                 if (this.pageNumber > 1) {
                     this.pageNumber--;
                     window.scrollTo(0, this.topOffset);
-                    this.setFocusToEventListing();
+                    this.setFocusToIdeaListing();
                     this.lastPage = false;
                 }
             },
 
-            setFocusToEventListing() {
-                this.$refs.eventListing.focus();
+            setFocusToIdeaListing() {
+                this.$refs.ideaListing.focus();
             },
 
             setLastPage(isLastPage) {
@@ -127,7 +122,7 @@
 
         computed: {
             topOffset: function() {
-                const element = this.$refs.eventListing;
+                const element = this.$refs.ideaListing;
                 const top = element.offsetTop;
                 return top;
             },
@@ -138,7 +133,7 @@
 
         watch: {
             '$route' (to, from) {
-                alert(to.params.eventItem.id);
+                alert(to.params.ideaItem.id);
             },
         }
     }
@@ -146,7 +141,7 @@
 
 <style lang="scss" scoped>
     @import './src/assets/scss/vue.scss';
-    .event-listings {
+    .idea-listings {
         @include spacer(2rem);
         @include make-col-ready();
         @include make-col(12);
@@ -154,7 +149,7 @@
             @include make-col(9);
         }
     }
-    .event-filters {
+    .idea-filters {
         @include make-col-ready();
         @include make-col(12);
         @include media-breakpoint-up(lg) {
@@ -164,7 +159,7 @@
     .full-width {
         width: 100%;
     }
-    .my-events {
+    .my-ideas {
         @include spacer(0.5rem);
     }
     .pagination-button {

@@ -1,81 +1,130 @@
-<template>
-
-    <LayoutMaster>
-        <hero>
-            <template slot="title">
-                {{ title }}
-            </template>
-            <template slot="description">
-                {{ tagline }}
-            </template>
-        </hero>
-        <div class="container">
-            <div class="pg-content">
-                <section class="item-wrapper">
-                    <article class="idea-create-section">
-                        <p>Can't find what you're looking for? Create your own idea!</p>
-                        <router-link to="/create-idea" class="btn btn-primary">Create idea</router-link>
-                    </article>
-
-                    <article class="idea-pod" v-for="idea in allIdeas" :key="idea.eventId">
-                        <IdeaListingItem v-bind:idea="idea" v-bind:selectedCategory="currentFilter" />
-                    </article>
-                </section>
-                <aside class="filters" role="group">
-                    <!-- TODO: IF USER HAS ANY IDEAS CREATED -->
-                    <section class="my-events">
-                        <h6>Ideas that you've created:</h6>
-                        <router-link to="/my-hosting" class="btn btn-primary full-width">My ideas</router-link>
-                    </section>
-
-                    <!-- TODO: refactor so that "my event RSVP's" doesn't appear for ideas -->
-                    <EventListingFilter v-on:filter-events="filterEvents" v-bind:currentFilter="currentFilter" />
-                </aside>
-
-            </div>
+<template lang="html">
+    <div>
+        <div class="row" v-if="allIdeas.length">
+            <article class="idea-pod" :class="{ 'hosting': hosting}" v-for="ideaItem in allIdeas" :key="ideaItem.id" role="article">
+                <IdeaListingItem v-bind:idea="ideaItem" v-bind:hosting="hosting" />
+            </article>
         </div>
-    </LayoutMaster>
+            
+        <div class="col-12">
+            <article v-if="!allIdeas.length" role="article">
+                <p class="my-3">Be the first to add an Idea!</p>
+            </article>
+        </div>
+    </div>
 </template>
 
 <script>
-    import { mapGetters, mapActions } from "vuex";
-    import LayoutMaster from '../../components/common/layouts/layout-master.vue';
-    import Hero from '../../components/common/global/hero.vue';
-    import EventListingFilter from '../events/EventListingFilter.vue';
+    import { mapGetters, mapActions } from 'vuex';
     import IdeaListingItem from './IdeaListingItem.vue';
-    export default {
-        name: 'IdeaListing',
 
-        components: {
-            LayoutMaster,
-            Hero,
-            EventListingFilter,
-            IdeaListingItem,
+    export default {
+        name: 'IdeassListing',
+
+        components : {
+            IdeaListingItem
         },
 
-        data() {
-            return {
-                title: 'Ideas!',
-                tagline: 'Expressions of interest posted here',
-                currentFilter: 'all',
+        props: {
+            sortField: {
+                type: String,
+                default: 'eventId'
+            },
+            sortDirection: {
+                type: String,
+                default: 'Descending'
+            },
+            searchString: {
+                type: String,
+                default: ''
+            },
+            itemsPerPage: {
+                type: String,
+                default: '10'
+            },
+            pageNumber: {
+                type: Number,
+                default: 1
+            },
+            rowOffset: {
+                type: String,
+                default: '0'
+            },
+            categoryId: {
+                type: String,
+                default: ''
+            },
+            hosting: {
+                type: Boolean,
+                default: false
             }
         },
 
-        computed: {
-            ...mapGetters(['allIdeas']),
-        },
-
-        created() {
-            this.getIdeas();
+        data () {
+            return {
+                title: 'Ideas',
+            }
         },
 
         methods: {
-            ...mapActions({
-                'getIdeas': 'getIdeas',
-            }),
-            filterEvents: function(filter) {
-                this.currentFilter = filter;
-                this.getIdeas(filter);
+            ...mapActions(['searchIdeas', 'searchIdeasAttending', 'searchIdeasHosting']),
+
+            // determine which endpoint to call based on categoryId string
+            // categoryId will be an id number (as string) or 'attending'
+            saerchIdeasEndpoint: function(categoryId) {
+                if (this.hosting) {
+                    this.searchIdeasHosting(this.searchParams);
+                    return;
+                }
+
+                if (categoryId === 'attending' || this.categoryId === 'attending') {
+                    this.searchIdeasAttending({...this.searchParams, CategoryId: ''});
+                    return;
+                }
+                
+                this.searchIdeas(this.searchParams);
+            }
+        },
+
+        created() {
+            this.saerchIdeasEndpoint(this.searchParams);
+        },
+
+        computed: {
+            searchParams: function() {
+                return {
+                    SortField: this.sortField,
+                    SortDirection: this.sortDirection,
+                    SearchString: this.searchString.toLowerCase(),
+                    ItemsPerPage: this.itemsPerPage,
+                    PageNumber: this.pageNumber.toString(),
+                    RowOffset: this.rowOffset,
+                    CategoryId: this.categoryId,
+                };
+            },
+
+            ...mapGetters(['allIdeas']),
+        },
+
+        watch: {
+            '$route' (to, from) {
+                alert(to.params.ideaItem.id);
+            },
+
+            categoryId (to, from) {
+                this.saerchIdeasEndpoint(to);
+            },
+
+            searchString (to, from) {
+                this.saerchIdeasEndpoint();
+            },
+
+            pageNumber (to, from) {
+                this.saerchIdeasEndpoint();
+            },
+
+            allIdeas (to, from) {
+                this.$emit('last-page', this.allIdeas.length < this.itemsPerPage);
             },
         }
     }
@@ -84,12 +133,15 @@
 <style lang="scss" scoped>
     @import './src/assets/scss/vue.scss';
     .idea-pod {
-        @include spacer(1.5rem);
-    }
-    .interested {
-        color: red;
-    }
-    .idea-create-section {
-        @include spacer(2rem);
+        @include spacer(1rem);
+        @include make-col-ready();
+        @include make-col(12);
+
+        &.hosting {
+            @include media-breakpoint-up(lg) {
+                @include make-col(6);
+            }
+
+        }
     }
 </style>

@@ -22,11 +22,9 @@
 
                     <h4>My Ideas</h4>
                     <div class="row">
-                        <article class="idea-pod" v-for="idea in hostedIdeas" :key="idea.id">
-                            <h3>{{ idea.title }}</h3>
-                            <p>{{ idea.description }}</p>
-                            <router-link :to="idea.route">Edit idea</router-link>
-                        </article>
+                        <div class="col-12">
+                            <IdeaListing hosting />
+                        </div>
                     </div>
 
                 </div>
@@ -43,12 +41,14 @@
     import LayoutMaster from '../../components/common/layouts/layout-master.vue';
     import Hero from '../../components/common/global/hero.vue';
     import EventListing from '../events/EventListing.vue';
+    import IdeaListing from '../ideas/IdeaListing.vue';
     export default {
         name: 'HostingOverview',
         components: {
             LayoutMaster,
             Hero,
             EventListing,
+            IdeaListing,
         },
         data() {
             return {
@@ -92,11 +92,4 @@
 
 <style lang="scss" scoped>
     @import './src/assets/scss/app.scss';
-    .idea-pod {
-        @include make-col-ready();
-        @include make-col(12);
-        @include media-breakpoint-up(lg) {
-            @include make-col(6);
-        }
-    }
 </style>

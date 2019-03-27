@@ -2,17 +2,23 @@
     <div>
         <h3>Filter by:</h3>
         <p>Category</p>
-        <button type="button" :class="['btn-filter', { active: categoryId === '' }]" @click="$emit('filter-events', '')">All</button>
+        <button type="button" :class="['btn-filter', { active: categoryId === '' }]" @click="$emit('filter', '')">All</button>
 
         <button
             v-for="category in allCategories" :key="category.categoryId"
             type="button"
             :class="['btn-filter', { active: categoryId === category.categoryId.toString() }]"
-            @click="$emit('filter-events', category.categoryId.toString())">{{category.title}}</button>
+            @click="$emit('filter', category.categoryId.toString())">{{category.title}}</button>
 
-        <p>My Event RSVP's</p>
-        <!-- TODO: handle attending -->
-        <button type="button" :class="['btn-filter', { active: categoryId === 'attending' }]" @click="$emit('filter-events', 'attending')">Attending</button>
+        <div v-if="subType === 'event'">
+            <p>My Event RSVP's</p>
+            <button type="button" :class="['btn-filter', { active: categoryId === 'attending' }]" @click="$emit('filter', 'attending')">Attending</button>
+        </div>
+
+        <div v-if="subType === 'idea'">
+            <p>Ideas you're interested in</p>
+            <button type="button" :class="['btn-filter', { active: categoryId === 'attending' }]" @click="$emit('filter', 'attending')">Interested</button>
+        </div>
     </div>
 </template>
 
@@ -20,12 +26,16 @@
 import { mapGetters, mapActions } from 'vuex';
 
 export default {
-    name: 'EventListingFilter',
+    name: 'CategoryListingFilter',
 
     props: {
         categoryId: {
             type: String,
             default: ''
+        },
+        subType: {
+            type: String,
+            default: 'event'
         },
     },
 

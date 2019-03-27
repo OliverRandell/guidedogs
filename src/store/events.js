@@ -14,7 +14,7 @@ const getters = {
 };
 
 const actions = {
-    makeUrlStringWithParams({ commit }, { queryParams, uriSegment}) {
+    makeUrlStringWithParams({ commit }, { queryParams, uriSegment, uriRoot}) {
         let queryString;
         
         queryParams = queryParams || null;
@@ -23,11 +23,11 @@ const actions = {
             queryString = buildQuery(queryParams);
         }
 
-        return `${apiUrl}/events/${uriSegment}?${queryString}`;
+        return `${apiUrl}/${uriRoot}/${uriSegment}?${queryString}`;
     },
 
     async searchEventsAttending({ commit, dispatch }, queryParams ) {
-        const url = await dispatch('makeUrlStringWithParams', { queryParams, uriSegment: 'myattendingpaged' });
+        const url = await dispatch('makeUrlStringWithParams', { queryParams, uriSegment: 'myattendingpaged', uriRoot: 'events' });
         
         const response = await axios.get(url,
         {
@@ -38,7 +38,7 @@ const actions = {
     },
 
     async searchEvents({ commit, dispatch }, queryParams) {
-        const url = await dispatch('makeUrlStringWithParams', { queryParams, uriSegment: 'paged' });
+        const url = await dispatch('makeUrlStringWithParams', { queryParams, uriSegment: 'paged', uriRoot: 'events' });
         
         const response = await axios.get(url,
         {
@@ -50,7 +50,7 @@ const actions = {
     },
 
     async searchEventsHosting({ commit, dispatch }, queryParams) {
-        const url = await dispatch('makeUrlStringWithParams', { queryParams, uriSegment: 'myhostedpaged' });
+        const url = await dispatch('makeUrlStringWithParams', { queryParams, uriSegment: 'myhostedpaged', uriRoot: 'events' });
         
         const response = await axios.get(url,
         {
