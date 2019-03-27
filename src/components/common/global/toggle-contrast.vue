@@ -1,5 +1,5 @@
 <template>
-    <button class="btn btn-primary" type="button" @click="toggleContrast">Toggle Contrast</button>
+    <button class="btn-filter" type="button" @click="toggleContrast">Toggle Contrast</button>
 </template>
 
 <script>
@@ -22,7 +22,7 @@
             emitContrast: function() {
                 this.$emit('toggle-contrast', this.highContrast);
             },
-            
+
             getContrast: function() {
                 const contrastSet = window.localStorage.getItem('highContrast');
                 return contrastSet === 'true' ? true : false;
@@ -37,5 +37,13 @@
     }
 </script>
 
-<style lang="css">
+<style lang="scss" scoped>
+    @import './src/assets/scss/app.scss';
+    button {
+        .highContrast & {
+            background-color: $primary;
+            border-color: $primary;
+            color: $white;
+        }
+    }
 </style>

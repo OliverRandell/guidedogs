@@ -49,26 +49,18 @@
                 eventTitle: 'This is the event title',
                 eventAttendees: [
                     {
-                        // rsvpId: 0,
-                        // eventId: '0',
                         route: '/host-profile',
                         rsvpParticipantNickName: 'Guide dogs vic',
                     },
                     {
-                        // rsvpId: 1,
-                        // eventId: '1',
                         route: '/host-profile',
                         rsvpParticipantNickName: 'James_bond007',
                     },
                     {
-                        // rsvpId: 3,
-                        // eventId: '3',
                         route: '/host-profile',
                         rsvpParticipantNickName: 'Ernest Hemmingway',
                     },
                     {
-                        // rsvpId: 4,
-                        // eventId: '4',
                         route: '/host-profile',
                         rsvpParticipantNickName: 'EinsteinMind',
                     }
@@ -81,15 +73,4 @@
 
 <style lang="scss" scoped>
     @import './src/assets/scss/vue.scss';
-    .guest-list {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-        > li {
-            @include spacer(0.25rem);
-            border-bottom: 1px solid $gray-300;
-            padding: 1rem 0;
-
-        }
-    }
 </style>

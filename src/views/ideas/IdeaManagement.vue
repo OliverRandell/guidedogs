@@ -21,7 +21,7 @@
 
                     <section class="spacer">
                         <h4>Number of people interested:</h4>
-                        <p>5</p>
+                        <p><strong>Total: </strong>5</p>
                         <router-link to="/event-attendees" class="btn btn-primary">View people interested</router-link>
 
                     </section>

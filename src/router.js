@@ -17,6 +17,7 @@ import Events from './views/events/Events.vue';
 import EventCreate from './views/events/EventCreate.vue';
 import Event from './views/events/Event.vue';
 import EventRequest from './views/events/EventRequest.vue';
+import EventRequestManagement from './views/events/EventRequestManagement.vue';
 import EventManagement from './views/events/EventManagement.vue';
 import EventAttendees from './views/events/EventAttendees.vue';
 
@@ -157,6 +158,14 @@ export const router =  new Router ({
             component: EventRequest,
             meta: {
                 title: 'Request attendence to this event.'
+            }
+        },
+        {
+            path: '/manage-requests',
+            name: 'EventRequestManagement',
+            component: EventRequestManagement,
+            meta: {
+                title: 'Event request management'
             }
         },
         {
