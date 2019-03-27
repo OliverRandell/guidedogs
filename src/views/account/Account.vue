@@ -10,10 +10,15 @@
         <div class="container">
             <section class="pg-content">
                 <article class="item-wrapper" role="article" tabindex="-1">
-                    <h4>Your details</h4>
+                    <h4>Manage your account details:</h4>
                     <p>This information will assit us to currate personalised content.</p>
                     <!-- INCLUDE AGE DETAILS, NAME, USERNAME, POSTCODE, INTERESTS -->
                     <form class="spacer" @submit.prevent="onSubmit">
+                        <!-- NB: I DON'T THINK THAT THE USER CAN CHANGE THEIR EMAIL -->
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="text" name="" value="" class="form-control" disabled v-model="user.email">
+                        </div>
                         <div class="form-group">
                             <label for="givenName">First Name:</label>
                             <input type="text" name="" value="" placeholder="" v-model="user.givenName" class="form-control">
@@ -26,6 +31,10 @@
                             <label for="userName">Username:</label>
                             <!-- <editable-input v-model="userDetailsForm.name" change-button-label="Edit" save-button-label="Save" @saved="updateProfile"></editable-input> -->
                             <input type="text" name="" value="" v-model="user.userName" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Phone Number</label>
+                            <input type="text" name="" value="" class="form-control" v-model="user.phoneNumber">
                         </div>
                         <div class="form-group">
                             <label for="age">Age:</label>
@@ -70,19 +79,7 @@
                             <input type="submit" v-on:click.prevent="onSubmit" class="btn btn-primary" value="Update your account">
                         </div>
                     </form>
-                    <form class="spacer">
-                        <h4>Manage your account</h4>
-                        <!-- NB: I DON'T THINK THAT THE USER CAN CHANGE THEIR EMAIL -->
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="text" name="" value="" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Contact Number</label>
-                            <input type="text" name="" value="" class="form-control">
-                        </div>
 
-                    </form>
                     <form class="form-change-password spacer">
                         <h4>Change password</h4>
                         <div class="form-group">

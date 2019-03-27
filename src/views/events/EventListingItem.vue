@@ -1,12 +1,13 @@
 <template>
   <div>
-    <router-link :to="'/events/' + eventItem.eventId">
+    <router-link :to="'/events/' + eventItem.eventId" class="event-img">
       <figure class="event-thumbnail">
         <h5 class="event-privacy">
           <template v-if="eventItem.eventOpen === 'true'">Public</template>
           <template v-else>Private</template>
         </h5>
         <img v-if="eventItem.image" :src="eventItem.image.url" :alt="eventItem.image.altText">
+        <img src="@/assets/imgs/profile-pic.jpg" alt="This is a dummy image" v-else>
       </figure>
     </router-link>
 
@@ -116,5 +117,8 @@ export default {
         dd {
             font-size: 1rem;
         }
+    }
+    .event-img {
+        @include responsiveImg(14rem);
     }
 </style>
