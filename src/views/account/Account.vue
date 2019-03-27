@@ -13,7 +13,7 @@
                     <h4>Your details</h4>
                     <p>This information will assit us to currate personalised content.</p>
                     <!-- INCLUDE AGE DETAILS, NAME, USERNAME, POSTCODE, INTERESTS -->
-                    <form class="spacer">
+                    <form class="spacer" @submit.prevent="onSubmit">
                         <div class="form-group">
                             <label for="givenName">First Name:</label>
                             <input type="text" name="" value="" placeholder="" v-model="user.givenName" class="form-control">
@@ -66,7 +66,9 @@
                             <textarea name="name" rows="8" cols="80" class="form-control" placeholder="Example: my new guide dog Toby, best coffee spots in Kew and I want to learn more about JAWS"></textarea>
                             <small class="sr-only form-text">Example: my new guide dog Toby, best coffee spots in Kew and I want to learn more about JAWS</small>
                         </div>
-
+                        <div class="btn-wrapper">
+                            <input type="submit" v-on:click.prevent="onSubmit" class="btn btn-primary" value="Update your account">
+                        </div>
                     </form>
                     <form class="spacer">
                         <h4>Manage your account</h4>
@@ -79,6 +81,7 @@
                             <label for="email">Contact Number</label>
                             <input type="text" name="" value="" class="form-control">
                         </div>
+
                     </form>
                     <form class="form-change-password spacer">
                         <h4>Change password</h4>
@@ -166,7 +169,7 @@
 </template>
 
 <script>
-    //import { mapState, mapActions } from 'vuex';
+    import { mapState, mapActions, mapGetters } from 'vuex';
     import LayoutMaster from '../../components/common/layouts/layout-master.vue';
     import Hero from '../../components/common/global/hero.vue';
 
@@ -212,6 +215,37 @@
                 ]
             }
         },
+        methods: {
+            checkForm() {
+                this.formErrors = [];
+            },
+            onSubmit() {
+                const formHasErrors = this.checkForm();
+
+                if ( formHasErrors ) {
+                    window.scrollTo(0, this.topOffset);
+                    this.setFocusToErrorListing();
+                    return;
+                };
+            },
+            setFocusToErrorListing() {
+                this.$refs.formCreate.focus();
+            },
+            ...mapActions({
+                'getMemberProfile': 'getMemberProfile'
+            })
+        },
+        computed: {
+            ...mapGetters(['memberProfile']),
+            topOffset: function() {
+                const element = this.$refs.formCreate;
+                const top = element.offsetTop;
+                return top;
+            },
+        },
+        created() {
+            this.getMemberProfile();
+        }
     }
 </script>
 
