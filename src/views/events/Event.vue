@@ -29,8 +29,7 @@
                             <time>
                                 {{ event.eventDate | moment("dddd Do MMMM") }}
                                 <br>
-                                <!-- TODO: specify start and end times from model -->
-                                {{ event.eventDate | moment("h:mm a") }}
+                                {{ event.eventDate | moment("h:mma") }}<span v-if="event.eventEndDate"> - </span>{{ event.eventEndDate | moment("h:mma") }}
                             </time>
                         </dd>
                         
