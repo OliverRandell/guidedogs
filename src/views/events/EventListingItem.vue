@@ -52,7 +52,7 @@
 <script>
 export default {
   name: 'EventListingItem',
-  props: ['eventItem', 'ItemsPerPage', 'hosting']
+  props: ['eventItem', 'hosting']
 };
 </script>
 

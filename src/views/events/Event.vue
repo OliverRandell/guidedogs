@@ -72,7 +72,6 @@
 </template>
 
 <script>
-    import { userService } from '../../services/user';
     import { mapGetters, mapActions } from 'vuex';
     import LayoutMaster from '../../components/common/layouts/layout-master.vue';
     import Hero from '../../components/common/global/hero.vue';
@@ -111,7 +110,7 @@
                 this.submitted = true;
             },
             onDeleteEvent(event) {
-                this.deleteEvent(event.eventId).then(response => {
+                this.deleteEvent(event.eventId).then(() => {
                     this.$router.push('/events');
                 });
             }
