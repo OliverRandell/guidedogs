@@ -17,7 +17,7 @@
                     </div>
 
                     <dl class="event-details">
-                        <h2>{{ event.title }}</h2>
+                        <h2>Event Details</h2>
                         
                         <dt>Host:</dt>
                         <dd>
@@ -35,15 +35,23 @@
                         
                         <dt>Where:</dt>
                         <dd>{{ event.location }}</dd>
+
                         <dt>Travel Tips:</dt>
                         <dd>{{ event.travelTips }}</dd>
+                        
+                        <dt>Type:</dt>
+                        <dd>{{ event.eventPublicity }}</dd>
                         
                         <dt>Details:</dt>
                         <dd>{{ event.eventDetails }}</dd>
                     </dl>
 
-                    <button type="button" name="button" class="btn btn-primary" @click="registerInterest(event)">Interested</button>
-                    <button type="button" name="button" class="btn btn-outline-primary mx-3" @click="registerRsvp(event)">RSVP</button>
+                    <button v-if="event.eventPublicity === 'Private'" type="button" name="button" class="btn btn-outline-primary mr-3" @click="registerRequest(event)">Request to Join</button>
+
+                    <button v-if="event.eventPublicity === 'Private'" type="button" name="button" class="btn btn-outline-primary mr-3" @click="registerInterest(event)">Interested</button>
+
+                    <button v-if="event.eventPublicity === 'Public'" type="button" name="button" class="btn btn-outline-primary mr-3" @click="registerAttending(event)">Attend</button>
+
                     <router-link to="/contact-host" class="btn btn-primary">Contact host</router-link>
                 </article>
 
@@ -92,8 +100,13 @@
                 this.rsvpEvent(event);
                 this.submitted = true;
             },
-            registerRsvp(event) {
+            registerAttending(event) {
                 event.rsvpType = 'Attending';
+                this.rsvpEvent(event);
+                this.submitted = true;
+            },
+            registerRequest(event) {
+                event.rsvpType = 'Requested';
                 this.rsvpEvent(event);
                 this.submitted = true;
             },
