@@ -15,14 +15,15 @@
                             <img v-if="event.image" :src="event.image.url" :alt="event.image.altText">
                         </figure>
                     </div>
+
                     <dl class="event-details">
                         <h2>{{ event.title }}</h2>
-                        <!-- TODO: link to host profile -->
+                        
                         <dt>Host:</dt>
                         <dd>
-                            <!-- <router-link :to="'/events/' + event.eventHostId">{{ event.eventHostNickName }}</router-link> -->
                             <router-link to="/host-profile">{{ event.eventHostNickName }}</router-link>
                         </dd>
+
                         <dt>When:</dt>
                         <dd>
                             <time>
@@ -32,28 +33,33 @@
                                 {{ event.eventDate | moment("h:mm a") }}
                             </time>
                         </dd>
+                        
                         <dt>Where:</dt>
                         <dd>{{ event.location }}</dd>
                         <dt>Travel Tips:</dt>
                         <dd>{{ event.travelTips }}</dd>
+                        
                         <dt>Details:</dt>
                         <dd>{{ event.eventDetails }}</dd>
                     </dl>
+
                     <button type="button" name="button" class="btn btn-primary" @click="registerInterest(event)">Interested</button>
                     <button type="button" name="button" class="btn btn-outline-primary mx-3" @click="registerRsvp(event)">RSVP</button>
                     <router-link to="/contact-host" class="btn btn-primary">Contact host</router-link>
                 </article>
+
                 <aside class="event-summary items-sidebar" tabindex="-1" v-if="!submitted">
                     <p><router-link to="/events">&larr; Back to events page</router-link></p>
-                    <p><button v-if="event.userIsHost" @click="onDeleteEvent(event)" type="button" name="button" class="btn btn-primary">Delete event</button></p>
-                    <router-link to="/create-event" class="btn btn-primary">Create an Event</router-link>
-
+                    <!-- <p><button v-if="event.userIsHost" @click="onDeleteEvent(event)" type="button" name="button" class="btn btn-primary">Delete event</button></p>
+                    <router-link to="/create-event" class="btn btn-primary">Create an Event</router-link> -->
                 </aside>
+
                 <section v-if="submitted" class="msg-success">
                     <h3>Thank you for responding to this event!</h3>
                     <router-link to="/events" class="btn btn-primary">Back to events page</router-link>
                 </section>
-            </section>
+
+            </section><!-- .pg-content -->
         </div>
     </LayoutMaster>
 </template>
