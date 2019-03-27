@@ -36,6 +36,9 @@
         //@include spacer(2rem);
         height: 6rem;
         background-color: $secondary;
+        .highContrast & {
+            background-color: $black;
+        }
     }
     .nav-wrapper {
         display: flex;

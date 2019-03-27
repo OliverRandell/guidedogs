@@ -31,6 +31,9 @@
     .title {
         @include font-size($h2-font-size);
         color: $black;
+        .highContrast & {
+            color: $white;
+        }
         &:hover {
             text-decoration:none;
             color: darken($primary, 20%);

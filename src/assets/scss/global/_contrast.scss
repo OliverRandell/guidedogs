@@ -1,0 +1,16 @@
+.highContrast {
+    .pg-hero, .pg-content {
+        color: $white;
+        background-color: $black;
+    }
+    .nav-item {
+        color: $white;
+    }
+    a {
+        color: White;
+        text-decoration: underline;
+    }
+    .btn {
+        text-decoration: none;
+    }
+}

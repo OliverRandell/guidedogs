@@ -13,7 +13,7 @@
                     <h4>Your details</h4>
                     <p>This information will assit us to currate personalised content.</p>
                     <!-- INCLUDE AGE DETAILS, NAME, USERNAME, POSTCODE, INTERESTS -->
-                    <form>
+                    <form class="spacer">
                         <div class="form-group">
                             <label for="givenName">First Name:</label>
                             <input type="text" name="" value="" placeholder="" v-model="user.givenName" class="form-control">
@@ -68,7 +68,7 @@
                         </div>
 
                     </form>
-                    <form class="">
+                    <form class="spacer">
                         <h4>Manage your account</h4>
                         <!-- NB: I DON'T THINK THAT THE USER CAN CHANGE THEIR EMAIL -->
                         <div class="form-group">
@@ -80,10 +80,10 @@
                             <input type="text" name="" value="" class="form-control">
                         </div>
                     </form>
-                    <form class="form-change-password">
+                    <form class="form-change-password spacer">
                         <h4>Change password</h4>
                         <div class="form-group">
-                            <label for="password">Curent Password</label>
+                            <label for="password">Current Password</label>
                             <input type="password" name="" value="" class="form-control">
                         </div>
                         <div class="form-group">
@@ -98,11 +98,12 @@
                             <input type="submit" name="" value="Change password" class="btn btn-primary">
                         </div>
                     </form>
-
-                    <p>No longer want to be part of the Peer Support Platform community?</p>
-                    <div class="btn-wrapper">
-                        <button type="button" class="btn btn-primary">Delete account</button>
-                    </div>
+                    <section class="spacer">
+                        <p>No longer want to be part of the Peer Support Platform community?</p>
+                        <div class="btn-wrapper">
+                            <button type="button" class="btn btn-primary">Delete account</button>
+                        </div>
+                    </section>
                 </article>
                 <aside class="items-sidebar">
                     <!-- TABS GO IN HERE. DETAILS, EVENTS & IDEAS & SETTINGS -->

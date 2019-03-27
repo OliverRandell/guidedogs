@@ -29,6 +29,9 @@
         background-color: #EFEBEE;
         padding: 6rem 0;
         text-align: center;
+        .highContrast & {
+            background-color: $black;
+        }
     }
     h3 {
         width: 50%;

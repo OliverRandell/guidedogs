@@ -24,10 +24,13 @@ export default {
     @import './src/assets/scss/vue.scss';
     .pg-hero {
         background-color: $secondary;
-        color: $black;
         padding-top: 4rem;
         padding-bottom: 4rem;
         text-align: center;
+        .highContrast & {
+            background-color: $black;
+
+        }
         @include media-breakpoint-up(sm) {
             padding-top: 6rem;
             padding-bottom: 6rem;

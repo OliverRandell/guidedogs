@@ -40,7 +40,7 @@
                             </div>
                         </div>
                     </fieldset>
-                    
+
                     <div class="form-group">
                         <label for="title">Event Title</label>
                         <input type="text" id="title" required v-model="eventItem.title" class="form-control">
@@ -79,7 +79,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="form-group meridiem-time">
                         <label for="timeEnd">End Time (HH:MM) (optional)</label>
                         <div class="meridiem-time__input">
@@ -130,13 +130,8 @@
                         <textarea id="details" rows="4" v-on:input="checkDetailsCharacterLength" v-model="eventItem.eventDetails" max-length="1000" class="form-control"></textarea>
                         <p class="character-limit">{{ detailsCharacterLimitDisplay }}</p>
                     </div>
-<<<<<<< HEAD
 
-                    <img v-if="imagePreviewUrl" :src="imagePreviewUrl" />
-=======
-                    
                     <img v-if="imagePreviewUrl" :src="imagePreviewUrl" class="my-2" />
->>>>>>> 74eede32f00121f047cc965032f61c2007f64214
                     <div class="form-group">
                         <div>
                             <label for="eventImg">Event Image</label>
@@ -153,16 +148,10 @@
                         </small>
                         <input type="text" id="imageAlt" class="form-control" v-model="eventItem.imageAlt">
                     </div>
-<<<<<<< HEAD
                     <section class="spacer">
                         <h4>Important Information</h4>
                         <p v-html="importantInfo"></p>
                     </section>
-=======
-
-                    <h4>Important Information</h4>
-                    <p v-html="importantInfo"></p>
->>>>>>> 74eede32f00121f047cc965032f61c2007f64214
 
                     <input type="submit" v-on:click.prevent="onSubmit" class="btn btn-primary" value="Create Event" />
                 </form>
@@ -299,7 +288,7 @@
                     this.uploadEventImage(data).then(response => {
                         this.submitted = true;
                     });
-                    
+
                     // add category to event
                     const eventId = data.get('eventId');
 
@@ -319,7 +308,7 @@
                 this.$refs.formCreate.focus();
             },
 
-            calculateEventTimes() {                
+            calculateEventTimes() {
                 let startHour = Number(this.eventStartTime.split(':')[0]);
                 const startMinute = Number(this.eventStartTime.split(':')[1]);
                 if (this.eventStartTimeMeridiem === 'PM') {
@@ -334,7 +323,7 @@
 
                 const eventDate = this.$moment(this.eventStartDate).hour(startHour).minute(startMinute).format('YYYY-MM-DDTHH:mm:00');
                 const eventEndDate = this.$moment(this.eventStartDate).hour(endHour).minute(endMinute).format('YYYY-MM-DDTHH:mm:00');
-                
+
                 return { eventDate, eventEndDate };
             },
 
