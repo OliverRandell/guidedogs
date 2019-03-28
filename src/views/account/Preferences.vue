@@ -12,15 +12,21 @@
 
         <div class="container">
             <section class="pg-content">
-                <div class="col-8">
+                <section class="col-8 spacer">
                     <!-- http://www.bbc.co.uk/accessibility/guides/factsheets/factsheet_vision_computing.pdf -->
                     <!-- https://webaccessibility.guide/ -->
+                    <h4>An explaination of this preferences page</h4>
                     <p v-html="intro"></p>
-                </div>
-                <div class="col-12">
+                </section>
+                <section class="col-12 spacer">
+                    <h6>Change the contrast of the site.</h6>
                     <!-- THIS BUTTON WILL ADD A CLASS TO THE APP -->
                     <ToggleContrast v-on:toggle-contrast="emitToggleContrast" />
-                </div>
+                </section>
+                <section class="col-12 spacer">
+                    <h6>Increase and decrease text size.</h6>
+                    <p>You can use the options below within your browser to adjust your text size:</p>
+                </section>
                 <!-- <div class="col-12">
                     <div class="btn-group">
                         <button type="button" @click="fontSizeIncrease">Increase font size</button>

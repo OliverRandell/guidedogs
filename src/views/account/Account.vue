@@ -3,7 +3,7 @@
         <hero>
             <template slot="title">
                 <!-- <h1>Hi {{ account.user.firstName }}!</h1> -->
-                <h1>My account!</h1>
+                <h1>My account!{{ user.userName }}</h1>
             </template>
         </hero>
 
@@ -16,7 +16,7 @@
                     <form class="spacer" @submit.prevent="onSubmit">
                         <!-- NB: I DON'T THINK THAT THE USER CAN CHANGE THEIR EMAIL -->
                         <div class="form-group">
-                            <label for="email">Email</label>
+                            <label for="email">Email:</label>
                             <input type="text" name="" value="" class="form-control" disabled v-model="user.email">
                         </div>
                         <div class="form-group">
@@ -33,7 +33,7 @@
                             <input type="text" name="" value="" v-model="user.userName" class="form-control">
                         </div>
                         <div class="form-group">
-                            <label for="email">Phone Number</label>
+                            <label for="email">Phone Number:</label>
                             <input type="text" name="" value="" class="form-control" v-model="user.phoneNumber">
                         </div>
                         <div class="form-group">
@@ -43,6 +43,7 @@
                         <div class="form-group">
                             <label for="postcode">Postcode:</label>
                             <input type="text" name="postcode" value="postcode" class="form-control" v-model="user.postcode">
+                            <small class="form-text">We'd like your postcode to find out who is where!</small>
                         </div>
                         <fieldset class="form-group">
 
@@ -50,7 +51,6 @@
                                 <legend class="col-form-label col-sm-12 pt-0">Type:</legend>
 
                                 <div class="col-sm-12">
-                                    <small class="form-text">You can select multiple interests</small>
                                     <div class="custom-control custom-checkbox">
                                         <input type="checkbox" class="custom-control-input" id="social">
                                         <label class="custom-control-label" for="social">Social</label>
@@ -67,11 +67,13 @@
                                         <input type="checkbox" class="custom-control-input" id="sports">
                                         <label class="custom-control-label" for="sports">Sports and fitness</label>
                                     </div>
+                                    <small class="form-text">You can select multiple interests</small>
                                 </div>
+
                             </div>
                         </fieldset>
                         <div class="form-group">
-                            <label for="">Talk to me about</label>
+                            <label for="">Talk to me about:</label>
                             <textarea name="name" rows="8" cols="80" class="form-control" placeholder="Example: my new guide dog Toby, best coffee spots in Kew and I want to learn more about JAWS"></textarea>
                             <small class="sr-only form-text">Example: my new guide dog Toby, best coffee spots in Kew and I want to learn more about JAWS</small>
                         </div>
@@ -178,6 +180,7 @@
         },
         data() {
             return {
+                formErrors: [],
                 title: 'Account page',
                 tagline: 'Review and edit your personal details here',
                 user: {
@@ -192,29 +195,20 @@
                     email: '',
                     password: '',
                 },
-                // userDetailsForm: {
-                //     username: 'Username',
-                // },
+                submitted: false,
                 changePasswordForm: {
                     oldPassword: '',
                     newPassword: '',
                     newPasswordConfirmation: '',
                 },
-                events: [
-                    {
-                        id: '0',
-                        title: 'This is an event',
-                    },
-                    {
-                        id: '1',
-                        title: 'This is an event',
-                    }
-                ]
             }
         },
         methods: {
             checkForm() {
                 this.formErrors = [];
+                if(!this.user.givenName) { this.formErrors.push('First name is required') }
+                return this.formErrors.length > 0;
+
             },
             onSubmit() {
                 const formHasErrors = this.checkForm();
@@ -228,9 +222,7 @@
             setFocusToErrorListing() {
                 this.$refs.formCreate.focus();
             },
-            ...mapActions({
-                'getMemberProfile': 'getMemberProfile'
-            })
+            ...mapActions(['getMemberProfile'])
         },
         computed: {
             ...mapGetters(['memberProfile']),
