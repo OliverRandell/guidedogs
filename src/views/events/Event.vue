@@ -13,7 +13,7 @@
                         <time class="event-date">{{ event.eventDate | moment("DD MMM") }}</time>
                         <figure>
                             <img v-if="event.image" :src="event.image.url" :alt="event.image.altText">
-                            <img src="@/assets/imgs/img-placeholder.jpg" alt="This is just a placeholder image" v-else>
+                            <img src="@/assets/imgs/img-placeholder.jpg" alt="There is no image for this event." v-else>
                         </figure>
                     </div>
 
@@ -53,7 +53,7 @@
 
                     <button v-if="event.eventPublicity === 'Public'" type="button" name="button" class="btn btn-outline-primary mr-3" @click="registerAttending(event)">Attend</button>
 
-                    <router-link to="/contact-host" class="btn btn-primary">Contact host</router-link>
+                    <router-link :to="`/contact-host/${event.eventHostId}/${event.eventId}/${event.eventHostNickName}`" class="btn btn-primary">Contact host</router-link>
                 </article>
 
                 <aside class="event-summary items-sidebar" tabindex="-1" v-if="!submitted">

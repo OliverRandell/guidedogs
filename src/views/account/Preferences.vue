@@ -29,11 +29,7 @@
                     <section class="spacer">
                         <h5>Increase and decrease text size.</h5>
                         <p>The buttons below will allow you to increase or decrease your text size just for this website.</p>
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-secondary" @click="fontSize++">Increase font size</button>
-                            <button type="button" class="btn btn-secondary" @click="fontSize--">Decrease font size</button>
-                        </div>
-                        <p :style="{ fontSize: fontSize + 'px' }">Font size is: {{ fontSize }}</p>
+                        <ToggleFontSize />
                     </section>
                     <section class="spacer">
                         <p>You can also use the options below within your browser to adjust your text size:</p>
@@ -91,19 +87,21 @@
     import LayoutMaster from '../../components/common/layouts/layout-master.vue';
     import Hero from '../../components/common/global/hero.vue';
     import ToggleContrast from '../../components/common/global/toggle-contrast.vue';
+    import ToggleFontSize from '../../components/common/global/toggle-font-size.vue';
     export default {
         name: 'Preferences',
         components: {
             LayoutMaster,
             Hero,
             ToggleContrast,
+            ToggleFontSize,
         },
         data() {
             return {
                 title: 'Preferences.',
                 tagline: 'Alter your accessibility settings.',
                 intro: `What is this preferences page all about? Well, this page provides accessibility help, enabling our users to make the most of this application whatever their ability or disability.`,
-                fontSize: 10,
+                fontSize: 20,
             }
         },
         methods: {

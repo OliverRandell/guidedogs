@@ -1,5 +1,6 @@
 <template lang="html">
     <header class="app-header" role="banner">
+        <a href="#content" id="skip-to-content">Skip to main content</a>
         <Branding></Branding>
         <div class="nav-wrapper">
             <PrimaryNav></PrimaryNav>
@@ -43,5 +44,18 @@
     .nav-wrapper {
         display: flex;
         align-items: center;
+    }
+    #skip-to-content {
+        padding: 1em;
+        position: absolute;
+        top: -100px;
+        left: 1em;
+        z-index: 1000;
+        color: white;
+        &:focus {
+            position: absolute;
+            top: 0;
+            background: #222;
+        }
     }
 </style>
