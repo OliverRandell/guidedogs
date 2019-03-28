@@ -22,7 +22,7 @@ import EventManagement from './views/events/EventManagement.vue';
 import EventAttendees from './views/events/EventAttendees.vue';
 
 // EXPRESSIONS OF INTEREST
-import IdeaListing from './views/ideas/IdeaListing.vue';
+import Ideas from './views/ideas/Ideas.vue';
 import IdeaCreate from './views/ideas/IdeaCreate.vue';
 import Idea from './views/ideas/Idea.vue';
 import IdeaManagement from './views/ideas/IdeaManagement.vue';
@@ -186,8 +186,8 @@ export const router =  new Router ({
         },
         {
             path: '/ideas',
-            name: 'IdeaListing',
-            component: IdeaListing,
+            name: 'Ideas',
+            component: Ideas,
             meta: {
                 title: 'This is where you can float an idea!'
             }

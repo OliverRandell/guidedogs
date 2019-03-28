@@ -92,7 +92,7 @@
     import LayoutMaster from '../../components/common/layouts/layout-master.vue';
     import Hero from '../../components/common/global/hero.vue';
     export default {
-        name: 'IdeaManagement',
+        name: 'EventRequestManagement',
         components: {
             LayoutMaster,
             Hero,
@@ -100,7 +100,7 @@
 
         data() {
             return {
-                title: 'Event Management',
+                title: 'Manage requests',
                 importantInfo: `Please note, if the attendee has supplied further information a notification flag will be present. This message will be accessible via your requested email.`,
                 event: {
                     title: 'Name of event',

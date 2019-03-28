@@ -13,12 +13,13 @@
                         <time class="event-date">{{ event.eventDate | moment("DD MMM") }}</time>
                         <figure>
                             <img v-if="event.image" :src="event.image.url" :alt="event.image.altText">
+                            <img src="@/assets/imgs/profile-pic.jpg" alt="This is just a placeholder image" v-else>
                         </figure>
                     </div>
 
                     <dl class="event-details">
                         <h2>Event Details</h2>
-                        
+
                         <dt>Host:</dt>
                         <dd>
                             <router-link to="/host-profile">{{ event.eventHostNickName }}</router-link>
@@ -32,16 +33,16 @@
                                 {{ event.eventDate | moment("h:mma") }}<span v-if="event.eventEndDate"> - </span>{{ event.eventEndDate | moment("h:mma") }}
                             </time>
                         </dd>
-                        
+
                         <dt>Where:</dt>
                         <dd>{{ event.location }}</dd>
 
                         <dt>Travel Tips:</dt>
                         <dd>{{ event.travelTips }}</dd>
-                        
+
                         <dt>Type:</dt>
                         <dd>{{ event.eventPublicity }}</dd>
-                        
+
                         <dt>Details:</dt>
                         <dd>{{ event.eventDetails }}</dd>
                     </dl>
@@ -72,7 +73,6 @@
 </template>
 
 <script>
-    import { userService } from '../../services/user';
     import { mapGetters, mapActions } from 'vuex';
     import LayoutMaster from '../../components/common/layouts/layout-master.vue';
     import Hero from '../../components/common/global/hero.vue';
@@ -111,7 +111,7 @@
                 this.submitted = true;
             },
             onDeleteEvent(event) {
-                this.deleteEvent(event.eventId).then(response => {
+                this.deleteEvent(event.eventId).then(() => {
                     this.$router.push('/events');
                 });
             }
@@ -124,8 +124,8 @@
 
 <style lang="scss" scoped>
     @import './src/assets/scss/vue.scss';
-    .event-img {
-        @include responsiveImg(20rem);
+    .featured-img {
+        @include responsiveImg(22rem);
         @include spacer(1.5rem);
         @include media-breakpoint-up(lg) {
             margin-left: -$grid-gutter-width/2;

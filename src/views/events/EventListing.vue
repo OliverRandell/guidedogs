@@ -69,10 +69,6 @@
         methods: {
             ...mapActions(['searchEvents', 'searchEventsAttending', 'searchEventsHosting']),
 
-            filterEvents: function(filter) {
-                this.searchEvents({...this.searchParams, CategoryId: filter});
-            },
-
             // determine which endpoint to call based on categoryId string
             // categoryId will be an id number (as string) or 'attending'
             saerchEventsEndpoint: function(categoryId) {
@@ -128,9 +124,7 @@
             },
 
             allEvents (to, from) {
-                if (this.allEvents.length < this.itemsPerPage) {
-                    this.$emit('reached-last');
-                }
+                this.$emit('last-page', this.allEvents.length < this.itemsPerPage);
             },
         }
     }

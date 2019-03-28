@@ -127,7 +127,7 @@
                         <small class="form-text">
                             Describe who should join and what your event is about
                         </small>
-                        <textarea id="details" rows="4" v-on:input="checkDetailsCharacterLength" v-model="eventItem.eventDetails" max-length="1000" class="form-control"></textarea>
+                        <textarea id="details" rows="8" v-on:input="checkDetailsCharacterLength" v-model="eventItem.eventDetails" max-length="1000" class="form-control"></textarea>
                         <p class="character-limit">{{ detailsCharacterLimitDisplay }}</p>
                     </div>
 
@@ -163,7 +163,7 @@
             </article>
             <section v-if="submitted" class="msg-success">
                 <h3>Congratulations! You have successfully created an event.</h3>
-                <button type="button" name="" @click="backToEvents" class="btn btn-primary">Go back to events page</button>
+                <router-link to="/events" class="btn btn-primary">Go back to events page</router-link>
             </section>
         </div>
 
@@ -234,7 +234,7 @@
                 if (!this.eventStartTime || !this.eventStartTimeMeridiem) { this.formErrors.push('Event start time is required') }
                 // if (!this.eventEndTime || !this.eventEndTimeMeridiem) { this.formErrors.push('Event end time is required') }
                 if (!this.eventItem.location) { this.formErrors.push('Location is required') }
-                if (!this.eventItem.eventCategories) { this.formErrors.push('A category is required') }
+                if (!this.eventItem.category) { this.formErrors.push('A category is required') }
                 if (!this.eventItem.travelTips) { this.formErrors.push('Travel tips are required') }
                 if (!this.eventItem.eventDetails) { this.formErrors.push('Event details are required') }
                 if (!this.eventItem.eventPublicity) { this.formErrors.push('Type of event is required') }
@@ -253,7 +253,7 @@
                     window.scrollTo(0, this.topOffset);
                     this.setFocusToErrorListing();
                     return;
-                };
+                }
 
                 const eventTimes = this.calculateEventTimes();
 
@@ -294,10 +294,6 @@
 
                     this.putEventCategories({ id: eventId, categories: [category] });
                 });
-            },
-
-            backToEvents() {
-                this.$router.push('/events');
             },
 
             checkDetailsCharacterLength(e) {
