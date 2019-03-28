@@ -8,36 +8,44 @@
 
         <div class="container">
             <section class="pg-content">
-                <article class="item-wrapper" role="article" tabindex="-1">
+                <article class="item-wrapper" role="article" tabindex="-1" ref="formAccount">
                     <h4>Manage your account details:</h4>
                     <p>This information will assit us to currate personalised content.</p>
+
+                    <p v-if="formErrors.length" role="alert" aria-atomic="true">
+                        <b>Please correct the following error(s):</b>
+                        <ul>
+                            <li v-for="(error, index) in formErrors" :key="index">{{ error }}</li>
+                        </ul>
+                    </p>
+
                     <!-- INCLUDE AGE DETAILS, NAME, USERNAME, POSTCODE, INTERESTS -->
                     <form class="spacer" @submit.prevent="onSubmit" aria-label="Your details">
                         <!-- NB: I DON'T THINK THAT THE USER CAN CHANGE THEIR EMAIL -->
                         <div class="form-group">
                             <label for="email">Email:</label>
-                            <input type="text" name="" value="" class="form-control" disabled v-model="user.email">
+                            <input type="text" id="email" class="form-control" disabled v-model="user.email">
                         </div>
                         <div class="form-group">
                             <label for="givenName">First Name*:</label>
-                            <input type="text" name="" value="" placeholder="" v-model="user.givenName" class="form-control" aria-required="true">
+                            <input type="text" id="givenName" placeholder="" v-model="user.givenName" class="form-control" aria-required="true">
                         </div>
                         <div class="form-group">
                             <label for="familyName">Last Name*:</label>
-                            <input type="text" name="" value="" placeholder="" v-model="user.familyName" class="form-control" aria-required="true">
+                            <input type="text" id="familyName" placeholder="" v-model="user.familyName" class="form-control" aria-required="true">
                         </div>
                         <div class="form-group">
                             <label for="userName">Username*:</label>
                             <!-- <editable-input v-model="userDetailsForm.name" change-button-label="Edit" save-button-label="Save" @saved="updateProfile"></editable-input> -->
-                            <input type="text" name="" value="" v-model="user.userName" class="form-control" aria-required="true">
+                            <input type="text" id="userName" v-model="user.userName" class="form-control" aria-required="true">
                         </div>
                         <div class="form-group">
-                            <label for="email">Phone Number:</label>
-                            <input type="text" name="" value="" class="form-control" v-model="user.phoneNumber">
+                            <label for="phone">Phone Number:</label>
+                            <input type="text" id="phone" class="form-control" v-model="user.phoneNumber">
                         </div>
                         <div class="form-group">
                             <label for="age">Age:</label>
-                            <input type="number" name="" value="" class="form-control" v-model="user.age">
+                            <input @input="validateAge" type="number" min="0" id="age" class="form-control" v-model="user.age">
                         </div>
                         <!-- TODO: Check if ross can add this to his db -->
                         <!-- <div class="form-group">
@@ -209,11 +217,13 @@
                 if(!this.user.givenName) { this.formErrors.push('First name is required') }
                 if(!this.user.familyName) { this.formErrors.push('Last name is required') }
                 if(!this.user.userName) { this.formErrors.push('Username is required') }
+                if(this.user.age && !this.validateAge) { this.formErrors.push('You need to be over 18')}
                 return this.formErrors.length > 0;
             },
 
-            validateAge () {
+            validateAge (age) {
                 // Check if 18..
+                return this.user.age - 18 >= 0
             },
 
             onDeleteAccount(account) {
@@ -235,7 +245,7 @@
             },
 
             setFocusToErrorListing() {
-                this.$refs.formCreate.focus();
+                this.$refs.formAccount.focus();
             },
 
             checkPassword () {
@@ -272,7 +282,7 @@
         computed: {
             ...mapGetters(['memberProfile']),
             topOffset: function() {
-                const element = this.$refs.formCreate;
+                const element = this.$refs.formAccount;
                 const top = element.offsetTop;
                 return top;
             },
