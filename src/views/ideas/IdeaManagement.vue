@@ -81,11 +81,26 @@
                     <section class="spacer">
                         <h4>Want to convert this idea into an Event?</h4>
                         <div class="btn-group">
-                            <button type="button" name="button" class="btn btn-secondary">Delete idea</button>
                             <button type="button" name="button" class="btn btn-primary">Create event</button>
                         </div>
                     </section>
 
+                    <section class="spacer">
+                        <h4 class="spacer">Delete idea</h4>
+                        <div class="custom-control custom-switch spacer">
+                            <input type="checkbox" class="custom-control-input" id="confirmDelete" v-model="confirmDelete">
+                            <label class="custom-control-label" for="confirmDelete">Do you want to delete this idea?</label>
+                        </div>
+                        <div v-if="confirmDelete">
+                            <p>Are you sure? Clicking on the button will permanently delete this idea.</p>
+                            <p><button @click="onDeleteIdea(idea)" type="button" name="button" class="btn btn-primary">Delete Idea</button></p>
+                        </div>
+                    </section>
+
+                    <section v-if="submitted && confirmDelete" class="msg-success">
+                        <h3>Your idea has been deleted</h3>
+                        <router-link to="/my-hosting" class="btn btn-primary">Go back to my events and ideas</router-link>
+                    </section>
 
                 </div>
                 <div class="col-4">
@@ -115,6 +130,7 @@
                 title: 'Idea Management!',
                 importantInfo: `You can convert your idea into an event at any time. Further informtation will be required at that time. Ideas can be longstanding and do not have an expiry date.`,
                 interestedTotal: '',
+                confirmDelete: false,
                 submitted: false,
                 summaryCharacterLimitEntered: 0,
                 summaryCharacterLimit: 75,
@@ -201,11 +217,18 @@
                 });
             },
 
+            onDeleteIdea(idea) {
+                this.deleteIdea(idea.eventId).then(() => {
+                    this.submitted = true;
+                });
+            },
+
             ...mapActions({
                 'updateIdea': 'updateIdea',
                 'getCategories': 'getCategories',
                 'getIdea': 'getIdea',
                 'putIdeaCategories': 'putIdeaCategories',
+                'deleteIdea': 'deleteIdea',
             }),
 
             checkSummaryCharacterLength(e) {
