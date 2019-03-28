@@ -13,7 +13,7 @@
                     <h4>Manage your account details:</h4>
                     <p>This information will assit us to currate personalised content.</p>
                     <!-- INCLUDE AGE DETAILS, NAME, USERNAME, POSTCODE, INTERESTS -->
-                    <form class="spacer" @submit.prevent="onSubmit">
+                    <form class="spacer" @submit.prevent="onSubmit" aria-label="Your details">
                         <!-- NB: I DON'T THINK THAT THE USER CAN CHANGE THEIR EMAIL -->
                         <div class="form-group">
                             <label for="email">Email:</label>
@@ -82,7 +82,7 @@
                         </div>
                     </form>
 
-                    <form class="form-change-password spacer">
+                    <form class="form-change-password spacer" aria-label="Update Password">
                         <h4>Change password</h4>
                         <div class="form-group">
                             <label for="password">Current Password</label>
@@ -100,7 +100,7 @@
                             <input type="submit" name="" value="Change password" class="btn btn-primary">
                         </div>
                     </form>
-                    <section class="spacer">
+                    <section class="spacer" aria-label="Delete Account">
                         <p>No longer want to be part of the Peer Support Platform community?</p>
                         <div class="btn-wrapper">
                             <button type="button" class="btn btn-primary">Delete account</button>
@@ -169,6 +169,9 @@
 
 <script>
     import { mapState, mapActions, mapGetters } from 'vuex';
+    import axios from 'axios';
+    import { authHeader } from '@/utils/auth-header';
+    import { apiUrl } from '@/utils/api';
     import LayoutMaster from '../../components/common/layouts/layout-master.vue';
     import Hero from '../../components/common/global/hero.vue';
 
@@ -192,7 +195,7 @@
                     interests: {},
                     bio: '',
                     phoneNumber: '',
-                    email: '',
+                    email: 'ddfdsfd',
                     password: '',
                 },
                 submitted: false,
@@ -203,7 +206,37 @@
                 },
             }
         },
+
+        created () {
+            this.getProfileData()
+        },
+
         methods: {
+            /* Running the axios without store just for simplicity of not
+            having to do set/get computed functions to the store and back with limited time */
+            getProfileData () {
+                axios.get(`${apiUrl}/MemberProfile`, { headers: { ...authHeader() } })
+                    .then(({data}) => {
+                        // go through and match existing keys...
+                        Object.keys(this.user).map(user => Object.keys(data).map(field => {
+                            if (user === field) {
+                                // assign the relevant data to existing fields
+                                this.user[user] = data[field]
+                            }
+                        }))
+                    })
+                    .catch(err => console.error(`Couldn't retrieve profile data: ${err}`))
+            },
+
+            updateProfileData () {
+                axios.put(`${apiUrl}/MemberProfile`,
+                    { ...this.user },
+                    { headers: { ...authHeader() } }
+                )
+                    .then(({data}) => console.log(data))
+                    .catch(err => console.error(`Couldn't retrieve profile data: ${err}`))
+            },
+
             checkForm() {
                 this.formErrors = [];
                 if(!this.user.givenName) { this.formErrors.push('First name is required') }
@@ -211,6 +244,7 @@
                 if(!this.user.userName) { this.formErrors.push('Username is required') }
                 return this.formErrors.length > 0;
             },
+
             onSubmit() {
                 const formHasErrors = this.checkForm();
 
@@ -219,12 +253,16 @@
                     this.setFocusToErrorListing();
                     return;
                 };
+
+                this.updateProfileData()
             },
+
             setFocusToErrorListing() {
                 this.$refs.formCreate.focus();
             },
             ...mapActions(['getMemberProfile'])
         },
+
         computed: {
             ...mapGetters(['memberProfile']),
             topOffset: function() {
@@ -232,9 +270,6 @@
                 const top = element.offsetTop;
                 return top;
             },
-        },
-        created() {
-            this.getMemberProfile();
         }
     }
 </script>

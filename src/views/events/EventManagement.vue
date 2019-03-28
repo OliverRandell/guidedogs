@@ -23,17 +23,21 @@
                         <ul class="guest-list">
                             <!-- TODO: MAKE COMPONENT AND SHARE IT ON THE EVENT ATTENDEES VIEW -->
                             <li v-for="guest in eventAttendees" :key="guest.id">
-                                <router-link :to="guest.route">{{ guest.rsvpParticipantNickName }}</router-link>
+                                <router-link :to="`/user/${guest.rsvpParticipantId}`">{{ guest.rsvpParticipantNickName }}</router-link>
                             </li>
                         </ul>
                         <div class="btn-wrapper">
-                            <router-link to="/manage-requests" class="btn btn-primary">Manage requests</router-link>
+                            <router-link 
+                                :to="{ 
+                                    name: 'EventRequestManagement', 
+                                    params: { id: this.$route.params.id, title: eventItem.title } 
+                                }" 
+                                class="btn btn-primary">Manage requests</router-link>
                         </div>
-
-
                     </section>
+                    
                     <section class="spacer">
-                        <form class="form-create-event form-create col-12" @submit.prevent="onSubmit">
+                        <form class="form-create-event form-create" @submit.prevent="onSubmit">
                             <h4>Event details</h4>
 
                             <p v-if="formErrors.length" role="alert" aria-atomic="true">
@@ -173,6 +177,24 @@
                         </section>
 
                     </section>
+
+                    <section class="spacer">
+                        <h4 class="spacer">Delete event</h4>
+                        <div class="custom-control custom-switch spacer">
+                            <input type="checkbox" class="custom-control-input" id="confirmDelete" v-model="confirmDelete">
+                            <label class="custom-control-label" for="confirmDelete">Do you want to delete this event?</label>
+                        </div>
+                        <div v-if="confirmDelete">
+                            <p>Are you sure? Clicking on the button will permanently delete this event.</p>
+                            <p><button @click="onDeleteEvent(eventItem)" type="button" name="button" class="btn btn-primary">Delete Event</button></p>
+                        </div>
+                    </section>
+
+                    <section v-if="submitted && confirmDelete" class="msg-success">
+                        <h3>Your event has been deleted</h3>
+                        <router-link to="/my-hosting" class="btn btn-primary">Go back to my events and ideas</router-link>
+                    </section>
+
                 </div>
                 <div class="col-4">
                     <router-link to="/my-hosting">&larr; Back to my events and ideas</router-link>
@@ -185,6 +207,9 @@
 
 <script>
     import { mapActions, mapGetters } from 'vuex';
+    import axios from 'axios';
+    import { authHeader } from '@/utils/auth-header';
+    import { apiUrl } from '@/utils/api';
     import LayoutMaster from '../../components/common/layouts/layout-master.vue';
     import Hero from '../../components/common/global/hero.vue';
     import DatePicker from 'vuejs-datepicker';
@@ -204,39 +229,50 @@
                 formErrors: [],
                 title: 'Event Management!',
                 importantInfo: `Please note, you will not be able to edit event information 24 hours prior to your event start time. This is to assist attendees confirm their travel plans.`,
+                confirmDelete: false,
                 submitted: false,
                 imagePreviewUrl: '',
                 imageFile: '',
-                attendeeTotal: 5,
                 detailsCharacterLimitEntered: 0,
+                attendeeTotal: 0,
                 detailsCharacterLimit: 1000,
                 eventStartDate: '',
                 eventStartTime: '',
                 eventStartTimeMeridiem : '',
                 eventEndTime: '',
                 eventEndTimeMeridiem: '',
-                eventAttendees: [
-                    {
-                        route: '/host-profile',
-                        rsvpParticipantNickName: 'Guide dogs vic',
-                    },
-                    {
-                        route: '/host-profile',
-                        rsvpParticipantNickName: 'James_bond007',
-                    },
-                    {
-                        route: '/host-profile',
-                        rsvpParticipantNickName: 'Ernest Hemmingway',
-                    },
-                    {
-                        route: '/host-profile',
-                        rsvpParticipantNickName: 'EinsteinMind',
-                    }
-                ],
+                eventAttendees: null,
             }
         },
 
+        mounted () {
+            this.getAttendees(this.$route.params.id)
+        },
+
         methods: {
+            getAttendees (id) {
+                axios.get(`${apiUrl}/events/${id}/RSVPs`, { headers: { ...authHeader() } })
+                    .then(({data}) => {
+                        const requestsIds = []
+                        const requests = []
+
+                        data.map(obj => { 
+                            if (
+                                !requestsIds.includes(obj.rsvpParticipantId) 
+                                && obj.rsvpParticipantId
+                                && obj.responseType === "Attending"    
+                            ) {
+                                requestsIds.push(obj.rsvpParticipantId)
+                                requests.push(obj)
+                            }
+                        })
+
+                        this.eventAttendees = requests
+                        this.attendeeTotal = requests.length
+                    })
+                    .catch(error => console.error(`Couldn't retrieve Attendee list: ${error.response}`))
+            },
+
             onImageChange(e) {
                 const image = e.target.files[0];
                 this.imageFile = image;
@@ -346,12 +382,19 @@
                 this.$refs.uploadBtn.click();
             },
 
+            onDeleteEvent(event) {
+                this.deleteEvent(event.eventId).then(() => {
+                    this.submitted = true;
+                });
+            },
+
             ...mapActions({
                 'updateEvent': 'updateEvent',
                 'uploadEventImage': 'uploadEventImage',
                 'getCategories': 'getCategories',
                 'putEventCategories': 'putEventCategories',
-                'getEvent': 'getEvent'
+                'getEvent': 'getEvent',
+                'deleteEvent': 'deleteEvent',
             }),
         },
 
