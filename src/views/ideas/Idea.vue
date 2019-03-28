@@ -32,7 +32,7 @@
                                 <template v-if="isInterested">Not </template>Interested
                             </button>
                             <!-- NB: NO TEMPLATE, ROUTE OR USER FLOW FOR THIS AT THE MOMENT -->
-                            <router-link to="/contact-host" class="btn btn-primary">Contact host</router-link>
+                            <router-link :to="`/contact-host/${idea.eventHostId}/${idea.eventId}/${idea.eventHostNickName}`" class="btn btn-primary">Contact host</router-link>
                         </div>
                     </div>
 

@@ -1,7 +1,7 @@
 <template lang="html">
     <div class="app-wrapper">
         <Header></Header>
-        <main class="main" tabIndex="-1" role="main">
+        <main id="content" class="main" tabIndex="-1" role="main">
 
             <slot></slot>
 

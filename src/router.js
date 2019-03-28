@@ -98,7 +98,7 @@ export const router =  new Router ({
             }
         },
         {
-            path: '/host-profile',
+            path: '/host-profile/:id',
             name: 'HostProfile',
             component: HostProfile,
             meta: {
@@ -106,7 +106,8 @@ export const router =  new Router ({
             }
         },
         {
-            path: '/contact-host',
+            path: '/contact-host/:hostId/:eventId/:hostNickName',
+            alias: 'events/:hostId/:eventId/:hostNickName/',
             name: 'HostContact',
             component: HostContact,
             meta: {

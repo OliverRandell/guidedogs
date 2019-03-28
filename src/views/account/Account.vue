@@ -2,7 +2,7 @@
     <LayoutMaster>
         <hero>
             <template slot="title">
-                <h1>My account</h1>
+                <h1>My Account</h1>
             </template>
         </hero>
 

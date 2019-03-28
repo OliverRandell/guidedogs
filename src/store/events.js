@@ -16,9 +16,9 @@ const getters = {
 const actions = {
     makeUrlStringWithParams({ commit }, { queryParams, uriSegment, uriRoot}) {
         let queryString;
-        
+
         queryParams = queryParams || null;
-        
+
         if (queryParams !== null) {
             queryString = buildQuery(queryParams);
         }
@@ -28,7 +28,7 @@ const actions = {
 
     async searchEventsAttending({ commit, dispatch }, queryParams ) {
         const url = await dispatch('makeUrlStringWithParams', { queryParams, uriSegment: 'myattendingpaged', uriRoot: 'events' });
-        
+
         const response = await axios.get(url,
         {
             headers: { ...authHeader() }
@@ -39,7 +39,7 @@ const actions = {
 
     async searchEvents({ commit, dispatch }, queryParams) {
         const url = await dispatch('makeUrlStringWithParams', { queryParams, uriSegment: 'paged', uriRoot: 'events' });
-        
+
         const response = await axios.get(url,
         {
             headers: { ...authHeader() }
@@ -51,7 +51,7 @@ const actions = {
 
     async searchEventsHosting({ commit, dispatch }, queryParams) {
         const url = await dispatch('makeUrlStringWithParams', { queryParams, uriSegment: 'myhostedpaged', uriRoot: 'events' });
-        
+
         const response = await axios.get(url,
         {
             headers: { ...authHeader() }
@@ -66,7 +66,7 @@ const actions = {
         {
             headers: { ...authHeader() }
         });
-        
+
         commit('setEvent', response.data);
     },
 
@@ -141,7 +141,15 @@ const actions = {
             console.error('Adding event categories failed:', error.response);
         });
 
-    }
+    },
+
+    async sendMessageToEventHost({ commit }, { eventId, subject, body }) {
+        await axios.post(`${apiUrl}/events/${eventId}/message?subject=${subject}&msg=${body}`,
+        { },
+        {
+            headers: { ...authHeader() }
+        });
+    },
 };
 
 const mutations = {
