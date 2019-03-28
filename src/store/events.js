@@ -128,6 +128,12 @@ const actions = {
             console.error('Adding event categories failed:', error.response);
         });
 
+    },
+
+    async getRsvpRequests ({commit}, id) {
+        await axios.get(`${apiUrl}/events/${id}/RSVPs`)
+        .then(response => response)
+        .catch(error => console.error(`Couldn't retrieve RSVP list: ${error.response}`))
     }
 };
 

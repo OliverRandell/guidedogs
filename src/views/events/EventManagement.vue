@@ -37,7 +37,7 @@
                         <form>
                             <div class="form-group">
                                 <label for="hostName">Host Name:</label>
-                                <input type="text" name="" value="" disabled class="form-control" v-modal="event.hostName">
+                                <input type="text" name="" value="" disabled class="form-control" v-model="event.hostName">
                             </div>
                             <fieldset class="form-group">
 
