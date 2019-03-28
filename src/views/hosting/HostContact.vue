@@ -27,8 +27,8 @@
                             </div>
                             <div class="form-group">
                                 <label for="">Message:</label>
-                                <textarea name="message" rows="8" cols="80" v-model="user.message.text" :maxlength="user.message.maxlength" class="form-control" placeholder="Write message here..." v-validate="'required'"></textarea>
-                                <span class="counter">{{ user.message.text.length }} / {{ user.message.maxlength }}</span>
+                                <textarea name="message" rows="8" cols="80" v-model="message.text" :maxlength="message.maxlength" class="form-control" placeholder="Write message here..." v-validate="'required'"></textarea>
+                                <span class="counter">{{ message.text.length }} / {{ message.maxlength }}</span>
                             </div>
                             <div class="btn-wrapper">
                                 <input type="submit" value="Send message" class="btn btn-primary">
@@ -45,6 +45,10 @@
 </template>
 
 <script>
+    import { mapState, mapActions, mapGetters } from 'vuex';
+    import axios from 'axios';
+    import { authHeader } from '@/utils/auth-header';
+    import { apiUrl } from '@/utils/api';
     import LayoutMaster from '../../components/common/layouts/layout-master.vue';
     import Hero from '../../components/common/global/hero.vue';
     export default {
@@ -60,18 +64,34 @@
                     username: 'Dorothy123',
                 },
                 user: {
-                    username: 'Your username',
+                    userName: 'Your username',
                     email: '',
                     phoneNumber: '',
-                    message: {
-                        text: `Write your message in here...`,
-                        maxlength: 1000,
-                    }
+                },
+                message: {
+                    text: `Write your message in here...`,
+                    maxlength: 1000,
                 },
                 submitted: false,
             }
         },
+        created () {
+            this.getProfileData()
+        },
         methods: {
+            getProfileData () {
+                axios.get(`${apiUrl}/MemberProfile`, { headers: { ...authHeader() } })
+                    .then(({data}) => {
+                        // go through and match existing keys...
+                        Object.keys(this.user).map(user => Object.keys(data).map(field => {
+                            if (user === field) {
+                                // assign the relevant data to existing fields
+                                this.user[user] = data[field]
+                            }
+                        }))
+                    })
+                    .catch(err => console.error(`Couldn't retrieve profile data: ${err}`))
+            },
             submitContactForm() {
                 this.$validator.validateAll().then((result) => {
                     if (result) {
@@ -80,7 +100,19 @@
                     }
                     alert('Correct the errors!');
                 });
-            }
+            },
+            updateProfileData () {
+                axios.put(`${apiUrl}/MemberProfile`,
+                    { ...this.user },
+                    { headers: { ...authHeader() } }
+                )
+                    .then(({data}) => console.log(data))
+                    .catch(err => console.error(`Couldn't retrieve profile data: ${err}`))
+            },
+            ...mapActions(['getMemberProfile'])
+        },
+        computed: {
+            ...mapGetters(['memberProfile']),
         }
     }
 </script>

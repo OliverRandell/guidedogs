@@ -17,24 +17,6 @@
                         <h4>Important information!</h4>
                         <p v-html="importantInfo"></p>
                     </section>
-                    <section class="spacer">
-                        <h4>Approved attendees:</h4>
-                        <p>{{ attendeeTotal }}</p>
-                        <ul class="guest-list">
-                            <!-- TODO: MAKE COMPONENT AND SHARE IT ON THE EVENT ATTENDEES VIEW -->
-                            <li v-for="guest in eventAttendees" :key="guest.id">
-                                <router-link :to="`/user/${guest.rsvpParticipantId}`">{{ guest.rsvpParticipantNickName }}</router-link>
-                            </li>
-                        </ul>
-                        <div class="btn-wrapper">
-                            <router-link
-                                :to="{
-                                    name: 'EventRequestManagement',
-                                    params: { id: this.$route.params.id, title: eventItem.title }
-                                }"
-                                class="btn btn-primary">Manage requests</router-link>
-                        </div>
-                    </section>
 
                     <section class="spacer">
                         <form class="form-create-event form-create" @submit.prevent="onSubmit">
@@ -121,14 +103,16 @@
 
                             <div class="form-group">
                                 <label for="location">Event Location</label>
+                                <small class="form-text">
+                                    Insert Address
+                                </small>
                                 <input type="text" id="location" required v-model="eventItem.location" class="form-control">
-                                <small class="form-text">Insert Address details.</small>
                             </div>
 
                             <div class="form-group">
                                 <label for="travelTips">Travel Tips</label>
                                 <input type="text" id="travelTips"  class="form-control" v-model="eventItem.travelTips" />
-                                <small class="form-text">For example: the closest public transport stop</small>
+                                <small class="form-text">example: closest public transport stop</small>
                             </div>
 
                             <!-- ONLY VISIBLE IF EVENT IS PRIVATE -->
@@ -140,22 +124,21 @@
 
                             <div class="form-group">
                                 <label for="details">Event Details</label>
-
                                 <textarea id="details" rows="8" v-on:input="checkDetailsCharacterLength" v-model="eventItem.eventDetails" max-length="1000" class="form-control"></textarea>
                                 <div class="form-group-footer">
                                     <small class="form-text">Describe who should join and what your event is about</small>
                                     <p class="character-limit">{{ detailsCharacterLimitDisplay }}</p>
                                 </div>
 
-
                             </div>
 
                             <img v-if="imagePreviewUrl" :src="imagePreviewUrl" class="my-2" />
                             <div class="form-group">
                                 <div>
-                                    <label for="eventImg">Event Image <i>(optional)</i></label>
+                                    <label for="eventImg">Event Image</label>
                                 </div>
                                 <label for="eventImg" class="btn btn-primary mr-2" tabindex="0" @keyup.enter="triggerUploadImageButton">Upload Image</label>
+                                <span>(optional)</span>
                                 <input type="file" id="eventImg" @change="onImageChange" ref="uploadBtn">
                             </div>
 
@@ -165,32 +148,16 @@
                                 <small class="form-text">Please provide short description of image provided</small>
                             </div>
                             <div class="btn-wrapper">
-                                <input type="submit" v-on:click.prevent="onSubmit" class="btn btn-primary" value="Save changes" />
+                                <input type="submit" v-on:click.prevent="onSubmit" class="btn btn-primary" value="Save and convert" />
                             </div>
+
                         </form>
 
                         <section v-if="submitted" class="msg-success">
-                            <h3>Your event has been updated</h3>
+                            <h3>Your idea has been updated and awaiting review</h3>
                             <router-link to="/my-hosting" class="btn btn-primary">Go back to my events and ideas</router-link>
                         </section>
 
-                    </section>
-
-                    <section class="spacer">
-                        <h4 class="spacer">Delete event</h4>
-                        <div class="custom-control custom-switch spacer">
-                            <input type="checkbox" class="custom-control-input" id="confirmDelete" v-model="confirmDelete">
-                            <label class="custom-control-label" for="confirmDelete">Do you want to delete this event?</label>
-                        </div>
-                        <div v-if="confirmDelete">
-                            <p>Are you sure? Clicking on the button will permanently delete this event.</p>
-                            <p><button @click="onDeleteEvent(eventItem)" type="button" name="button" class="btn btn-primary">Delete Event</button></p>
-                        </div>
-                    </section>
-
-                    <section v-if="submitted && confirmDelete" class="msg-success">
-                        <h3>Your event has been deleted</h3>
-                        <router-link to="/my-hosting" class="btn btn-primary">Go back to my events and ideas</router-link>
                     </section>
 
                 </div>
@@ -205,9 +172,6 @@
 
 <script>
     import { mapActions, mapGetters } from 'vuex';
-    import axios from 'axios';
-    import { authHeader } from '@/utils/auth-header';
-    import { apiUrl } from '@/utils/api';
     import LayoutMaster from '../../components/common/layouts/layout-master.vue';
     import Hero from '../../components/common/global/hero.vue';
     import DatePicker from 'vuejs-datepicker';
@@ -225,52 +189,23 @@
         data() {
             return {
                 formErrors: [],
-                title: 'Event Management!',
-                importantInfo: `Please note, you will not be able to edit event information 24 hours prior to your event start time. This is to assist attendees confirm their travel plans.`,
-                confirmDelete: false,
+                title: 'Convert Idea to Event',
+                importantInfo: `You can convert your Idea into an Event at any time. Further information will be require at that time. Ideas can be longstanding, and do not have an expiry date.`,
                 submitted: false,
                 imagePreviewUrl: '',
                 imageFile: '',
+                attendeeTotal: 5,
                 detailsCharacterLimitEntered: 0,
-                attendeeTotal: 0,
                 detailsCharacterLimit: 1000,
                 eventStartDate: '',
                 eventStartTime: '',
                 eventStartTimeMeridiem : '',
                 eventEndTime: '',
                 eventEndTimeMeridiem: '',
-                eventAttendees: null,
             }
         },
 
-        mounted () {
-            this.getAttendees(this.$route.params.id)
-        },
-
         methods: {
-            getAttendees (id) {
-                axios.get(`${apiUrl}/events/${id}/RSVPs`, { headers: { ...authHeader() } })
-                    .then(({data}) => {
-                        const requestsIds = []
-                        const requests = []
-
-                        data.map(obj => {
-                            if (
-                                !requestsIds.includes(obj.rsvpParticipantId)
-                                && obj.rsvpParticipantId
-                                && obj.responseType === "Attending"
-                            ) {
-                                requestsIds.push(obj.rsvpParticipantId)
-                                requests.push(obj)
-                            }
-                        })
-
-                        this.eventAttendees = requests
-                        this.attendeeTotal = requests.length
-                    })
-                    .catch(error => console.error(`Couldn't retrieve Attendee list: ${error.response}`))
-            },
-
             onImageChange(e) {
                 const image = e.target.files[0];
                 this.imageFile = image;
@@ -336,12 +271,11 @@
                 .then(data => {
                     if (this.imagePreviewUrl) {
                         // add image to event
-                        this.uploadEventImage(data).then(response => {
-                            this.submitted = true;
-                        });
+                        this.uploadEventImage(data);
                     }
 
                     this.putEventCategories({ id: id, categories: [category] });
+                    this.convertToEvent({id})
                 })
                 .then(() => {
                     this.submitted = true;
@@ -380,19 +314,13 @@
                 this.$refs.uploadBtn.click();
             },
 
-            onDeleteEvent(event) {
-                this.deleteEvent(event.eventId).then(() => {
-                    this.submitted = true;
-                });
-            },
-
             ...mapActions({
                 'updateEvent': 'updateEvent',
                 'uploadEventImage': 'uploadEventImage',
                 'getCategories': 'getCategories',
                 'putEventCategories': 'putEventCategories',
                 'getEvent': 'getEvent',
-                'deleteEvent': 'deleteEvent',
+                'convertToEvent': 'convertToEvent',
             }),
         },
 
@@ -428,8 +356,8 @@
                 this.eventStartTime = this.$moment(this.eventItem.eventDate).format('hh:mm');
                 this.eventStartTimeMeridiem = this.$moment(this.eventItem.eventDate).format('A');
 
-                this.eventEndTime = this.$moment(this.eventItem.eventEndDate).format('hh:mm');
-                this.eventEndTimeMeridiem = this.$moment(this.eventItem.eventEndDate).format('A');
+                this.eventEndTime = this.eventItem.eventEndDate ? this.$moment(this.eventItem.eventEndDate).format('hh:mm') : '';
+                this.eventEndTimeMeridiem = this.eventItem.eventEndDate ? this.$moment(this.eventItem.eventEndDate).format('A') : '';
             });
         }
 

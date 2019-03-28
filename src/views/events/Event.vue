@@ -13,7 +13,7 @@
                         <time class="event-date">{{ event.eventDate | moment("DD MMM") }}</time>
                         <figure>
                             <img v-if="event.image" :src="event.image.url" :alt="event.image.altText">
-                            <img src="@/assets/imgs/profile-pic.jpg" alt="This is just a placeholder image" v-else>
+                            <img src="@/assets/imgs/img-placeholder.jpg" alt="This is just a placeholder image" v-else>
                         </figure>
                     </div>
 

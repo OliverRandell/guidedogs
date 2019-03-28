@@ -7,6 +7,7 @@
           <template v-else>Private</template>
         </h5>
         <img v-if="eventItem.image" :src="eventItem.image.url" :alt="eventItem.image.altText">
+        <img src="@/assets/imgs/img-placeholder.jpg" alt="There is no image available for this event." title="There is no image available for this event." v-else>
       </figure>
     </router-link>
     <router-link v-if="!hosting" :to="'/events/' + eventItem.eventId" class="event-img">
@@ -16,7 +17,7 @@
           <template v-else>Private</template>
         </h5>
         <img v-if="eventItem.image" :src="eventItem.image.url" :alt="eventItem.image.altText">
-        <img src="@/assets/imgs/profile-pic.jpg" alt="This is a dummy image" v-else>
+        <img src="@/assets/imgs/img-placeholder.jpg" alt="There is no image available for this event." title="There is no image available for this event." v-else>
       </figure>
     </router-link>
 
@@ -51,8 +52,9 @@
         <dt>Where:</dt>
         <dd>{{ eventItem.location }}</dd>
 
-        <router-link v-if="eventItem.userIsHost && hosting" :to="'/event-management/' + eventItem.eventId" class="btn btn-primary">Details</router-link>
-        <router-link v-if="!hosting" :to="'/events/' + eventItem.eventId" class="btn btn-primary">Read more</router-link>
+        <router-link v-if="eventItem.userIsHost && hosting" :to="'/event-management/' + eventItem.eventId" class="btn btn-primary">Edit event</router-link>
+        <router-link v-if="!hosting" :to="'/events/' + eventItem.eventId" class="btn btn-primary">Event details</router-link>
+
 
       </dl>
     </section>
@@ -103,6 +105,7 @@ export default {
         padding: 0.75rem;
         font-size: $font-size-base;
         margin-bottom: 0;
+        z-index: 2;
     }
     .event-details p {
         font-size: 1rem;

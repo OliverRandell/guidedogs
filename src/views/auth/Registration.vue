@@ -3,7 +3,7 @@
         <h1>{{ title }}</h1>
         <p v-html="intro"></p>
         <FormRegistration></FormRegistration>
-        <router-link to="/login">Back to login</router-link>
+        <router-link to="/login">&larr; Back to login</router-link>
     </LayoutAuth>
 </template>
 

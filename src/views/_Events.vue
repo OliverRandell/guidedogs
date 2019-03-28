@@ -223,6 +223,7 @@
         //font-weight: $font-weight-normal;
         font-size: $font-size-base * .65;
         margin-bottom: 0;
+        z-index: 2;
     }
     .filter {
         display: flex;
