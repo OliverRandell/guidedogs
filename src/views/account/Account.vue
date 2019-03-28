@@ -19,17 +19,17 @@
                             <input type="text" name="" value="" class="form-control" disabled v-model="user.email">
                         </div>
                         <div class="form-group">
-                            <label for="givenName">First Name:</label>
-                            <input type="text" name="" value="" placeholder="" v-model="user.givenName" class="form-control">
+                            <label for="givenName">First Name*:</label>
+                            <input type="text" name="" value="" placeholder="" v-model="user.givenName" class="form-control" aria-required="true">
                         </div>
                         <div class="form-group">
-                            <label for="familyName">Last Name:</label>
-                            <input type="text" name="" value="" placeholder="" v-model="user.familyName" class="form-control">
+                            <label for="familyName">Last Name*:</label>
+                            <input type="text" name="" value="" placeholder="" v-model="user.familyName" class="form-control" aria-required="true">
                         </div>
                         <div class="form-group">
-                            <label for="userName">Username:</label>
+                            <label for="userName">Username*:</label>
                             <!-- <editable-input v-model="userDetailsForm.name" change-button-label="Edit" save-button-label="Save" @saved="updateProfile"></editable-input> -->
-                            <input type="text" name="" value="" v-model="user.userName" class="form-control">
+                            <input type="text" name="" value="" v-model="user.userName" class="form-control" aria-required="true">
                         </div>
                         <div class="form-group">
                             <label for="email">Phone Number:</label>
@@ -86,15 +86,15 @@
                         <h4>Change password</h4>
                         <div class="form-group">
                             <label for="current_password">Current Password</label>
-                            <input type="password" @input="checkPassword" id="current_password" v-model="changePasswordForm.oldPassword" class="form-control">
+                            <input type="password" @input="checkPassword" id="current_password" v-model="changePasswordForm.oldPassword" class="form-control" aria-required="true">
                         </div>
                         <div class="form-group">
                             <label for="new_password">New Password</label>
-                            <input type="password" @input="checkPassword" id="new_password" v-model="changePasswordForm.newPassword" class="form-control">
+                            <input type="password" @input="checkPassword" id="new_password" v-model="changePasswordForm.newPassword" class="form-control" aria-required="true">
                         </div>
                         <div class="form-group">
                             <label for="confirm_password">Confirm new Password</label>
-                            <input type="password" @input="checkPassword" id="confirm_password" v-model="changePasswordForm.newPasswordConfirmation" class="form-control">
+                            <input type="password" @input="checkPassword" id="confirm_password" v-model="changePasswordForm.newPasswordConfirmation" class="form-control" aria-required="true">
                         </div>
                         <div class="btn-wrapper">
                             <button :disabled="!canChangePassword" @click.prevent="updatePassword" id="password"  class="btn btn-primary">Change password</button>
@@ -212,6 +212,10 @@
                 return this.formErrors.length > 0;
             },
 
+            validateAge () {
+                // Check if 18..
+            },
+
             onDeleteAccount(account) {
                 this.deleteAccount(account.id).then(() => {
                     this.submitted = true;
@@ -261,7 +265,7 @@
                     .catch(err => console.error(`Can't update password: ${err}`))
                 }
             },
-            
+
             ...mapActions(['getMemberProfile', 'deleteAccount'])
         },
 
