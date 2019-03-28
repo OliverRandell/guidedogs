@@ -10,8 +10,26 @@
         </hero>
 
         <div class="container">
-            <section class="pg-content layout-single-col" tabindex="-1">
-                <div>
+            <section class="pg-content" tabindex="-1">
+
+                <div class="col-12">
+                    
+                    <h4 class="spacer">Share any feedback or questions you have with us</h4>
+
+                    <p class="spacer">Contact Guide Dogs Victoria if you have any questions via email or phone using the details provided below.</p>
+
+                    <h5>Email</h5>
+
+                    <p class="spacer">Email Guide Dogs Victoria at <a href="mailto:info@guidedogsvictoria.com.au">info@guidedogsvictoria.com.au</a></p>
+
+                    <h5>Phone</h5>
+
+                    <p>Call Guide Dogs Victoria on <a href="tel:1800804805">1800 804 805</a></p>
+
+                </div>
+
+
+                <!-- <div>
 
                     <form class="form-contact" @submit.prevent="submitContactForm" v-if="!submitted">
                         <fieldset>
@@ -59,7 +77,7 @@
                         <h3>Thanks for your message</h3>
                     </section>
 
-                </div>
+                </div> -->
 
             </section>
 
@@ -80,7 +98,7 @@
         data () {
             return {
                 formErrors: [],
-                title: 'Contact us.',
+                title: 'Contact Us',
                 tagline: 'Use the form below to get in touch.',
                 user: {
                     givenName: '',
