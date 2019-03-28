@@ -21,26 +21,33 @@
 
 
                     <form v-on:submit.prevent="onSearch">
-                        <div class="form-group my-5">
-                            <label for="searchQuery" class="h4">Search</label>
-                            <div class="form-inline">
+                        <div class="form-group">
+
+                            <label for="searchQuery" class="h4 sr-only">Search events by name, date and category.</label>
+                            <div class="input-group">
+
                                 <input type="text" name="searchEvents" placeholder="Event keyword search" v-model="searchQuery" class="form-control" id="searchQuery">
-                                <input type="submit" value="Search" class="btn btn-primary mx-2">
+                                <div class="input-group-append">
+                                    <input type="submit" value="Search" class="btn btn-primary">
+                                </div>
+
                             </div>
+                            <small class="form-text text-muted">Search events by name, location and category.</small>
                         </div>
+
                     </form>
-                    
+
 
                     <EventListing :categoryId="categoryId" :searchString="searchString" :pageNumber="pageNumber" v-on:last-page="setLastPage" />
 
-                    <div class="col-12">
+                    <section class="btn-group">
                         <button class="btn btn-outline-primary pagination-button" @click="onPrevPage" v-if="!firstPage">Previous page</button>
                         <button class="btn btn-outline-primary pagination-button" @click="onNextPage" v-if="!lastPage">Next page</button>
-                    </div>
+                    </section>
 
-                    <div class="col-12">
+                    <!-- <div class="col-12">
                         <router-link to="/events/event-request" class="btn-link">Request to join event</router-link>
-                    </div>
+                    </div> -->
 
                 </div>
 

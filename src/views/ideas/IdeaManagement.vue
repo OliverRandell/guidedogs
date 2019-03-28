@@ -44,9 +44,11 @@
 
                             <div class="form-group">
                                 <label for="summary">Idea summary:</label>
-                                <small class="form-text text-muted">This short introduction will appear on the Ideas page</small>
                                 <textarea id="summary" required v-on:input="checkSummaryCharacterLength" v-model="idea.eventSummary" class="form-control" rows="2" max-length="75"></textarea>
-                                <p class="character-limit">{{ summaryCharacterLimitDisplay }}</p>
+                                <div class="form-group-footer">
+                                    <small class="form-text text-muted">This short introduction will appear on the Ideas page</small>
+                                    <p class="character-limit">{{ summaryCharacterLimitDisplay }}</p>
+                                </div>
                             </div>
 
                             <fieldset class="form-group">
@@ -63,9 +65,12 @@
 
                             <div class="form-group">
                                 <label for="description">Idea Details</label>
-                                <small class="form-text text-muted">Who should join, and what your idea will be about</small>
                                 <textarea name="name" rows="8" v-on:input="checkDescriptionCharacterLength" v-model="idea.eventDetails" class="form-control" max-length="1000"></textarea>
-                                <p class="character-limit">{{ descriptionCharacterLimitDisplay }}</p>
+                                <div class="form-group-footer">
+                                    <small class="form-text text-muted">Who should join, and what your idea will be about</small>
+                                    <p class="character-limit">{{ descriptionCharacterLimitDisplay }}</p>
+                                </div>
+
                             </div>
 
                             <input type="submit" class="btn btn-primary" v-on:click.prevent="onSubmit" value="Save changes" />
@@ -264,5 +269,9 @@
         align-items: center;
         justify-content: center;
         flex-direction: column;
+    }
+    .form-group-footer {
+        display: flex;
+        justify-content: space-between;
     }
 </style>

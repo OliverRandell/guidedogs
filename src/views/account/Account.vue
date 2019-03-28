@@ -229,7 +229,7 @@
             },
 
             updateProfileData () {
-                axios.put(`${apiUrl}/MemberProfile`, 
+                axios.put(`${apiUrl}/MemberProfile`,
                     { ...this.user },
                     { headers: { ...authHeader() } }
                 )
@@ -239,9 +239,10 @@
 
             checkForm() {
                 this.formErrors = [];
-                // if(!this.user.givenName) { this.formErrors.push('First name is required') }
+                if(!this.user.givenName) { this.formErrors.push('First name is required') }
+                if(!this.user.familyName) { this.formErrors.push('Last name is required') }
+                if(!this.user.userName) { this.formErrors.push('Username is required') }
                 return this.formErrors.length > 0;
-
             },
 
             onSubmit() {

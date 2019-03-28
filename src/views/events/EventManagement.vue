@@ -39,7 +39,7 @@
                     <section class="spacer">
                         <form class="form-create-event form-create" @submit.prevent="onSubmit">
                             <h4>Event details</h4>
-                            
+
                             <p v-if="formErrors.length" role="alert" aria-atomic="true">
                                 <b>Please correct the following error(s):</b>
                                 <ul>
@@ -138,19 +138,16 @@
                             <!-- ONLY VISIBLE IF EVENT IS PRIVATE -->
                             <div class="form-group" v-if="eventItem.eventPublicity === 'Private'">
                                 <label for="capacity">Estimated Capacity</label>
-                                <small class="form-text">
-                                    Please provide your preferred number of people who can attend this event
-                                </small>
                                 <input type="number" id="capacity" class="form-control" v-model="eventItem.eventCapacity">
+                                <small class="form-text">Please provide your preferred number of people who can attend this event</small>
                             </div>
 
                             <div class="form-group">
                                 <label for="details">Event Details</label>
-                                <small class="form-text">
-                                    Describe who should join and what your event is about
-                                </small>
+
                                 <textarea id="details" rows="8" v-on:input="checkDetailsCharacterLength" v-model="eventItem.eventDetails" max-length="1000" class="form-control"></textarea>
                                 <p class="character-limit">{{ detailsCharacterLimitDisplay }}</p>
+                                <small class="form-text">Describe who should join and what your event is about</small>
                             </div>
 
                             <img v-if="imagePreviewUrl" :src="imagePreviewUrl" class="my-2" />

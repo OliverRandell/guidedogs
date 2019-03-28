@@ -8,7 +8,7 @@
         </router-link>
         <p class="host"><span>Host:</span> {{ idea.eventHostNickname }}</p>
         <p>{{ idea.eventDetails | truncate }}</p>
-        
+
         <router-link v-if="idea.userIsHost && hosting" :to="'/manage-idea/' + idea.eventId" class="btn btn-primary">Details</router-link>
         <router-link v-if="!hosting" :to="'/ideas/' + idea.eventId" class="btn btn-primary">Read more</router-link>
     </div>

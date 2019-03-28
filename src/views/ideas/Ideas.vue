@@ -33,10 +33,10 @@
 
                     <IdeaListing :categoryId="categoryId" :searchString="searchString" :pageNumber="pageNumber" v-on:last-page="setLastPage" />
 
-                    <div class="col-12">
+                    <section class="btn-group">
                         <button class="btn btn-outline-primary pagination-button" @click="onPrevPage" v-if="!firstPage">Previous page</button>
                         <button class="btn btn-outline-primary pagination-button" @click="onNextPage" v-if="!lastPage">Next page</button>
-                    </div>
+                    </section>
 
                 </div>
 

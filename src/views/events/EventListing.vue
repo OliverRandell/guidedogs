@@ -5,12 +5,12 @@
                 <EventListingItem v-bind:eventItem="eventItem" v-bind:hosting="hosting" />
             </article>
         </div>
-            
-        <div class="col-12">
-            <article v-if="!allEvents.length" role="article">
-                <p>There are no results matching your search.</p>
-            </article>
-        </div>
+
+
+        <article v-if="!allEvents.length" role="article">
+            <p>There are no results matching your search.</p>
+        </article>
+        
     </div>
 </template>
 
@@ -81,7 +81,7 @@
                     this.searchEventsAttending({...this.searchParams, CategoryId: ''});
                     return;
                 }
-                
+
                 this.searchEvents(this.searchParams);
             }
         },
