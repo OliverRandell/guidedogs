@@ -90,7 +90,8 @@
                         </div>
                     </section>
 
-                    <section class="spacer">
+                    <section class="spacer" aria-label="Delete Idea">
+                        
                         <h4 class="spacer">Delete idea</h4>
                         <div class="custom-control custom-switch spacer">
                             <input type="checkbox" class="custom-control-input" id="confirmDelete" v-model="confirmDelete">

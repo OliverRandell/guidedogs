@@ -29,7 +29,7 @@
 
                 </div>
                 <div class="col-4">
-                    <router-link to="/events" class="btn-link">&lt; Back to events</router-link>
+                    <router-link to="/events" class="btn-link">&larr; Back to events</router-link>
                 </div>
             </div>
         </div>
@@ -72,15 +72,15 @@
         },
 
         methods: {
-            
+
         },
 
         created() {
-            
+
         },
 
         computed: {
-            
+
         },
         watch: {
             '$route' (to, from) {

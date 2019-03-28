@@ -52,8 +52,9 @@
         <dt>Where:</dt>
         <dd>{{ eventItem.location }}</dd>
 
-        <router-link v-if="eventItem.userIsHost && hosting" :to="'/event-management/' + eventItem.eventId" class="btn btn-primary">Details</router-link>
-        <router-link v-if="!hosting" :to="'/events/' + eventItem.eventId" class="btn btn-primary">Read more</router-link>
+        <router-link v-if="eventItem.userIsHost && hosting" :to="'/event-management/' + eventItem.eventId" class="btn btn-primary">Edit event</router-link>
+        <router-link v-if="!hosting" :to="'/events/' + eventItem.eventId" class="btn btn-primary">Event details</router-link>
+
 
       </dl>
     </section>

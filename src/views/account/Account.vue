@@ -2,8 +2,7 @@
     <LayoutMaster>
         <hero>
             <template slot="title">
-                <!-- <h1>Hi {{ account.user.firstName }}!</h1> -->
-                <h1>My account!{{ user.userName }}</h1>
+                <h1>My account</h1>
             </template>
         </hero>
 
@@ -101,65 +100,26 @@
                         </div>
                     </form>
                     <section class="spacer" aria-label="Delete Account">
-                        <p>No longer want to be part of the Peer Support Platform community?</p>
-                        <div class="btn-wrapper">
-                            <button type="button" class="btn btn-primary">Delete account</button>
+                        <div class="custom-control custom-switch spacer">
+                            <input type="checkbox" class="custom-control-input" id="confirmDelete" v-model="confirmDelete">
+                            <label class="custom-control-label" for="confirmDelete">Do you want to delete this account?</label>
                         </div>
+                        <div v-if="confirmDelete">
+                            <p>No longer want to be part of the Peer Support Platform community?</p>
+                            <p><button @click="onDeleteAccount(account)" type="button" class="btn btn-primary">Delete Account</button></p>
+                        </div>
+
                     </section>
+
+                    <section v-if="submitted && confirmDelete" class="msg-success">
+                        <h3>Your account has been deleted</h3>
+                        <router-link to="/login" class="btn btn-primary">Login</router-link>
+                    </section>
+
                 </article>
                 <aside class="items-sidebar">
                     <!-- TABS GO IN HERE. DETAILS, EVENTS & IDEAS & SETTINGS -->
                 </aside>
-
-
-
-                        <!-- <form class="" action="index.html" method="post"> -->
-                            <!-- <div class="form-field">
-                                <label for="">Full name</label>
-                                <input type="text" name="" value="" class="form-control" v-model="">
-                            </div> -->
-                            <!-- <div class="form-group">
-                                <label for="username">Username</label>
-                                <input type="text" v-model="user.username" v-validate="'required'" name="username" class="form-control" :class="{ 'is-invalid': submitted && errors.has('username') }" />
-                                <div v-if="submitted && errors.has('username')" class="invalid-feedback">{{ errors.first('username') }}</div>
-                            </div> -->
-
-                        <!-- </form> -->
-
-                        <!-- <em v-if="users.loading">Loading users...</em>
-                        <span v-if="users.error" class="text-danger">ERROR: {{users.error}}</span>
-                        <ul v-if="users.items">
-                            <li v-for="user in users.items" :key="user.id">
-                                {{user.firstName + ' ' + user.lastName}}
-                                <span v-if="user.deleting"><em> - Deleting...</em></span>
-                                <span v-else-if="user.deleteError" class="text-danger"> - ERROR: {{user.deleteError}}</span>
-                                <span v-else> - <button @click="deleteUser(user.id)" class="btn btn-secondary text-danger">Delete</button>
-                                </span>
-                            </li>
-                        </ul> -->
-
-
-
-                    <!-- <section class="change-password">
-                        <h4>Change password:</h4>
-                        <form class="">
-                            <div class="form-group">
-                                <label for="">Enter existing password:</label>
-                                <input v-model="changePasswordForm.oldPassword" type="password" placeholder="Enter your existing password..." class="form-control">
-                            </div>
-                            <div class="form-group">
-                                <label for="">Enter new password:</label>
-                                <input v-model="changePasswordForm.newPassword" type="password" placeholder="Enter new password..." class="form-control">
-                            </div>
-                            <div class="form-group">
-                                <label for="">New Password again:</label>
-                                <input v-model="changePasswordForm.newPasswordConfirmation" type="password" placeholder="Re-enter new password..." class="form-control">
-                            </div>
-                            <button type="button" @click="submitChangePasswordForm" class="btn btn-primary">Change password</button>
-                            <button type="button" name="button" class="btn btn-primary">Change Password</button>
-                        </form>
-                    </section> -->
-
 
             </section>
         </div>
@@ -198,6 +158,7 @@
                     email: 'ddfdsfd',
                     password: '',
                 },
+                confirmDelete: false,
                 submitted: false,
                 changePasswordForm: {
                     oldPassword: '',
@@ -245,6 +206,12 @@
                 return this.formErrors.length > 0;
             },
 
+            onDeleteAccount(account) {
+                this.deleteAccount(account.id).then(() => {
+                    this.submitted = true;
+                });
+            },
+
             onSubmit() {
                 const formHasErrors = this.checkForm();
 
@@ -260,7 +227,7 @@
             setFocusToErrorListing() {
                 this.$refs.formCreate.focus();
             },
-            ...mapActions(['getMemberProfile'])
+            ...mapActions(['getMemberProfile', 'deleteAccount'])
         },
 
         computed: {

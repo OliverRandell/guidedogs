@@ -6,7 +6,7 @@
 
         <hero>
             <template slot="title">
-                <strong>{{ welcomeMsg }}</strong>
+                <strong>{{ welcomeMsg }} {{ user.userName }}!</strong>
             </template>
             <template slot="description">
                 {{ tagline }}
@@ -30,17 +30,15 @@
             </div>
         </div>
 
-        <!-- </template> -->
-        <!-- <div v-if="!isAuthenticated && authStatus !== 'loading'">
-            <main class="home pg-content">
-                <h2>Welcome to Peer Support Platform!</h2>
-            </main>
-        </div> -->
+
     </layout-master>
 </template>
 
 <script>
-    import { mapGetters, mapActions } from "vuex";
+    import { mapState, mapActions, mapGetters } from 'vuex';
+    import axios from 'axios';
+    import { authHeader } from '@/utils/auth-header';
+    import { apiUrl } from '@/utils/api';
     import LayoutMaster from '../components/common/layouts/layout-master.vue';
     import Hero from '../components/common/global/hero.vue';
     import RecentArticles from '../components/common/blog/recent-articles.vue';
@@ -55,8 +53,11 @@
         },
         data () {
             return {
-                welcomeMsg: 'Welcome!',
+                welcomeMsg: 'Welcome',
                 tagline: 'Latest news and events',
+                user: {
+                    userName: '',
+                },
                 newsArticles: [
                     {
                         title: 'Brand new social platfom launched!',
@@ -77,12 +78,25 @@
             }
         },
         methods: {
-            
+            getProfileData () {
+                axios.get(`${apiUrl}/MemberProfile`, { headers: { ...authHeader() } })
+                    .then(({data}) => {
+                        // go through and match existing keys...
+                        Object.keys(this.user).map(user => Object.keys(data).map(field => {
+                            if (user === field) {
+                                // assign the relevant data to existing fields
+                                this.user[user] = data[field]
+                            }
+                        }))
+                    })
+            },
+            ...mapActions(['getMemberProfile'])
         },
-        created() {
+        created () {
+            this.getProfileData()
         },
         computed: {
-
+            ...mapGetters(['memberProfile']),
         },
         watch: {
             '$route' (to, from) {
