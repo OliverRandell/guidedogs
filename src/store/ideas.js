@@ -89,6 +89,19 @@ const actions = {
         return response.data;
     },
 
+    async updateIdea({ commit }, { idea }) {
+        const response = await axios.put(`${apiUrl}/eois/${idea.eventId}`,
+        {
+            ...idea,
+        },
+        {
+            headers: { ...authHeader() }
+        });
+
+        commit('setIdea', response.data);
+        return response.data;
+    },
+
     async putIdeaCategories({ commit }, { id, categories }) {
         await axios.put(`${apiUrl}/eois/${id}/categories`,
         {

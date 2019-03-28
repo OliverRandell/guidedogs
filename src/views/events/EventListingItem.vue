@@ -1,6 +1,15 @@
 <template>
   <div>
-    <router-link :to="'/events/' + eventItem.eventId" class="event-img">
+    <router-link v-if="eventItem.userIsHost && hosting" :to="'/event-management/' + eventItem.eventId" class="event-img">
+      <figure class="event-thumbnail">
+        <h5 class="event-privacy">
+          <template v-if="eventItem.eventOpen === 'true'">Public</template>
+          <template v-else>Private</template>
+        </h5>
+        <img v-if="eventItem.image" :src="eventItem.image.url" :alt="eventItem.image.altText">
+      </figure>
+    </router-link>
+    <router-link v-if="!hosting" :to="'/events/' + eventItem.eventId" class="event-img">
       <figure class="event-thumbnail">
         <h5 class="event-privacy">
           <template v-if="eventItem.eventOpen === 'true'">Public</template>
@@ -42,7 +51,7 @@
         <dt>Where:</dt>
         <dd>{{ eventItem.location }}</dd>
 
-        <router-link v-if="eventItem.userIsHost && hosting" :to="'/event-management'" class="btn btn-primary">Read more</router-link>
+        <router-link v-if="eventItem.userIsHost && hosting" :to="'/event-management/' + eventItem.eventId" class="btn btn-primary">Details</router-link>
         <router-link v-if="!hosting" :to="'/events/' + eventItem.eventId" class="btn btn-primary">Read more</router-link>
 
       </dl>
