@@ -14,22 +14,22 @@
 
                 <div class="event-listings" ref="eventListing" tabindex="-1">
 
-                    <div class="col-12">
+                    <section class="spacer">
                         <h4>Create your own Event!</h4>
                         <router-link to="/create-event" class="btn btn-primary">+ Create event</router-link>
-                    </div>
+                    </section>
 
-                    <div class="col-12">
-                        <form v-on:submit.prevent="onSearch">
-                            <div class="form-group my-5">
-                                <label for="searchQuery" class="h4">Search</label>
-                                <div class="form-inline">
-                                    <input type="text" name="searchEvents" placeholder="Event keyword search" v-model="searchQuery" class="form-control" id="searchQuery">
-                                    <input type="submit" value="Search" class="btn btn-primary mx-2">
-                                </div>
+
+                    <form v-on:submit.prevent="onSearch">
+                        <div class="form-group my-5">
+                            <label for="searchQuery" class="h4">Search</label>
+                            <div class="form-inline">
+                                <input type="text" name="searchEvents" placeholder="Event keyword search" v-model="searchQuery" class="form-control" id="searchQuery">
+                                <input type="submit" value="Search" class="btn btn-primary mx-2">
                             </div>
-                        </form>
-                    </div>
+                        </div>
+                    </form>
+                    
 
                     <EventListing :categoryId="categoryId" :searchString="searchString" :pageNumber="pageNumber" v-on:last-page="setLastPage" />
 
@@ -122,7 +122,7 @@
         },
 
         created() {
-            
+
         },
 
         computed: {

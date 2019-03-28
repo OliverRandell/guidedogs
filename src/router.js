@@ -169,7 +169,7 @@ export const router =  new Router ({
             }
         },
         {
-            path: '/event-management',
+            path: '/event-management/:id',
             name: 'EventManagement',
             component: EventManagement,
             meta: {
@@ -209,7 +209,7 @@ export const router =  new Router ({
             }
         },
         {
-            path: '/manage-idea',
+            path: '/manage-idea/:id',
             name: 'IdeaManagement',
             component: IdeaManagement,
             meta: {

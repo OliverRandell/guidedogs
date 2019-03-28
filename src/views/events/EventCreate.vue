@@ -284,15 +284,20 @@
                     return formData;
                 })
                 .then(data => {
-                    // add image to event
-                    this.uploadEventImage(data).then(response => {
-                        this.submitted = true;
-                    });
+                    if (this.imagePreviewUrl) {
+                        // add image to event
+                        this.uploadEventImage(data).then(response => {
+                            this.submitted = true;
+                        });
+                    }
 
                     // add category to event
                     const eventId = data.get('eventId');
 
                     this.putEventCategories({ id: eventId, categories: [category] });
+                })
+                .then(() => {
+                    this.submitted = true;
                 });
             },
 

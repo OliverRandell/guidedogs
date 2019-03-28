@@ -182,7 +182,7 @@
                 })
                 .then(() => {
                     this.submitted = true;
-                });;
+                });
             },
 
             ...mapActions({

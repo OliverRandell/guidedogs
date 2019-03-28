@@ -102,6 +102,19 @@ const actions = {
         return response.data;
     },
 
+    async updateEvent({ commit }, { event }) {
+        const response = await axios.put(`${apiUrl}/events/${event.eventId}`,
+        {
+            ...event,
+        },
+        {
+            headers: { ...authHeader() }
+        });
+
+        commit('setEvent', response.data);
+        return response.data;
+    },
+
     async uploadEventImage({ commit }, image){
         await axios.post(`${apiUrl}/eventimages`,
         image,
