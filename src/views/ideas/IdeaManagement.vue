@@ -270,8 +270,4 @@
         justify-content: center;
         flex-direction: column;
     }
-    .form-group-footer {
-        display: flex;
-        justify-content: space-between;
-    }
 </style>

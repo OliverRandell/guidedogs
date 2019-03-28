@@ -17,11 +17,11 @@
                         <h4>Important information!</h4>
                         <p v-html="importantInfo"></p>
                     </section>
-                    
+
                     <section class="spacer">
                         <form class="form-create-event form-create" @submit.prevent="onSubmit">
                             <h4>Event details</h4>
-                            
+
                             <p v-if="formErrors.length" role="alert" aria-atomic="true">
                                 <b>Please correct the following error(s):</b>
                                 <ul>
@@ -111,28 +111,25 @@
 
                             <div class="form-group">
                                 <label for="travelTips">Travel Tips</label>
-                                <small class="form-text">
-                                    example: closest public transport stop
-                                </small>
                                 <input type="text" id="travelTips"  class="form-control" v-model="eventItem.travelTips" />
+                                <small class="form-text">example: closest public transport stop</small>
                             </div>
 
                             <!-- ONLY VISIBLE IF EVENT IS PRIVATE -->
                             <div class="form-group" v-if="eventItem.eventPublicity === 'Private'">
                                 <label for="capacity">Estimated Capacity</label>
-                                <small class="form-text">
-                                    Please provide your preferred number of people who can attend this event
-                                </small>
                                 <input type="number" id="capacity" class="form-control" v-model="eventItem.eventCapacity">
+                                <small class="form-text">Please provide your preferred number of people who can attend this event</small>
                             </div>
 
                             <div class="form-group">
                                 <label for="details">Event Details</label>
-                                <small class="form-text">
-                                    Describe who should join and what your event is about
-                                </small>
                                 <textarea id="details" rows="8" v-on:input="checkDetailsCharacterLength" v-model="eventItem.eventDetails" max-length="1000" class="form-control"></textarea>
-                                <p class="character-limit">{{ detailsCharacterLimitDisplay }}</p>
+                                <div class="form-group-footer">
+                                    <small class="form-text">Describe who should join and what your event is about</small>
+                                    <p class="character-limit">{{ detailsCharacterLimitDisplay }}</p>
+                                </div>
+
                             </div>
 
                             <img v-if="imagePreviewUrl" :src="imagePreviewUrl" class="my-2" />
@@ -147,13 +144,13 @@
 
                             <div class="form-group">
                                 <label for="imageAlt">Image Description</label>
-                                <small class="form-text">
-                                    Please provide short description of image provided
-                                </small>
                                 <input type="text" id="imageAlt" class="form-control" v-model="eventItem.imageAlt">
+                                <small class="form-text">Please provide short description of image provided</small>
+                            </div>
+                            <div class="btn-wrapper">
+                                <input type="submit" v-on:click.prevent="onSubmit" class="btn btn-primary" value="Save and convert" />
                             </div>
 
-                            <input type="submit" v-on:click.prevent="onSubmit" class="btn btn-primary" value="Save and convert" />
                         </form>
 
                         <section v-if="submitted" class="msg-success">

@@ -27,15 +27,15 @@
                             </li>
                         </ul>
                         <div class="btn-wrapper">
-                            <router-link 
-                                :to="{ 
-                                    name: 'EventRequestManagement', 
-                                    params: { id: this.$route.params.id, title: eventItem.title } 
-                                }" 
+                            <router-link
+                                :to="{
+                                    name: 'EventRequestManagement',
+                                    params: { id: this.$route.params.id, title: eventItem.title }
+                                }"
                                 class="btn btn-primary">Manage requests</router-link>
                         </div>
                     </section>
-                    
+
                     <section class="spacer">
                         <form class="form-create-event form-create" @submit.prevent="onSubmit">
                             <h4>Event details</h4>
@@ -121,18 +121,14 @@
 
                             <div class="form-group">
                                 <label for="location">Event Location</label>
-                                <small class="form-text">
-                                    Insert Address
-                                </small>
                                 <input type="text" id="location" required v-model="eventItem.location" class="form-control">
+                                <small class="form-text">Insert Address details.</small>
                             </div>
 
                             <div class="form-group">
                                 <label for="travelTips">Travel Tips</label>
-                                <small class="form-text">
-                                    example: closest public transport stop
-                                </small>
                                 <input type="text" id="travelTips"  class="form-control" v-model="eventItem.travelTips" />
+                                <small class="form-text">For example: the closest public transport stop</small>
                             </div>
 
                             <!-- ONLY VISIBLE IF EVENT IS PRIVATE -->
@@ -146,29 +142,31 @@
                                 <label for="details">Event Details</label>
 
                                 <textarea id="details" rows="8" v-on:input="checkDetailsCharacterLength" v-model="eventItem.eventDetails" max-length="1000" class="form-control"></textarea>
-                                <p class="character-limit">{{ detailsCharacterLimitDisplay }}</p>
-                                <small class="form-text">Describe who should join and what your event is about</small>
+                                <div class="form-group-footer">
+                                    <small class="form-text">Describe who should join and what your event is about</small>
+                                    <p class="character-limit">{{ detailsCharacterLimitDisplay }}</p>
+                                </div>
+
+
                             </div>
 
                             <img v-if="imagePreviewUrl" :src="imagePreviewUrl" class="my-2" />
                             <div class="form-group">
                                 <div>
-                                    <label for="eventImg">Event Image</label>
+                                    <label for="eventImg">Event Image <i>(optional)</i></label>
                                 </div>
                                 <label for="eventImg" class="btn btn-primary mr-2" tabindex="0" @keyup.enter="triggerUploadImageButton">Upload Image</label>
-                                <span>(optional)</span>
                                 <input type="file" id="eventImg" @change="onImageChange" ref="uploadBtn">
                             </div>
 
                             <div class="form-group">
                                 <label for="imageAlt">Image Description</label>
-                                <small class="form-text">
-                                    Please provide short description of image provided
-                                </small>
                                 <input type="text" id="imageAlt" class="form-control" v-model="eventItem.imageAlt">
+                                <small class="form-text">Please provide short description of image provided</small>
                             </div>
-
-                            <input type="submit" v-on:click.prevent="onSubmit" class="btn btn-primary" value="Save changes" />
+                            <div class="btn-wrapper">
+                                <input type="submit" v-on:click.prevent="onSubmit" class="btn btn-primary" value="Save changes" />
+                            </div>
                         </form>
 
                         <section v-if="submitted" class="msg-success">
@@ -256,11 +254,11 @@
                         const requestsIds = []
                         const requests = []
 
-                        data.map(obj => { 
+                        data.map(obj => {
                             if (
-                                !requestsIds.includes(obj.rsvpParticipantId) 
+                                !requestsIds.includes(obj.rsvpParticipantId)
                                 && obj.rsvpParticipantId
-                                && obj.responseType === "Attending"    
+                                && obj.responseType === "Attending"
                             ) {
                                 requestsIds.push(obj.rsvpParticipantId)
                                 requests.push(obj)
