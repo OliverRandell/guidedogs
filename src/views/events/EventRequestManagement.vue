@@ -12,13 +12,11 @@
                 <div class="col-8">
                     <h2>{{ event.title }}</h2>
                     
-                    <section class="spacer" aria-label="List of pending requests" 
-                        v-if="pendingRequests && pendingRequests.length > 0"
-                    >
-                        <h4>Pending requests</h4>
-                        <p v-if="newRequests && totalPendingRequests > 0"><strong>Total: </strong>{{ totalPendingRequests }}</p>
+                    <section class="spacer" aria-label="List of pending requests" v-if="pendingRequests">
+                        <h4 v-if="totalPendingRequests > 0">Pending requests</h4>
+                        <p v-if="newRequests && totalPendingRequests > 0 && !noRequests"><strong>Total: </strong>{{ totalPendingRequests }}</p>
 
-                        <ul class="guest-list" v-if="newRequests && totalPendingRequests > 0" aria-live="polite">
+                        <ul class="guest-list" v-if="newRequests && totalPendingRequests > 0 && !noRequests" aria-live="polite">
                             <li 
                                 v-for="(user, index) in pendingRequests"
                                 :key="`pr-${user.rsvpId}-${index}`"
@@ -29,16 +27,16 @@
                                     <span class="tip" v-if="user.sentHostMessage">{{user.rsvpParticipantNickName}} also sent a message, and will be located in your email inbox.</span>
                                 </div>
                                 <span class="col-3">
-                                    <button class="btn btn-primary" type="button" @click="acceptRequest(36, user.rsvpParticipantId)">Accept</button>
+                                    <button class="btn btn-primary" type="button" @click="acceptRequest(eventId, user.rsvpParticipantId)">Accept</button>
                                 </span>
                                 <span class="col-3">
-                                    <button class="btn btn-secondary" type="button" @click="declineRequest(36, user.rsvpParticipantId)">Decline</button>
+                                    <button class="btn btn-secondary" type="button" @click="declineRequest(eventId, user.rsvpParticipantId)">Decline</button>
                                 </span>
-                                <span class="error col-12" v-if="user.error">{{ user.error }}</span>
+                                <span class="error col-12" role="alert" v-if="user.error">{{ user.error }}</span>
                             </li>
                         </ul>
 
-                        <p v-else>{{pendingRequests}}</p>
+                        <p v-if="noRequests">{{pendingRequests}}</p>
                     </section>
 
                     <section class="spacer" aria-label="Approved Guests" 
@@ -58,7 +56,7 @@
                                     <span class="tip" v-if="attendee.sentHostMessage">{{attendee.rsvpParticipantNickName}} also sent a message, and will be located in your email inbox.</span>
                                 </div>
                                 <span class="col-3">
-                                    <button class="btn btn-secondary" type="button" @click="declineRequest(36, attendee.rsvpParticipantId)">Decline</button>
+                                    <button class="btn btn-secondary" type="button" @click="declineRequest(eventId, attendee.rsvpParticipantId)">Decline</button>
                                 </span>
                             </li>
                         </ul>
@@ -85,7 +83,7 @@
                                     <button 
                                         class="btn btn-primary" 
                                         type="button"
-                                        @click="acceptRequest(36, attendee.rsvpParticipantId)"
+                                        @click="acceptRequest(eventId, attendee.rsvpParticipantId)"
                                     >
                                         Accept
                                     </button>
@@ -95,7 +93,7 @@
                     </section>
                 </div>
                 <div class="col-4">
-                    <router-link to="event-management">&larr; Back to event management</router-link>
+                    <router-link :to="{ path: `/event-management/${eventId}`, params: {id: eventId} }">&larr; Back to event management</router-link>
                 </div>
             </div>
         </div>
@@ -119,22 +117,26 @@
         data() {
             return {
                 title: 'Manage requests',
-                importantInfo: `Please note, if the attendee has supplied further information a notification flag will be present. This message will be accessible via your requested email.`,
                 event: {
-                    title: 'Name of event',
+                    // TODO: Update name dynamically
+                    title: this.$route.params.title,
                 },
-                newRequests: null
+                newRequests: null,
+                noRequests: false
             }
         },
 
-        created () {
+        mounted () {
+            console.log(this.$route)
             // TODO - Get event as prop
-            this.getEventRequests(36)
+            this.$nextTick(() => this.getEventRequests(this.eventId))
         },
 
         computed: {
+            eventId () { return this.$route.params.id },
+
             pendingRequests () {
-                if (!this.newRequests || this.filterAttendees(null) === 0) {
+                if (!this.newRequests || this.filterAttendees(null) === 0 || this.noRequests) {
                     return 'There are no pending requests'
                 }
                 return this.filterAttendees(null)
@@ -166,11 +168,17 @@
                             obj.loading = false
                             obj.error = null
 
-                            if (!requestsIds.includes(obj.rsvpParticipantId) && obj.rsvpParticipantId) {
+                            if (
+                                !requestsIds.includes(obj.rsvpParticipantId) 
+                                && obj.rsvpParticipantId
+                                && obj.responseType === "Requesting"    
+                            ) {
                                 requestsIds.push(obj.rsvpParticipantId)
                                 requests.push(obj)
                             }
                         })
+
+                        if (requests.length === 0) this.noRequests = true
 
                         this.newRequests = requests
                     })
