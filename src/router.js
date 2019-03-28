@@ -161,9 +161,10 @@ export const router =  new Router ({
             }
         },
         {
-            path: '/manage-requests',
+            path: '/manage-requests/:id',
             name: 'EventRequestManagement',
             component: EventRequestManagement,
+            props: true,
             meta: {
                 title: 'Event request management'
             }

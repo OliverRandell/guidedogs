@@ -23,15 +23,19 @@
                         <ul class="guest-list">
                             <!-- TODO: MAKE COMPONENT AND SHARE IT ON THE EVENT ATTENDEES VIEW -->
                             <li v-for="guest in eventAttendees" :key="guest.id">
-                                <router-link :to="guest.route">{{ guest.rsvpParticipantNickName }}</router-link>
+                                <router-link to="/">{{ guest.rsvpParticipantNickName }}</router-link>
                             </li>
                         </ul>
                         <div class="btn-wrapper">
-                            <router-link to="/manage-requests" class="btn btn-primary">Manage requests</router-link>
+                            <router-link 
+                                :to="{ 
+                                    name: 'EventRequestManagement', 
+                                    params: { id: this.$route.params.id, title: eventItem.title } 
+                                }" 
+                                class="btn btn-primary">Manage requests</router-link>
                         </div>
-
-
                     </section>
+                    
                     <section class="spacer">
                         <form class="form-create-event form-create col-12" @submit.prevent="onSubmit">
                             <h4>Event details</h4>
@@ -188,6 +192,9 @@
 
 <script>
     import { mapActions, mapGetters } from 'vuex';
+    import axios from 'axios';
+    import { authHeader } from '@/utils/auth-header';
+    import { apiUrl } from '@/utils/api';
     import LayoutMaster from '../../components/common/layouts/layout-master.vue';
     import Hero from '../../components/common/global/hero.vue';
     import DatePicker from 'vuejs-datepicker';
@@ -210,36 +217,46 @@
                 submitted: false,
                 imagePreviewUrl: '',
                 imageFile: '',
-                attendeeTotal: 5,
                 detailsCharacterLimitEntered: 0,
+                attendeeTotal: 0,
                 detailsCharacterLimit: 1000,
                 eventStartDate: '',
                 eventStartTime: '',
                 eventStartTimeMeridiem : '',
                 eventEndTime: '',
                 eventEndTimeMeridiem: '',
-                eventAttendees: [
-                    {
-                        route: '/host-profile',
-                        rsvpParticipantNickName: 'Guide dogs vic',
-                    },
-                    {
-                        route: '/host-profile',
-                        rsvpParticipantNickName: 'James_bond007',
-                    },
-                    {
-                        route: '/host-profile',
-                        rsvpParticipantNickName: 'Ernest Hemmingway',
-                    },
-                    {
-                        route: '/host-profile',
-                        rsvpParticipantNickName: 'EinsteinMind',
-                    }
-                ],
+                eventAttendees: null,
             }
         },
 
+        mounted () {
+            this.getAttendees(this.$route.params.id)
+        },
+
         methods: {
+            getAttendees (id) {
+                axios.get(`${apiUrl}/events/${id}/RSVPs`, { headers: { ...authHeader() } })
+                    .then(({data}) => {
+                        const requestsIds = []
+                        const requests = []
+
+                        data.map(obj => { 
+                            if (
+                                !requestsIds.includes(obj.rsvpParticipantId) 
+                                && obj.rsvpParticipantId
+                                && obj.responseType === "Attending"    
+                            ) {
+                                requestsIds.push(obj.rsvpParticipantId)
+                                requests.push(obj)
+                            }
+                        })
+
+                        this.eventAttendees = requests
+                        this.attendeeTotal = requests.length
+                    })
+                    .catch(error => console.error(`Couldn't retrieve Attendee list: ${error.response}`))
+            },
+
             onImageChange(e) {
                 const image = e.target.files[0];
                 this.imageFile = image;
