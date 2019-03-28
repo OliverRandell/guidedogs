@@ -86,7 +86,7 @@
                     <section class="spacer">
                         <h4>Want to convert this idea into an Event?</h4>
                         <div class="btn-group">
-                            <button type="button" name="button" class="btn btn-primary">Create event</button>
+                            <router-link :to="'/convert-idea/' + idea.eventId" class="btn btn-primary">Convert</router-link>
                         </div>
                     </section>
 

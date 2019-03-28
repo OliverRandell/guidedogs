@@ -20,6 +20,7 @@ import EventRequest from './views/events/EventRequest.vue';
 import EventRequestManagement from './views/events/EventRequestManagement.vue';
 import EventManagement from './views/events/EventManagement.vue';
 import EventAttendees from './views/events/EventAttendees.vue';
+import ConvertIdea from './views/events/EventConvert.vue';
 
 // EXPRESSIONS OF INTEREST
 import Ideas from './views/ideas/Ideas.vue';
@@ -260,6 +261,14 @@ export const router =  new Router ({
             component: Contact,
             meta: {
                 title: 'Website - contact details'
+            }
+        },
+        {
+            path: '/convert-idea/:id',
+            name: 'ConvertIdea',
+            component: ConvertIdea,
+            meta: {
+                title: 'Convert idea into an event'
             }
         },
         // OTHERWISE REDIRECT TO HOME
