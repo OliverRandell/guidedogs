@@ -8,43 +8,52 @@
 
         <div class="container">
             <section class="pg-content">
-                <article class="item-wrapper" role="article" tabindex="-1">
+                <article class="item-wrapper" role="article" tabindex="-1" ref="formAccount">
                     <h4>Manage your account details:</h4>
                     <p>This information will assit us to currate personalised content.</p>
+
+                    <p v-if="formErrors.length" role="alert" aria-atomic="true">
+                        <b>Please correct the following error(s):</b>
+                        <ul>
+                            <li v-for="(error, index) in formErrors" :key="index">{{ error }}</li>
+                        </ul>
+                    </p>
+
                     <!-- INCLUDE AGE DETAILS, NAME, USERNAME, POSTCODE, INTERESTS -->
                     <form class="spacer" @submit.prevent="onSubmit" aria-label="Your details">
                         <!-- NB: I DON'T THINK THAT THE USER CAN CHANGE THEIR EMAIL -->
                         <div class="form-group">
                             <label for="email">Email:</label>
-                            <input type="text" name="" value="" class="form-control" disabled v-model="user.email">
+                            <input type="text" id="email" class="form-control" disabled v-model="user.email">
                         </div>
                         <div class="form-group">
-                            <label for="givenName">First Name:</label>
-                            <input type="text" name="" value="" placeholder="" v-model="user.givenName" class="form-control">
+                            <label for="givenName">First Name*:</label>
+                            <input type="text" id="givenName" placeholder="" v-model="user.givenName" class="form-control" aria-required="true">
                         </div>
                         <div class="form-group">
-                            <label for="familyName">Last Name:</label>
-                            <input type="text" name="" value="" placeholder="" v-model="user.familyName" class="form-control">
+                            <label for="familyName">Last Name*:</label>
+                            <input type="text" id="familyName" placeholder="" v-model="user.familyName" class="form-control" aria-required="true">
                         </div>
                         <div class="form-group">
-                            <label for="userName">Username:</label>
+                            <label for="userName">Username*:</label>
                             <!-- <editable-input v-model="userDetailsForm.name" change-button-label="Edit" save-button-label="Save" @saved="updateProfile"></editable-input> -->
-                            <input type="text" name="" value="" v-model="user.userName" class="form-control">
+                            <input type="text" id="userName" v-model="user.userName" class="form-control" aria-required="true">
                         </div>
                         <div class="form-group">
-                            <label for="email">Phone Number:</label>
-                            <input type="text" name="" value="" class="form-control" v-model="user.phoneNumber">
+                            <label for="phone">Phone Number:</label>
+                            <input type="text" id="phone" class="form-control" v-model="user.phoneNumber">
                         </div>
                         <div class="form-group">
                             <label for="age">Age:</label>
-                            <input type="number" name="" value="" class="form-control" v-model="user.age">
+                            <input @input="validateAge" type="number" min="0" id="age" class="form-control" v-model="user.age">
                         </div>
-                        <div class="form-group">
+                        <!-- TODO: Check if ross can add this to his db -->
+                        <!-- <div class="form-group">
                             <label for="postcode">Postcode:</label>
                             <input type="text" name="postcode" value="postcode" class="form-control" v-model="user.postcode">
                             <small class="form-text">We'd like your postcode to find out who is where!</small>
-                        </div>
-                        <fieldset class="form-group">
+                        </div> -->
+                        <!-- <fieldset class="form-group">
 
                             <div class="row">
                                 <legend class="col-form-label col-sm-12 pt-0">Type:</legend>
@@ -70,12 +79,12 @@
                                 </div>
 
                             </div>
-                        </fieldset>
-                        <div class="form-group">
+                        </fieldset> -->
+                        <!-- <div class="form-group">
                             <label for="">Talk to me about:</label>
                             <textarea name="name" rows="8" cols="80" class="form-control" placeholder="Example: my new guide dog Toby, best coffee spots in Kew and I want to learn more about JAWS"></textarea>
                             <small class="sr-only form-text">Example: my new guide dog Toby, best coffee spots in Kew and I want to learn more about JAWS</small>
-                        </div>
+                        </div> -->
                         <div class="btn-wrapper">
                             <input type="submit" v-on:click.prevent="onSubmit" class="btn btn-primary" value="Update your account">
                         </div>
@@ -84,21 +93,22 @@
                     <form class="form-change-password spacer" aria-label="Update Password">
                         <h4>Change password</h4>
                         <div class="form-group">
-                            <label for="password">Current Password</label>
-                            <input type="password" name="" value="" class="form-control">
+                            <label for="current_password">Current Password</label>
+                            <input type="password" @input="checkPassword" id="current_password" v-model="changePasswordForm.oldPassword" class="form-control" aria-required="true">
                         </div>
                         <div class="form-group">
-                            <label for="password">New Password</label>
-                            <input type="password" name="" value="" class="form-control">
+                            <label for="new_password">New Password</label>
+                            <input type="password" @input="checkPassword" id="new_password" v-model="changePasswordForm.newPassword" class="form-control" aria-required="true">
                         </div>
                         <div class="form-group">
-                            <label for="password">Confirm new Password</label>
-                            <input type="password" name="" value="" class="form-control">
+                            <label for="confirm_password">Confirm new Password</label>
+                            <input type="password" @input="checkPassword" id="confirm_password" v-model="changePasswordForm.newPasswordConfirmation" class="form-control" aria-required="true">
                         </div>
                         <div class="btn-wrapper">
-                            <input type="submit" name="" value="Change password" class="btn btn-primary">
+                            <button :disabled="!canChangePassword" @click.prevent="updatePassword" id="password"  class="btn btn-primary">Change password</button>
                         </div>
                     </form>
+
                     <section class="spacer" aria-label="Delete Account">
                         <div class="custom-control custom-switch spacer">
                             <input type="checkbox" class="custom-control-input" id="confirmDelete" v-model="confirmDelete">
@@ -165,6 +175,7 @@
                     newPassword: '',
                     newPasswordConfirmation: '',
                 },
+                canChangePassword: false
             }
         },
 
@@ -173,11 +184,14 @@
         },
 
         methods: {
+            ...mapActions(['getMemberProfile']),
+
             /* Running the axios without store just for simplicity of not
             having to do set/get computed functions to the store and back with limited time */
             getProfileData () {
                 axios.get(`${apiUrl}/MemberProfile`, { headers: { ...authHeader() } })
                     .then(({data}) => {
+                        console.log(data)
                         // go through and match existing keys...
                         Object.keys(this.user).map(user => Object.keys(data).map(field => {
                             if (user === field) {
@@ -195,7 +209,7 @@
                     { headers: { ...authHeader() } }
                 )
                     .then(({data}) => console.log(data))
-                    .catch(err => console.error(`Couldn't retrieve profile data: ${err}`))
+                    .catch(err => console.error(`Couldn't update profile data: ${err}`))
             },
 
             checkForm() {
@@ -203,7 +217,13 @@
                 if(!this.user.givenName) { this.formErrors.push('First name is required') }
                 if(!this.user.familyName) { this.formErrors.push('Last name is required') }
                 if(!this.user.userName) { this.formErrors.push('Username is required') }
+                if(this.user.age && !this.validateAge) { this.formErrors.push('You need to be over 18')}
                 return this.formErrors.length > 0;
+            },
+
+            validateAge (age) {
+                // Check if 18..
+                return this.user.age - 18 >= 0
             },
 
             onDeleteAccount(account) {
@@ -225,15 +245,44 @@
             },
 
             setFocusToErrorListing() {
-                this.$refs.formCreate.focus();
+                this.$refs.formAccount.focus();
             },
+
+            checkPassword () {
+                const pForm = this.changePasswordForm
+                const matches = pForm.newPassword === pForm.newPasswordConfirmation
+
+                let fieldLengths = 0
+
+                // If fieldLengths = 3, all fields have 6 characters or more.
+                Object.values(pForm).map(val => {
+                    val.length >= 6 ? fieldLengths++ : fieldLengths-- 
+                })
+
+                matches && fieldLengths === 3 ? this.canChangePassword = true : this.canChangePassword = false
+            },
+
+            updatePassword ({changePasswordForm}) {
+                // TODO: ADD UI FOR UPDATING PWORD
+                if (this.canChangePassword) {
+                    axios.post(`${apiUrl}/authentication/changepassword`, {
+                            oldPassword: this.changePasswordForm.oldPassword,
+                            newPassword: this.changePasswordForm.newPassword
+                        },
+                        { headers: { ...authHeader() } }
+                    )
+                    .then(res => console.log(res))
+                    .catch(err => console.error(`Can't update password: ${err}`))
+                }
+            },
+
             ...mapActions(['getMemberProfile', 'deleteAccount'])
         },
 
         computed: {
             ...mapGetters(['memberProfile']),
             topOffset: function() {
-                const element = this.$refs.formCreate;
+                const element = this.$refs.formAccount;
                 const top = element.offsetTop;
                 return top;
             },

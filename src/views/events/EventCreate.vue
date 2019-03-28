@@ -21,13 +21,13 @@
 
                     <div class="form-group">
                         <label for="hostName">Host Name</label>
-                        <input type="text" id="hostName" required v-model="memberProfile.userName" disabled class="form-control">
+                        <input type="text" id="hostName" required v-model="memberProfile.userName" disabled class="form-control" aria-required="true">
                     </div>
 
                     <fieldset class="form-group">
 
                         <div class="row">
-                            <legend class="col-form-label col-sm-12 pt-0">Type</legend>
+                            <legend class="col-form-label col-sm-12 pt-0" aria-required="true">Type</legend>
                             <div class="col-sm-12">
                                 <div class="custom-control custom-radio mb-2">
                                     <input class="custom-control-input" type="radio" name="publicOrPrivate" id="public" value="public" v-model="eventItem.eventPublicity">
@@ -43,12 +43,12 @@
 
                     <div class="form-group">
                         <label for="title">Event Title</label>
-                        <input type="text" id="title" required v-model="eventItem.title" class="form-control">
+                        <input type="text" id="title" required v-model="eventItem.title" class="form-control" aria-required="true">
                     </div>
                     <fieldset class="form-group">
 
                         <div class="row">
-                            <legend class="col-form-label col-sm-12 pt-0">Category</legend>
+                            <legend class="col-form-label col-sm-12 pt-0" aria-required="true">Category</legend>
                             <div class="col-sm-8">
                                 <div class="custom-control custom-radio mb-2" v-for="category in allCategories" :key="category.categoryId">
                                     <input class="custom-control-input" type="radio" name="category" :id="category.title + category.categoryId" :value="category.categoryId" v-model="eventItem.category">
@@ -60,11 +60,11 @@
 
                     <div class="form-group">
                         <label for="date">Event Date (DD/MM/YYYY)</label>
-                        <DatePicker v-model="eventStartDate" class="form-control"></DatePicker>
+                        <DatePicker v-model="eventStartDate" class="form-control" aria-required="true"></DatePicker>
                     </div>
 
                     <div class="form-group meridiem-time">
-                        <label for="timeStart">Start Time (HH:MM)</label>
+                        <label for="timeStart" aria-required="true">Start Time (HH:MM)</label>
                         <div class="meridiem-time__input">
                             <input type="text" id="timeStart" required v-model="eventStartTime" class="form-control">
                         </div>
@@ -81,7 +81,7 @@
                     </div>
 
                     <div class="form-group meridiem-time">
-                        <label for="timeEnd">End Time (HH:MM) (optional)</label>
+                        <label for="timeEnd" aria-required="true">End Time (HH:MM) (optional)</label>
                         <div class="meridiem-time__input">
                             <input type="text" id="timeEnd" required v-model="eventEndTime" class="form-control">
                         </div>
@@ -102,7 +102,7 @@
                         <small class="form-text">
                             Insert Address
                         </small>
-                        <input type="text" id="location" required v-model="eventItem.location" class="form-control">
+                        <input type="text" id="location" required v-model="eventItem.location" class="form-control" aria-required="true">
                     </div>
 
                     <div class="form-group">
@@ -110,7 +110,7 @@
                         <small class="form-text">
                             example: closest public transport stop
                         </small>
-                        <input type="text" id="travelTips"  class="form-control" v-model="eventItem.travelTips" />
+                        <input type="text" id="travelTips"  class="form-control" v-model="eventItem.travelTips" aria-required="true" />
                     </div>
 
                     <!-- ONLY VISIBLE IF EVENT IS PRIVATE -->
@@ -119,7 +119,7 @@
                         <small class="form-text">
                             Please provide your preferred number of people who can attend this event
                         </small>
-                        <input type="number" id="capacity" class="form-control" v-model="eventItem.attendanceString">
+                        <input type="number" id="capacity" class="form-control" v-model="eventItem.attendanceString" >
                     </div>
 
                     <div class="form-group">
@@ -127,7 +127,7 @@
                         <small class="form-text">
                             Describe who should join and what your event is about
                         </small>
-                        <textarea id="details" rows="8" v-on:input="checkDetailsCharacterLength" v-model="eventItem.eventDetails" max-length="1000" class="form-control"></textarea>
+                        <textarea id="details" rows="8" v-on:input="checkDetailsCharacterLength" v-model="eventItem.eventDetails" max-length="1000" class="form-control" aria-required="true"></textarea>
                         <p class="character-limit">{{ detailsCharacterLimitDisplay }}</p>
                     </div>
 
@@ -161,7 +161,7 @@
                 </aside>
 
             </article>
-            <section v-if="submitted" class="msg-success">
+            <section v-if="submitted" class="msg-success" aria-live="polite">
                 <h3>Congratulations! You have successfully created an event.</h3>
                 <router-link to="/events" class="btn btn-primary">Go back to events page</router-link>
             </section>

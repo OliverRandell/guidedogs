@@ -118,7 +118,6 @@
             return {
                 title: 'Manage requests',
                 event: {
-                    // TODO: Update name dynamically
                     title: this.$route.params.title,
                 },
                 newRequests: null,
@@ -127,8 +126,6 @@
         },
 
         mounted () {
-            console.log(this.$route)
-            // TODO - Get event as prop
             this.$nextTick(() => this.getEventRequests(this.eventId))
         },
 
@@ -198,13 +195,10 @@
                 attendee.error = null
                 
                 axios.put(`${apiUrl}/events/${eventId}/RSVPs/${attendee.rsvpId}`, 
-                    {
-                        ...attendee
-                        // todo, update status in submission
-                    }, 
+                    { ...attendee }, 
                     { headers: { ...authHeader() } }
                 )
-                    .then(res => {
+                    .then(() => {
                         attendee.status = type
                         attendee.loading = false
                     })

@@ -3,27 +3,27 @@
     <form @submit.prevent="handleSubmit">
         <div class="form-group">
             <label for="firstName">First Name:</label>
-            <input type="text" v-model="user.firstName" v-validate="'required'" name="firstName" class="form-control" :class="{ 'is-invalid': submitted && errors.has('firstName') }" />
+            <input type="text" v-model="user.firstName" v-validate="'required'" name="firstName" class="form-control" :class="{ 'is-invalid': submitted && errors.has('firstName') }" aria-required="true" />
             <div v-if="submitted && errors.has('firstName')" class="invalid-feedback">{{ errors.first('firstName') }}</div>
         </div>
         <div class="form-group">
             <label for="lastName">Last Name:</label>
-            <input type="text" v-model="user.lastName" v-validate="'required'" name="lastName" class="form-control" :class="{ 'is-invalid': submitted && errors.has('lastName') }" />
+            <input type="text" v-model="user.lastName" v-validate="'required'" name="lastName" class="form-control" :class="{ 'is-invalid': submitted && errors.has('lastName') }" aria-required="true" />
             <div v-if="submitted && errors.has('lastName')" class="invalid-feedback">{{ errors.first('lastName') }}</div>
         </div>
         <div class="form-group">
             <label for="userName">Username:</label>
-            <input type="text" v-model="user.userName" v-validate="'required'" name="userName" class="form-control" :class="{ 'is-invalid': submitted && errors.has('userName') }" />
+            <input type="text" v-model="user.userName" v-validate="'required'" name="userName" class="form-control" :class="{ 'is-invalid': submitted && errors.has('userName') }" aria-required="true" />
             <div v-if="submitted && errors.has('userName')" class="invalid-feedback">{{ errors.first('userName') }}</div>
         </div>
         <div class="form-group">
             <label for="email">Email:</label>
-            <input type="email" v-model="user.email" v-validate="'required|email'" name="email" :class="['form-control', { 'is-invalid': submitted && errors.has('email') }]" />
+            <input type="email" v-model="user.email" v-validate="'required|email'" name="email" :class="['form-control', { 'is-invalid': submitted && errors.has('email') }]" aria-required="true" />
             <div v-if="submitted && errors.has('email')" class="invalid-feedback">{{ errors.first('email') }}</div>
         </div>
         <div class="form-group">
             <label htmlFor="password">Password:</label>
-            <input type="password" v-model="user.password" v-validate="'required|min:6'" name="password" class="form-control" :class="{ 'is-invalid': submitted && errors.has('password') }" ref="password" />
+            <input type="password" v-model="user.password" v-validate="'required|min:6'" name="password" class="form-control" :class="{ 'is-invalid': submitted && errors.has('password') }" ref="password" aria-required="true" />
             <div v-if="submitted && errors.has('password')" class="invalid-feedback">{{ errors.first('password') }}</div>
         </div>
         <!-- <div class="form-group">
