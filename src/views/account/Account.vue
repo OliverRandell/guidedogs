@@ -260,7 +260,8 @@
                     .then(res => console.log(res))
                     .catch(err => console.error(`Can't update password: ${err}`))
                 }
-            }
+            },
+            
             ...mapActions(['getMemberProfile', 'deleteAccount'])
         },
 
