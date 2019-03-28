@@ -33,7 +33,7 @@
 
                     </section>
                     <section class="spacer">
-                        <form class="form-create-event form-create col-12" @submit.prevent="onSubmit">
+                        <form class="form-create-event form-create" @submit.prevent="onSubmit">
                             <h4>Event details</h4>
                             
                             <p v-if="formErrors.length" role="alert" aria-atomic="true">
@@ -176,6 +176,24 @@
                         </section>
 
                     </section>
+
+                    <section class="spacer">
+                        <h4 class="spacer">Delete event</h4>
+                        <div class="custom-control custom-switch spacer">
+                            <input type="checkbox" class="custom-control-input" id="confirmDelete" v-model="confirmDelete">
+                            <label class="custom-control-label" for="confirmDelete">Do you want to delete this event?</label>
+                        </div>
+                        <div v-if="confirmDelete">
+                            <p>Are you sure? Click on the this button will permanently delete this event.</p>
+                            <p><button @click="onDeleteEvent(eventItem)" type="button" name="button" class="btn btn-primary">Delete Event</button></p>
+                        </div>
+                    </section>
+
+                    <section v-if="submitted && confirmDelete" class="msg-success">
+                        <h3>Your event has been deleted</h3>
+                        <router-link to="/my-hosting" class="btn btn-primary">Go back to my events and ideas</router-link>
+                    </section>
+
                 </div>
                 <div class="col-4">
                     <router-link to="/my-hosting">&larr; Back to my events and ideas</router-link>
@@ -207,6 +225,7 @@
                 formErrors: [],
                 title: 'Event Management!',
                 importantInfo: `Please note, you will not be able to edit event information 24 hours prior to your event start time. This is to assist attendees confirm their travel plans.`,
+                confirmDelete: false,
                 submitted: false,
                 imagePreviewUrl: '',
                 imageFile: '',
@@ -349,12 +368,19 @@
                 this.$refs.uploadBtn.click();
             },
 
+            onDeleteEvent(event) {
+                this.deleteEvent(event.eventId).then(() => {
+                    this.submitted = true;
+                });
+            },
+
             ...mapActions({
                 'updateEvent': 'updateEvent',
                 'uploadEventImage': 'uploadEventImage',
                 'getCategories': 'getCategories',
                 'putEventCategories': 'putEventCategories',
-                'getEvent': 'getEvent'
+                'getEvent': 'getEvent',
+                'deleteEvent': 'deleteEvent',
             }),
         },
 
