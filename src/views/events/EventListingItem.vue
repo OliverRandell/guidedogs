@@ -104,6 +104,7 @@ export default {
         padding: 0.75rem;
         font-size: $font-size-base;
         margin-bottom: 0;
+        z-index: 2;
     }
     .event-details p {
         font-size: 1rem;
