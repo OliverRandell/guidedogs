@@ -115,7 +115,17 @@ const actions = {
             console.error('Adding idea categories failed:', error.response);
         });
 
-    }
+    },
+
+    async convertToEvent({ commit }, { id }) {
+        await axios.get(`${apiUrl}/eois/${id}/promotetoevent`,
+        { },
+        {
+            headers: {
+                ...authHeader()
+            }
+        });
+    },
 };
 
 const mutations = {
