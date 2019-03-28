@@ -184,7 +184,7 @@
                             <label class="custom-control-label" for="confirmDelete">Do you want to delete this event?</label>
                         </div>
                         <div v-if="confirmDelete">
-                            <p>Are you sure? Click on the this button will permanently delete this event.</p>
+                            <p>Are you sure? Clicking on the button will permanently delete this event.</p>
                             <p><button @click="onDeleteEvent(eventItem)" type="button" name="button" class="btn btn-primary">Delete Event</button></p>
                         </div>
                     </section>
