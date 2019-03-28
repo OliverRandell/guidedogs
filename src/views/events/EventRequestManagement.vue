@@ -12,57 +12,72 @@
                 <div class="col-8">
                     <h2>{{ event.title }}</h2>
                     
-                    <section class="spacer" aria-label="List of requests">
+                    <section class="spacer" aria-label="List of pending requests" 
+                        v-if="pendingRequests && pendingRequests.length > 0"
+                    >
                         <h4>Pending requests</h4>
                         <p v-if="newRequests && totalPendingRequests > 0"><strong>Total: </strong>{{ totalPendingRequests }}</p>
 
-                        <ul class="guest-list" v-if="newRequests && totalPendingRequests > 0">
+                        <ul class="guest-list" v-if="newRequests && totalPendingRequests > 0" aria-live="polite">
                             <li 
                                 v-for="(user, index) in pendingRequests"
-                                :key="`pr-user-${index}`"
-                                class="row"
+                                :key="`pr-${user.rsvpId}-${index}`"
+                                :class="['row', { 'row-loading' : user.loading }]"   
                             >
                                 <div class="col-5">
-                                    <router-link :to="user.route">{{ user.rsvpParticipantNickName }}</router-link>
+                                    <router-link :to="`/user/${user.rsvpParticipantId}`">{{ user.rsvpParticipantNickName }}</router-link>
                                     <span class="tip" v-if="user.sentHostMessage">{{user.rsvpParticipantNickName}} also sent a message, and will be located in your email inbox.</span>
                                 </div>
                                 <span class="col-3">
-                                    <button class="btn btn-primary" type="button" @click="acceptRequest(user.rsvpParticipantId)">Accept</button>
+                                    <button class="btn btn-primary" type="button" @click="acceptRequest(36, user.rsvpParticipantId)">Accept</button>
                                 </span>
                                 <span class="col-3">
-                                    <button class="btn btn-secondary" type="button" @click="declineRequest(user.rsvpParticipantId)">Decline</button>
+                                    <button class="btn btn-secondary" type="button" @click="declineRequest(36, user.rsvpParticipantId)">Decline</button>
                                 </span>
+                                <span class="error col-12" v-if="user.error">{{ user.error }}</span>
                             </li>
                         </ul>
 
                         <p v-else>{{pendingRequests}}</p>
                     </section>
 
-                    <section class="spacer" aria-label="Approved Guests" v-if="approvedAttendees">
+                    <section class="spacer" aria-label="Approved Guests" 
+                        v-if="approvedAttendees && approvedAttendees.length > 0"
+                    >
                         <h4>Approved Attendees</h4>
                         <p><strong>Total: </strong>{{ totalApprovedGuests }}</p>
 
-                        <ul class="guest-list">
-                            <li v-for="attendee in approvedAttendees" class="row">
+                        <ul class="guest-list" aria-live="polite">
+                            <li 
+                                v-for="(attendee, index) in approvedAttendees" 
+                                class="row"
+                                :key="`pr-${attendee.rsvpId}-${index}`"
+                            >
                                 <div class="col-8">
-                                    <router-link :to="attendee.route">{{ attendee.rsvpParticipantNickName }}</router-link>
+                                    <router-link :to="`/user/${attendee.rsvpParticipantId}`">{{ attendee.rsvpParticipantNickName }}</router-link>
                                     <span class="tip" v-if="attendee.sentHostMessage">{{attendee.rsvpParticipantNickName}} also sent a message, and will be located in your email inbox.</span>
                                 </div>
                                 <span class="col-3">
-                                    <button class="btn btn-secondary" type="button" @click="declineRequest(attendee.rsvpParticipantId)">Decline</button>
+                                    <button class="btn btn-secondary" type="button" @click="declineRequest(36, attendee.rsvpParticipantId)">Decline</button>
                                 </span>
                             </li>
                         </ul>
                     </section>
 
-                    <section class="spacer" aria-label="Declined Guests" v-if="declinedAttendees">
+                    <section class="spacer" aria-label="Declined Guests" 
+                        v-if="declinedAttendees && declinedAttendees.length > 0"
+                    >
                         <h4>Declined guests</h4>
                         <p><strong>Total: </strong>{{ totalDeclinedGuests }}</p>
 
-                        <ul class="guest-list">
-                            <li v-for="attendee in declinedAttendees" class="row">
+                        <ul class="guest-list" aria-live="polite">
+                            <li 
+                                v-for="(attendee, index) in declinedAttendees" 
+                                class="row"
+                                :key="`pr-${attendee.rsvpId}-${index}`"
+                            >
                                 <div class="col-8">
-                                    <router-link :to="attendee.route">{{ attendee.rsvpParticipantNickName }}</router-link>
+                                    <router-link :to="`/user/${attendee.rsvpParticipantId}`">{{ attendee.rsvpParticipantNickName }}</router-link>
                                     <span class="tip" v-if="attendee.sentHostMessage">{{attendee.rsvpParticipantNickName}} also sent a message, and will be located in your email inbox.</span>
                                 </div>
 
@@ -70,7 +85,7 @@
                                     <button 
                                         class="btn btn-primary" 
                                         type="button"
-                                        @click="acceptRequest(attendee.rsvpParticipantId)"
+                                        @click="acceptRequest(36, attendee.rsvpParticipantId)"
                                     >
                                         Accept
                                     </button>
@@ -88,9 +103,12 @@
 </template>
 
 <script>
-    import { mapGetters, mapActions } from 'vuex';
+    import axios from 'axios';
     import LayoutMaster from '../../components/common/layouts/layout-master.vue';
     import Hero from '../../components/common/global/hero.vue';
+    import { authHeader } from '@/utils/auth-header';
+    import { apiUrl } from '@/utils/api';
+    
     export default {
         name: 'EventRequestManagement',
         components: {
@@ -105,73 +123,13 @@
                 event: {
                     title: 'Name of event',
                 },
-                newRequests: [
-                    {
-                        rsvpId: 0,
-                        eventId: 0,
-                        rsvpParticipantId: '123',
-                        rsvpParticipantNickName: 'Guide dogs vic1',
-                        sentHostMessage: true,
-                        hostSentMessage: true,
-                        route: '/host-profile',
-                        status: null
-                    },
-                    {
-                        rsvpId: 0,
-                        eventId: 0,
-                        rsvpParticipantId: '125353',
-                        rsvpParticipantNickName: 'Guide dogs vic2',
-                        sentHostMessage: false,
-                        hostSentMessage: false,
-                        route: '/host-profile',
-                        status: null
-                    },
-                    {
-                        rsvpId: 0,
-                        eventId: 0,
-                        rsvpParticipantId: '178923',
-                        rsvpParticipantNickName: 'Guide dogs vic3',
-                        sentHostMessage: false,
-                        hostSentMessage: false,
-                        route: '/host-profile',
-                        status: null
-                    },
-                    {
-                        rsvpId: 0,
-                        eventId: 0,
-                        rsvpParticipantId: '124263',
-                        rsvpParticipantNickName: 'Guide dogs vic4',
-                        sentHostMessage: true,
-                        hostSentMessage: true,
-                        route: '/host-profile',
-                        status: null
-                    },
-                    {
-                        rsvpId: 0,
-                        eventId: 0,
-                        rsvpParticipantId: '1154556623',
-                        rsvpParticipantNickName: 'Guide dogs vic5',
-                        sentHostMessage: false,
-                        hostSentMessage: false,
-                        route: '/host-profile',
-                        status: 'approved'
-                    },
-                    {
-                        rsvpId: 0,
-                        eventId: 0,
-                        rsvpParticipantId: '12793',
-                        rsvpParticipantNickName: 'Guide dogs vic6',
-                        sentHostMessage: false,
-                        hostSentMessage: false,
-                        route: '/host-profile',
-                        status: 'declined'
-                    }
-                ]
+                newRequests: null
             }
         },
 
         created () {
-            console.log(this.getRsvpRequests(36))
+            // TODO - Get event as prop
+            this.getEventRequests(36)
         },
 
         computed: {
@@ -183,11 +141,11 @@
             },
 
             approvedAttendees () {
-                if(this.newRequests) {  return this.filterAttendees('approved') }
+                if (this.newRequests) return this.filterAttendees('approved')
             },
 
             declinedAttendees () {
-                if(this.newRequests) { return this.filterAttendees('declined') }
+                if (this.newRequests) return this.filterAttendees('declined')
             },
 
             totalPendingRequests () { return this.pendingRequests.length },
@@ -196,23 +154,58 @@
         },
 
         methods: {
-            ...mapActions(['getRsvpRequests']),
+
+            getEventRequests (id) {
+                axios.get(`${apiUrl}/events/${id}/RSVPs`, { headers: { ...authHeader() } })
+                    .then(({data}) => {
+                        const requestsIds = []
+                        const requests = []
+
+                        data.map(obj => { 
+                            obj.status = null
+                            obj.loading = false
+                            obj.error = null
+
+                            if (!requestsIds.includes(obj.rsvpParticipantId) && obj.rsvpParticipantId) {
+                                requestsIds.push(obj.rsvpParticipantId)
+                                requests.push(obj)
+                            }
+                        })
+
+                        this.newRequests = requests
+                    })
+                    .catch(error => console.error(`Couldn't retrieve RSVP list: ${error.response}`))
+            },
 
             filterAttendees (status) {
                 return this.newRequests.filter(req => req.status === status)
             },
 
-            acceptRequest (id) {
-                const attendee = this.newRequests.filter(req => req.rsvpParticipantId === id)[0]
-                attendee.status = 'approved'
-                // TODO: Add post requests
-            },
+            acceptRequest (eventId, id) { this.actionRequest(eventId, id, 'approved') },
+            declineRequest (eventId, id) { this.actionRequest(eventId, id, 'declined') },
 
-            declineRequest (id) {
+            actionRequest (eventId, id, type) {
                 const attendee = this.newRequests.filter(req => req.rsvpParticipantId === id)[0]
-                attendee.status = 'declined'
-                // TODO: Add post requests
-            },
+                attendee.loading = true
+                attendee.error = null
+                
+                axios.put(`${apiUrl}/events/${eventId}/RSVPs/${attendee.rsvpId}`, 
+                    {
+                        ...attendee
+                        // todo, update status in submission
+                    }, 
+                    { headers: { ...authHeader() } }
+                )
+                    .then(res => {
+                        attendee.status = type
+                        attendee.loading = false
+                    })
+                    .catch(err => {
+                        attendee.loading = false
+                        attendee.error = 'Something went wrong, please try again.'
+                        console.error(err)
+                    })
+            }
         }
     }
 </script>
@@ -222,5 +215,13 @@
 .tip{
     font-size: 12px;
     display: block;
+}
+.error{ 
+    font-size: 14px; 
+    color: red; 
+}
+.row-loading{
+    cursor: progress;
+    opacity: 0.25
 }
 </style>
