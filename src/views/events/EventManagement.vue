@@ -23,7 +23,7 @@
                         <ul class="guest-list">
                             <!-- TODO: MAKE COMPONENT AND SHARE IT ON THE EVENT ATTENDEES VIEW -->
                             <li v-for="guest in eventAttendees" :key="guest.id">
-                                <router-link to="/">{{ guest.rsvpParticipantNickName }}</router-link>
+                                <router-link :to="`/user/${guest.rsvpParticipantId}`">{{ guest.rsvpParticipantNickName }}</router-link>
                             </li>
                         </ul>
                         <div class="btn-wrapper">
