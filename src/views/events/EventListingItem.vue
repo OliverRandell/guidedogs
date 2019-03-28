@@ -7,6 +7,7 @@
           <template v-else>Private</template>
         </h5>
         <img v-if="eventItem.image" :src="eventItem.image.url" :alt="eventItem.image.altText">
+        <img src="@/assets/imgs/img-placeholder.jpg" alt="There is no image available for this event." title="There is no image available for this event." v-else>
       </figure>
     </router-link>
     <router-link v-if="!hosting" :to="'/events/' + eventItem.eventId" class="event-img">
@@ -16,7 +17,7 @@
           <template v-else>Private</template>
         </h5>
         <img v-if="eventItem.image" :src="eventItem.image.url" :alt="eventItem.image.altText">
-        <img src="@/assets/imgs/profile-pic.jpg" alt="This is a dummy image" v-else>
+        <img src="@/assets/imgs/img-placeholder.jpg" alt="There is no image available for this event." title="There is no image available for this event." v-else>
       </figure>
     </router-link>
 

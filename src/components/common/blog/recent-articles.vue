@@ -8,18 +8,17 @@
             <input type="text" class="form-control" id="searchBlogs" placeholder="Search article library" v-model="search">
             <button type="submit" class="btn btn-primary">Search</button>
         </form>
-        <h4>Recent News</h4>
+        <h4>Latest Articles</h4>
         <div v-for="article in blogs" :key="article.id" class="post">
 
             <header>
                 <router-link :to="'/articles/' + article.route">
                     <h2 class="article-title">{{ article.title }}</h2>
                 </router-link>
-                <h4 class="article-author">Posted by: <span>{{ article.author }}</span></h4>
-                <h4 class="article-date">Posted on: <span>{{ article.date }}</span></h4>
+                <h4 class="article-author">Posted by: <span>{{ article.author }}, on {{ article.date }}</span></h4>
             </header>
 
-            <p class="intro" v-html="article.intro"></p>
+            <!-- <p class="intro" v-html="article.intro"></p> -->
             <router-link :to="'/articles/' + article.route" class="btn btn-primary">
                 <slot name="btn-title"></slot>
             </router-link>
