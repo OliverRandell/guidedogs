@@ -30,8 +30,8 @@
                             </div>
                             <div class="form-group">
                                 <label for="">Message:</label>
-                                <textarea name="message" rows="8" cols="80" v-model="message.text" :maxlength="message.maxlength" class="form-control" placeholder="Write message here..." v-validate="'required'"></textarea>
-                                <span class="counter">{{ message.text.length }} / {{ message.maxlength }}</span>
+                                <textarea name="message" rows="8" cols="80" v-model="user.message.text" :maxlength="user.message.maxlength" class="form-control" placeholder="Write message here..." v-validate="'required'"></textarea>
+                                <span class="counter">{{ user.message.text.length }} / {{ user.message.maxlength }}</span>
                             </div>
                             <div class="btn-wrapper">
                                 <input type="submit" value="Send message" class="btn btn-primary">
@@ -70,7 +70,7 @@
                     email: '',
                     phoneNumber: '',
                     message: {
-                        text: `Write your message in here...`,
+                        text: ``,
                         maxlength: 1000,
                     }
                 },

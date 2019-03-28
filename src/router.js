@@ -107,7 +107,6 @@ export const router =  new Router ({
         },
         {
             path: '/contact-host/:hostId/:eventId/:hostNickName',
-            alias: 'events/:hostId/:eventId/:hostNickName/',
             name: 'HostContact',
             component: HostContact,
             meta: {

@@ -53,7 +53,7 @@
 
                     <button v-if="event.eventPublicity === 'Public'" type="button" name="button" class="btn btn-outline-primary mr-3" @click="registerAttending(event)">Attend</button>
 
-                    <router-link :to="`/events/${event.eventHostId}/${event.eventId}/${event.eventHostNickName}`" class="btn btn-primary">Contact host</router-link>
+                    <router-link :to="`/contact-host/${event.eventHostId}/${event.eventId}/${event.eventHostNickName}`" class="btn btn-primary">Contact host</router-link>
                 </article>
 
                 <aside class="event-summary items-sidebar" tabindex="-1" v-if="!submitted">
