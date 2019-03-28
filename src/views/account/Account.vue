@@ -3,7 +3,7 @@
         <hero>
             <template slot="title">
                 <!-- <h1>Hi {{ account.user.firstName }}!</h1> -->
-                <h1>My account!{{ user.userName }}</h1>
+                <h1>My account! {{ user.userName }}</h1>
             </template>
         </hero>
 
@@ -40,12 +40,13 @@
                             <label for="age">Age:</label>
                             <input type="number" name="" value="" class="form-control" v-model="user.age">
                         </div>
-                        <div class="form-group">
+                        <!-- TODO: Check if ross can add this to his db -->
+                        <!-- <div class="form-group">
                             <label for="postcode">Postcode:</label>
                             <input type="text" name="postcode" value="postcode" class="form-control" v-model="user.postcode">
                             <small class="form-text">We'd like your postcode to find out who is where!</small>
-                        </div>
-                        <fieldset class="form-group">
+                        </div> -->
+                        <!-- <fieldset class="form-group">
 
                             <div class="row">
                                 <legend class="col-form-label col-sm-12 pt-0">Type:</legend>
@@ -71,12 +72,12 @@
                                 </div>
 
                             </div>
-                        </fieldset>
-                        <div class="form-group">
+                        </fieldset> -->
+                        <!-- <div class="form-group">
                             <label for="">Talk to me about:</label>
                             <textarea name="name" rows="8" cols="80" class="form-control" placeholder="Example: my new guide dog Toby, best coffee spots in Kew and I want to learn more about JAWS"></textarea>
                             <small class="sr-only form-text">Example: my new guide dog Toby, best coffee spots in Kew and I want to learn more about JAWS</small>
-                        </div>
+                        </div> -->
                         <div class="btn-wrapper">
                             <input type="submit" v-on:click.prevent="onSubmit" class="btn btn-primary" value="Update your account">
                         </div>
@@ -85,24 +86,26 @@
                     <form class="form-change-password spacer" aria-label="Update Password">
                         <h4>Change password</h4>
                         <div class="form-group">
-                            <label for="password">Current Password</label>
-                            <input type="password" name="" value="" class="form-control">
+                            <label for="current_password">Current Password</label>
+                            <input type="password" @input="checkPassword" id="current_password" v-model="changePasswordForm.oldPassword" class="form-control">
                         </div>
                         <div class="form-group">
-                            <label for="password">New Password</label>
-                            <input type="password" name="" value="" class="form-control">
+                            <label for="new_password">New Password</label>
+                            <input type="password" @input="checkPassword" id="new_password" v-model="changePasswordForm.newPassword" class="form-control">
                         </div>
                         <div class="form-group">
-                            <label for="password">Confirm new Password</label>
-                            <input type="password" name="" value="" class="form-control">
+                            <label for="confirm_password">Confirm new Password</label>
+                            <input type="password" @input="checkPassword" id="confirm_password" v-model="changePasswordForm.newPasswordConfirmation" class="form-control">
                         </div>
                         <div class="btn-wrapper">
-                            <input type="submit" name="" value="Change password" class="btn btn-primary">
+                            <button :disabled="!canChangePassword" @click.prevent="updatePassword" id="password"  class="btn btn-primary">Change password</button>
                         </div>
                     </form>
+
                     <section class="spacer" aria-label="Delete Account">
                         <p>No longer want to be part of the Peer Support Platform community?</p>
                         <div class="btn-wrapper">
+                            <!-- TODO: Add delete functionality -->
                             <button type="button" class="btn btn-primary">Delete account</button>
                         </div>
                     </section>
@@ -204,6 +207,7 @@
                     newPassword: '',
                     newPasswordConfirmation: '',
                 },
+                canChangePassword: false
             }
         },
 
@@ -212,11 +216,14 @@
         },
 
         methods: {
+            ...mapActions(['getMemberProfile']),
+
             /* Running the axios without store just for simplicity of not
             having to do set/get computed functions to the store and back with limited time */
             getProfileData () {
                 axios.get(`${apiUrl}/MemberProfile`, { headers: { ...authHeader() } })
                     .then(({data}) => {
+                        console.log(data)
                         // go through and match existing keys...
                         Object.keys(this.user).map(user => Object.keys(data).map(field => {
                             if (user === field) {
@@ -234,7 +241,7 @@
                     { headers: { ...authHeader() } }
                 )
                     .then(({data}) => console.log(data))
-                    .catch(err => console.error(`Couldn't retrieve profile data: ${err}`))
+                    .catch(err => console.error(`Couldn't update profile data: ${err}`))
             },
 
             checkForm() {
@@ -259,7 +266,34 @@
             setFocusToErrorListing() {
                 this.$refs.formCreate.focus();
             },
-            ...mapActions(['getMemberProfile'])
+
+            checkPassword () {
+                const pForm = this.changePasswordForm
+                const matches = pForm.newPassword === pForm.newPasswordConfirmation
+
+                let fieldLengths = 0
+
+                // If fieldLengths = 3, all fields have 6 characters or more.
+                Object.values(pForm).map(val => {
+                    val.length >= 6 ? fieldLengths++ : fieldLengths-- 
+                })
+
+                matches && fieldLengths === 3 ? this.canChangePassword = true : this.canChangePassword = false
+            },
+
+            updatePassword ({changePasswordForm}) {
+                // TODO: ADD UI FOR UPDATING PWORD
+                if (this.canChangePassword) {
+                    axios.post(`${apiUrl}/authentication/changepassword`, {
+                            oldPassword: this.changePasswordForm.oldPassword,
+                            newPassword: this.changePasswordForm.newPassword
+                        },
+                        { headers: { ...authHeader() } }
+                    )
+                    .then(res => console.log(res))
+                    .catch(err => console.error(`Can't update password: ${err}`))
+                }
+            }
         },
 
         computed: {
