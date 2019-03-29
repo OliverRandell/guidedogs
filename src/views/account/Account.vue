@@ -86,8 +86,12 @@
                             <small class="sr-only form-text">Example: my new guide dog Toby, best coffee spots in Kew and I want to learn more about JAWS</small>
                         </div> -->
                         <div class="btn-wrapper">
-                            <input type="submit" v-on:click.prevent="onSubmit" class="btn btn-primary" value="Update your account">
+                            <Loader class="spinner" v-if="loading.form"/>
+                            <button type="submit" @click.prevent="onSubmit" class="btn btn-primary col-5">Update your account</button>
                         </div>
+
+                        <section class="success" v-if="success.form">Updated successfully!</section>
+                        <section class="error" v-if="error.form">Sorry, your details can't be updated right now, please try again later.</section>
                     </form>
 
                     <form class="form-change-password spacer" aria-label="Update Password">
@@ -105,8 +109,12 @@
                             <input type="password" @input="checkPassword" id="confirm_password" v-model="changePasswordForm.newPasswordConfirmation" class="form-control" aria-required="true">
                         </div>
                         <div class="btn-wrapper">
+                            <Loader class="spinner" v-if="loading.password" />
                             <button :disabled="!canChangePassword" @click.prevent="updatePassword" id="password"  class="btn btn-primary">Change password</button>
                         </div>
+
+                        <section class="success" v-if="success.form">Updated successfully!</section>
+                        <section class="error" v-if="error.form">Sorry, your password can't be updated right now, please try again later.</section>
                     </form>
 
                     <section class="spacer" aria-label="Delete Account">
@@ -144,13 +152,17 @@
     import { apiUrl } from '@/utils/api';
     import LayoutMaster from '../../components/common/layouts/layout-master.vue';
     import Hero from '../../components/common/global/hero.vue';
+    import Loader from '@/components/common/global/loading'
+
 
     export default {
         name: 'Account',
         components: {
             LayoutMaster,
-            Hero
+            Hero,
+            Loader
         },
+        
         data() {
             return {
                 formErrors: [],
@@ -175,7 +187,20 @@
                     newPassword: '',
                     newPasswordConfirmation: '',
                 },
-                canChangePassword: false
+                canChangePassword: false,
+                loading: {
+                    initial: true,
+                    form: false,
+                    password: false
+                },
+                success: {
+                    form: false,
+                    password: false
+                },
+                error: {
+                    form: false,
+                    password: false
+                }
             }
         },
 
@@ -191,6 +216,7 @@
             getProfileData () {
                 axios.get(`${apiUrl}/MemberProfile`, { headers: { ...authHeader() } })
                     .then(({data}) => {
+                        this.loading.initial = false
                         // go through and match existing keys...
                         Object.keys(this.user).map(user => Object.keys(data).map(field => {
                             if (user === field) {
@@ -199,16 +225,34 @@
                             }
                         }))
                     })
-                    .catch(err => console.error(`Couldn't retrieve profile data: ${err}`))
+                    .catch(err => {
+                        this.loading.initial = false
+                        console.error(`Couldn't retrieve profile data: ${err}`)
+                    })
             },
 
             updateProfileData () {
+                this.loading.form = true
+                this.success.form = false
+                this.error.form = false
+
                 axios.put(`${apiUrl}/MemberProfile`,
                     { ...this.user },
                     { headers: { ...authHeader() } }
                 )
-                    .then(({data}) => console.log(data))
-                    .catch(err => console.error(`Couldn't update profile data: ${err}`))
+                    .then(({data}) => {
+                        this.loading.form = false
+                        this.success.form = true
+                        
+                        setTimeout(() => {
+                            this.success.form = false
+                        }, 5000);
+                    })
+                    .catch(err => {
+                        this.loading.form = false
+                        this.error.form = true
+                        console.error(`Couldn't update profile data: ${err}`)
+                    })
             },
 
             checkForm() {
@@ -262,7 +306,10 @@
             },
 
             updatePassword ({changePasswordForm}) {
-                // TODO: ADD UI FOR UPDATING PWORD
+                this.loading.password = true
+                this.success.password = false
+                this.error.password = false
+
                 if (this.canChangePassword) {
                     axios.post(`${apiUrl}/authentication/changepassword`, {
                             oldPassword: this.changePasswordForm.oldPassword,
@@ -270,8 +317,19 @@
                         },
                         { headers: { ...authHeader() } }
                     )
-                    .then(res => console.log(res))
-                    .catch(err => console.error(`Can't update password: ${err}`))
+                    .then(res => {
+                        this.success.password = true
+                        this.loading.password = false
+
+                        setTimeout(() => {
+                            this.success.password = false
+                        }, 5000);
+                    })
+                    .catch(err => {
+                        this.loading.password = false
+                        this.error.password = true
+                        console.error(`Can't update password: ${err}`)
+                    })
                 }
             },
 
@@ -309,5 +367,23 @@
             margin: 0;
             padding: 0;
         }
+    }
+    .spinner{
+        display: inline; 
+        text-align: right; 
+        height: 40px; 
+        margin-left: auto; 
+        margin-right: 0;
+    }
+
+    .success, 
+    .error{
+        text-align: right;
+        margin-top: 1em;
+    }
+
+    .success{ 
+        color: green; 
+        font-size: 16px;
     }
 </style>
