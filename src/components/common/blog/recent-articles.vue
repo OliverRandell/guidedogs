@@ -2,12 +2,12 @@
     <article role="article" tabindex="-1" class="article">
 
 
-        <form class="form-inline form-search">
+        <!-- <form class="form-inline form-search">
             <h4>Search blogs</h4>
             <label for="searchBlogs" class="sr-only">Search blogs</label>
             <input type="text" class="form-control" id="searchBlogs" placeholder="Search article library" v-model="search">
             <button type="submit" class="btn btn-primary">Search</button>
-        </form>
+        </form> -->
         <h4>Latest Articles</h4>
         <div v-for="article in blogs" :key="article.id" class="post">
 

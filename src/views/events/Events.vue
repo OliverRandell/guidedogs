@@ -13,10 +13,12 @@
             <div class="pg-content">
 
                 <div class="event-listings" ref="eventListing" tabindex="-1">
-
+                    <!-- <header>
+                        <h4 class="h3"></h4>
+                    </header> -->
                     <section class="spacer">
-                        <h4>Create your own Event!</h4>
-                        <router-link to="/create-event" class="btn btn-primary">+ Create event</router-link>
+                        <h3 class="h6">Welcome to the events section, if you have an idea for an event, why not create your own!</h3>
+                        <router-link to="/create-event" class="btn btn-primary">Create event</router-link>
                     </section>
 
 
@@ -54,7 +56,7 @@
                 <aside class="event-filters" role="group">
                     <section class="my-events">
                         <h6>View the events you are hosting.</h6>
-                        <router-link to="/my-hosting" class="btn btn-primary full-width">My events</router-link>
+                        <router-link to="/my-hosting" class="btn btn-secondary full-width">My events</router-link>
                     </section>
 
                     <CategoryListingFilter v-on:filter="categoryFilterEvents" v-bind:categoryId="categoryId" />
