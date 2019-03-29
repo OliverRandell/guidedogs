@@ -160,6 +160,8 @@
                         const requestsIds = []
                         const requests = []
 
+                        console.log(data)
+
                         data.map(obj => { 
                             obj.status = null
                             obj.loading = false
@@ -186,16 +188,18 @@
                 return this.newRequests.filter(req => req.status === status)
             },
 
-            acceptRequest (eventId, id) { this.actionRequest(eventId, id, 'approved') },
-            declineRequest (eventId, id) { this.actionRequest(eventId, id, 'declined') },
+            acceptRequest (eventId, id) { this.actionRequest(eventId, id, 'approved', 'Attending') },
+            declineRequest (eventId, id) { this.actionRequest(eventId, id, 'declined', null) },
 
-            actionRequest (eventId, id, type) {
+            actionRequest (eventId, id, type, status) {
                 const attendee = this.newRequests.filter(req => req.rsvpParticipantId === id)[0]
                 attendee.loading = true
                 attendee.error = null
-                
+
+                const updatedAttendee = ({responseType, ...attendee}) => ({ ...attendee, responseType: status})
+
                 axios.put(`${apiUrl}/events/${eventId}/RSVPs/${attendee.rsvpId}`, 
-                    { ...attendee }, 
+                    { ...updatedAttendee(attendee) }, 
                     { headers: { ...authHeader() } }
                 )
                     .then(() => {
