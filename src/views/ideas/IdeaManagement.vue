@@ -30,7 +30,7 @@
                         <form @submit.prevent="onSubmit" v-if="!submitted">
                             <h4>Idea details</h4>
 
-                            <p v-if="formErrors.length" role="alert" aria-atomic="true">
+                            <p class="formErrors" v-if="formErrors.length" role="alert" aria-atomic="true">
                                 <b>Please correct the following error(s):</b>
                                 <ul>
                                     <li v-for="(error, index) in formErrors" :key="index">{{ error }}</li>

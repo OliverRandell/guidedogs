@@ -7,3 +7,11 @@
     display: flex;
     justify-content: space-between;
 }
+
+.formErrors{
+    border: 1px solid darkred; 
+    padding: 1em; 
+    display: block; 
+    color: darkred;
+    background: rgba(darkred, .1)
+}

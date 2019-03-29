@@ -12,7 +12,7 @@
                     <h4>Manage your account details:</h4>
                     <p>This information will assit us to currate personalised content.</p>
 
-                    <p v-if="formErrors.length" role="alert" aria-atomic="true">
+                    <p class="formErrors" v-if="formErrors.length" role="alert" aria-atomic="true">
                         <b>Please correct the following error(s):</b>
                         <ul>
                             <li v-for="(error, index) in formErrors" :key="index">{{ error }}</li>
