@@ -12,7 +12,7 @@
             <article class="pg-content" tabindex="-1" role="article" v-if="!submitted" ref="formCreate">
 
                 <form class="form-create-event form-create col-8" @submit.prevent="onSubmit">
-                    <p v-if="formErrors.length" role="alert" aria-atomic="true">
+                    <p class="formErrors" v-if="formErrors.length" role="alert" aria-atomic="true">
                         <b>Please correct the following error(s):</b>
                         <ul>
                             <li v-for="(error, index) in formErrors" :key="index">{{ error }}</li>
@@ -21,7 +21,7 @@
 
                     <div class="form-group">
                         <label for="hostName">Host Name</label>
-                        <input type="text" id="hostName" required v-model="memberProfile.userName" disabled class="form-control" aria-required="true">
+                        <input type="text" id="hostName" required v-model="memberProfile.nickName" disabled class="form-control" aria-required="true">
                     </div>
 
                     <fieldset class="form-group">

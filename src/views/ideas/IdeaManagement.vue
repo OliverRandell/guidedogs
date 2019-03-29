@@ -4,9 +4,7 @@
             <template slot="title">
                 {{ title }}
             </template>
-            <!-- <template slot="description">
-                <span>{{ tagline }}</span>
-            </template> -->
+            
         </Hero>
         <div class="container">
             <div class="pg-content" tabindex="-1" ref="formCreate">
@@ -21,15 +19,15 @@
 
                     <section class="spacer">
                         <h4>Number of people interested:</h4>
-                        <p><strong>Total: </strong>{{ interestedTotal }}</p>
-
-                        <!-- <router-link
-                            :to="{
-                                name: 'EventRequestManagement',
-                                params: { id: this.$route.params.id, title: idea.title }
-                            }"
-                            class="btn btn-primary">View people interested</router-link> -->
-
+                        <p><strong>Total: </strong>{{ attendeeTotal }}</p>
+                        <ul class="guest-list">
+                            <!-- TODO: MAKE COMPONENT AND SHARE IT ON THE EVENT ATTENDEES VIEW -->
+                            <li v-for="guest in eventAttendees" :key="guest.id">
+                                {{ guest.rsvpParticipantNickName | fallbackName}}
+                                <!-- <router-link :to="`/user/${guest.rsvpParticipantId}`">{{ guest.rsvpParticipantNickName }}</router-link> -->
+                            </li>
+                        </ul>
+                        <!-- <router-link to="/event-attendees" class="btn btn-primary">View people interested</router-link> -->
 
                     </section>
 
@@ -37,7 +35,7 @@
                         <form @submit.prevent="onSubmit" v-if="!submitted">
                             <h4>Idea details</h4>
 
-                            <p v-if="formErrors.length" role="alert" aria-atomic="true">
+                            <p class="formErrors" v-if="formErrors.length" role="alert" aria-atomic="true">
                                 <b>Please correct the following error(s):</b>
                                 <ul>
                                     <li v-for="(error, index) in formErrors" :key="index">{{ error }}</li>
@@ -127,6 +125,9 @@
 </template>
 
 <script>
+    import axios from 'axios';
+    import { authHeader } from '@/utils/auth-header';
+    import { apiUrl } from '@/utils/api';
     import { mapActions, mapGetters } from 'vuex';
     import LayoutMaster from '../../components/common/layouts/layout-master.vue';
     import Hero from '../../components/common/global/hero.vue';
@@ -150,6 +151,8 @@
                 summaryCharacterLimit: 75,
                 descriptionCharacterLimitEntered: 0,
                 descriptionCharacterLimit: 1000,
+                eventAttendees: null,
+                attendeeTotal: 0
             }
         },
 
@@ -173,17 +176,47 @@
 
         created() {
             this.getCategories();
+            this.getAttendees(this.$route.params.id)
             this.getIdea(this.$route.params.id).then(() => {
+                const eventCat = this.idea.eventCategories[0]
                 // set category based on first in array since user can only select one
                 const idea = {
                     ...this.idea,
-                    category: this.idea.eventCategories[0].category.categoryId,
+                    category: eventCat ? eventCat.category.categoryId : null
                 };
                 this.$store.commit('setIdea', idea);
             });
         },
 
+        filters: {
+            fallbackName (val) {
+                return val ? val : 'Unkown User'
+            }
+        },
+
         methods: {
+            getAttendees (id) {
+                axios.get(`${apiUrl}/events/${id}/RSVPs`, { headers: { ...authHeader() } })
+                    .then(({data}) => {
+                        const requestsIds = []
+                        const requests = []
+
+                        data.map(obj => {
+                            if (
+                                !requestsIds.includes(obj.rsvpParticipantId)
+                                && obj.responseType === "Interested"
+                            ) {
+                                requestsIds.push(obj.rsvpParticipantId)
+                                requests.push(obj)
+                            }
+                        })
+
+                        this.eventAttendees = requests
+                        this.attendeeTotal = requests.length
+                    })
+                    .catch(error => console.error(`Couldn't retrieve Attendee list: ${error.response}`))
+            },
+
             checkForm() {
                 this.formErrors = [];
 

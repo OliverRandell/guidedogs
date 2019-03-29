@@ -22,7 +22,7 @@
                         <form class="form-create-event form-create" @submit.prevent="onSubmit">
                             <h4>Event details</h4>
 
-                            <p v-if="formErrors.length" role="alert" aria-atomic="true">
+                            <p class="formErrors" v-if="formErrors.length" role="alert" aria-atomic="true">
                                 <b>Please correct the following error(s):</b>
                                 <ul>
                                     <li v-for="(error, index) in formErrors" :key="index">{{ error }}</li>
