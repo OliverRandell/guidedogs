@@ -5,12 +5,12 @@
                 <IdeaListingItem v-bind:idea="ideaItem" v-bind:hosting="hosting" />
             </article>
         </div>
-            
-        <div class="col-12">
-            <article v-if="!allIdeas.length" role="article">
-                <p class="my-3">Be the first to add an Idea!</p>
-            </article>
-        </div>
+
+
+        <article v-if="!allIdeas.length" role="article">
+            <p class="my-3">Be the first to add an Idea!</p>
+        </article>
+
     </div>
 </template>
 
@@ -81,7 +81,7 @@
                     this.searchIdeasAttending({...this.searchParams, CategoryId: ''});
                     return;
                 }
-                
+
                 this.searchIdeas(this.searchParams);
             }
         },

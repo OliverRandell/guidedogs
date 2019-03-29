@@ -17,7 +17,7 @@
                         <h4 class="h3"></h4>
                     </header> -->
                     <section class="spacer">
-                        <h3 class="h6">Welcome to the events section, if you have an idea for an event, why not create your own!</h3>
+                        <h3 class="h6">Welcome to the events section. Have an event in mind? Why not create your own!</h3>
                         <router-link to="/create-event" class="btn btn-primary">Create event</router-link>
                     </section>
 

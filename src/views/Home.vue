@@ -15,16 +15,12 @@
         <div class="container">
             <div class="pg-content home" role="article" tabindex="-1">
                 <section class="item-wrapper">
-                    <div class="col-12">
-                        <RecentArticles>
-                            <template slot="btn-title">Read Article</template>
-                        </RecentArticles>
-                    </div>
+                    <RecentArticles>
+                        <template slot="btn-title">Read Article</template>
+                    </RecentArticles>
                 </section>
                 <section class="item-wrapper">
-                    <div class="col-12">
-                        <h4>Upcoming events</h4>
-                    </div>
+                    <h4>Upcoming events</h4>
                     <EventListing itemsPerPage="2" />
                 </section>
             </div>

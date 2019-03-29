@@ -1,7 +1,6 @@
 <template>
     <article role="article" tabindex="-1" class="article">
-
-
+        
         <!-- <form class="form-inline form-search">
             <h4>Search blogs</h4>
             <label for="searchBlogs" class="sr-only">Search blogs</label>

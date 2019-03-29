@@ -99,36 +99,30 @@
 
                     <div class="form-group">
                         <label for="location">Event Location</label>
-                        <small class="form-text">
-                            Insert Address
-                        </small>
                         <input type="text" id="location" required v-model="eventItem.location" class="form-control" aria-required="true">
+                        <small class="form-text">Insert Address</small>
                     </div>
 
                     <div class="form-group">
                         <label for="travelTips">Travel Tips</label>
-                        <small class="form-text">
-                            example: closest public transport stop
-                        </small>
                         <input type="text" id="travelTips"  class="form-control" v-model="eventItem.travelTips" aria-required="true" />
+                        <small class="form-text">Example: Closest public transport stop</small>
                     </div>
 
                     <!-- ONLY VISIBLE IF EVENT IS PRIVATE -->
                     <div class="form-group" v-if="eventItem.eventPublicity === 'private'">
                         <label for="capacity">Estimated Capacity</label>
-                        <small class="form-text">
-                            Please provide your preferred number of people who can attend this event
-                        </small>
                         <input type="number" id="capacity" class="form-control" v-model="eventItem.attendanceString" >
+                        <small class="form-text">Please provide your preferred number of people who can attend this event</small>
                     </div>
 
                     <div class="form-group">
                         <label for="details">Event Details</label>
-                        <small class="form-text">
-                            Describe who should join and what your event is about
-                        </small>
                         <textarea id="details" rows="8" v-on:input="checkDetailsCharacterLength" v-model="eventItem.eventDetails" max-length="1000" class="form-control" aria-required="true"></textarea>
-                        <p class="character-limit">{{ detailsCharacterLimitDisplay }}</p>
+                        <div class="form-group-footer" tabindex="-1">
+                            <small class="form-text">Describe who should join and what your event is about</small>
+                            <p class="character-limit">{{ detailsCharacterLimitDisplay }}</p>
+                        </div>
                     </div>
 
                     <img v-if="imagePreviewUrl" :src="imagePreviewUrl" class="my-2" />
@@ -143,10 +137,10 @@
 
                     <div class="form-group">
                         <label for="imageAlt">Image Description</label>
-                        <small class="form-text">
-                            Please provide short description of image provided
-                        </small>
-                        <input type="text" id="imageAlt" class="form-control" v-model="eventItem.imageAlt">
+                        <div class="form-group-wrapper" tabindex="-1">
+                            <input type="text" id="imageAlt" class="form-control" v-model="eventItem.imageAlt">
+                            <small class="form-text">Please provide short description of image provided</small>
+                        </div>
                     </div>
                     <section class="spacer">
                         <h4>Important Information</h4>
