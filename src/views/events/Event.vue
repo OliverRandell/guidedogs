@@ -22,7 +22,7 @@
 
                         <dt>Host:</dt>
                         <dd>
-                            <router-link to="/host-profile">{{ event.eventHostNickName }}</router-link>
+                            {{ event.eventHostNickName }}
                         </dd>
 
                         <dt>When:</dt>

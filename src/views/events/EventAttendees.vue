@@ -15,7 +15,8 @@
                             <h4>Guests attending:</h4>
                             <ul class="guest-list">
                                 <li v-for="guest in eventAttendees" :key="guest.id">
-                                    <router-link :to="guest.route">{{ guest.rsvpParticipantNickName }}</router-link>
+                                    <!-- <router-link :to="guest.route">{{ guest.rsvpParticipantNickName }}</router-link> -->
+                                    {{ guest.rsvpParticipantNickName }}
                                 </li>
                             </ul>
                             <h4>Total: {{ attendanceString }}</h4>

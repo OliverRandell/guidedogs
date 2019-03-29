@@ -163,6 +163,7 @@
             </article>
             <section v-if="submitted" class="msg-success" aria-live="polite">
                 <h3>Congratulations! You have successfully created an event.</h3>
+                <!-- <p v-if="!user."></p> -->
                 <router-link to="/events" class="btn btn-primary">Go back to events page</router-link>
             </section>
         </div>
