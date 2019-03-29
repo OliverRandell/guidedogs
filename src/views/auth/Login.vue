@@ -4,8 +4,8 @@
         <h4>Welcome to 'Platform'!</h4>
         <p>Please login to your account below.<br>
         Or <router-link to="/register">register an account </router-link>to get started.</p>
-        <FormLogin></FormLogin>
-        <!-- <router-link to="/forgot-password" class="btn btn-link">Forgotten Password</router-link> -->
+        <FormLogin />
+        <router-link to="/forgot-password" class="btn btn-link">Forgotten Password</router-link>
 
     </LayoutAuth>
 

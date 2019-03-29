@@ -14,7 +14,7 @@ const actions = {
             .then(
                 user => {
                     // commit('loginSuccess', user);
-                    console.log('urserdfsdfd', user)
+                    // console.log('urserdfsdfd', user)
                     router.push('/hkjdshkjfhdskdsfh');
                 },
                 error => {

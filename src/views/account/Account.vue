@@ -191,7 +191,6 @@
             getProfileData () {
                 axios.get(`${apiUrl}/MemberProfile`, { headers: { ...authHeader() } })
                     .then(({data}) => {
-                        console.log(data)
                         // go through and match existing keys...
                         Object.keys(this.user).map(user => Object.keys(data).map(field => {
                             if (user === field) {
