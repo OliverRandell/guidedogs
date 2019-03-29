@@ -17,3 +17,12 @@
 .btn.full-width {
     width: 100%;
 }
+
+.btn-delete {
+    background-color: $black;
+    border-color: $black;
+    &:hover {
+        background-color: darken($black, 25%);
+        border-color: darken($black, 25%);
+    }
+}

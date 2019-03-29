@@ -4,7 +4,7 @@
             <template slot="title">
                 {{ title }}
             </template>
-            
+
         </Hero>
         <div class="container">
             <div class="pg-content" tabindex="-1" ref="formCreate">
@@ -105,7 +105,7 @@
                         </div>
                         <div v-if="confirmDelete">
                             <p>Are you sure? Clicking on the button will permanently delete this idea.</p>
-                            <p><button @click="onDeleteIdea(idea)" type="button" name="button" class="btn btn-primary">Delete Idea</button></p>
+                            <p><button @click="onDeleteIdea(idea)" type="button" name="button" class="btn btn-primary btn-delete">Delete Idea</button></p>
                         </div>
                     </section>
 

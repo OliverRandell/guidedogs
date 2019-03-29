@@ -124,7 +124,7 @@
                         </div>
                         <div v-if="confirmDelete">
                             <p>No longer want to be part of the Peer Support Platform community?</p>
-                            <p><button @click="onDeleteAccount(account)" type="button" class="btn btn-primary">Delete Account</button></p>
+                            <p><button @click="onDeleteAccount(account)" type="button" class="btn btn-primary btn-delete">Delete Account</button></p>
                         </div>
 
                     </section>
@@ -163,7 +163,7 @@
             Hero,
             Loader
         },
-        
+
         data() {
             return {
                 formErrors: [],
@@ -248,7 +248,7 @@
                     .then(() => {
                         this.loading.form = false
                         this.success.form = true
-                        
+
                         setTimeout(() => {
                             this.success.form = false
                         }, 8000);
@@ -308,7 +308,7 @@
 
                 // If fieldLengths = 3, all fields have 6 characters or more.
                 Object.values(pForm).map(val => {
-                    val.length >= 6 ? fieldLengths++ : fieldLengths-- 
+                    val.length >= 6 ? fieldLengths++ : fieldLengths--
                 })
 
                 matches && fieldLengths === 3 ? this.canChangePassword = true : this.canChangePassword = false
@@ -382,21 +382,21 @@
         }
     }
     .spinner{
-        display: inline; 
-        text-align: right; 
-        height: 40px; 
-        margin-left: auto; 
+        display: inline;
+        text-align: right;
+        height: 40px;
+        margin-left: auto;
         margin-right: 0;
     }
 
-    .success, 
+    .success,
     .error{
         text-align: right;
         margin-top: 1em;
     }
 
-    .success{ 
-        color: green; 
+    .success{
+        color: green;
         font-size: 16px;
     }
 </style>
