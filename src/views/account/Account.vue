@@ -19,7 +19,7 @@
                         </ul>
                     </p>
 
-                    <!-- INCLUDE AGE DETAILS, NAME, USERNAME, POSTCODE, INTERESTS -->
+                    <!-- INCLUDE AGE DETAILS, NAME, nickName, POSTCODE, INTERESTS -->
                     <form class="spacer" @submit.prevent="onSubmit" aria-label="Your details">
                         <!-- NB: I DON'T THINK THAT THE USER CAN CHANGE THEIR EMAIL -->
                         <div class="form-group">
@@ -35,14 +35,14 @@
                             <input type="text" id="familyName" placeholder="" v-model="user.familyName" class="form-control" aria-required="true">
                         </div>
                         <div class="form-group">
-                            <label for="userName">Username*:</label>
+                            <label for="nickName">Nick Name/Display Name*:</label>
                             <!-- <editable-input v-model="userDetailsForm.name" change-button-label="Edit" save-button-label="Save" @saved="updateProfile"></editable-input> -->
-                            <input type="text" id="userName" v-model="user.userName" class="form-control" aria-required="true">
+                            <input type="text" id="nickName" v-model="user.nickName" class="form-control" aria-required="true">
                         </div>
-                        <div class="form-group">
+                        <!-- <div class="form-group">
                             <label for="phone">Phone Number:</label>
                             <input type="text" id="phone" class="form-control" v-model="user.phoneNumber">
-                        </div>
+                        </div> -->
                         <div class="form-group">
                             <label for="age">Age:</label>
                             <input @input="validateAge" type="number" min="0" id="age" class="form-control" v-model="user.age">
@@ -110,7 +110,7 @@
                         </div>
                         <div class="btn-wrapper">
                             <Loader class="spinner" v-if="loading.password" />
-                            <button :disabled="!canChangePassword" @click.prevent="updatePassword" id="password"  class="btn btn-primary">Change password</button>
+                            <button :disabled="!canChangePassword" @click.prevent="updatePassword" id="password"  class="btn btn-primary col-5">Change password</button>
                         </div>
 
                         <section class="success" v-if="success.form">Updated successfully!</section>
@@ -146,7 +146,7 @@
 </template>
 
 <script>
-    import { mapState, mapActions, mapGetters } from 'vuex';
+    import { mapActions, mapGetters } from 'vuex';
     import axios from 'axios';
     import { authHeader } from '@/utils/auth-header';
     import { apiUrl } from '@/utils/api';
@@ -171,14 +171,9 @@
                 user: {
                     givenName: '',
                     familyName: '',
-                    userName: '',
+                    nickName: '',
                     age: '',
-                    postcode: '',
-                    interests: {},
-                    bio: '',
-                    phoneNumber: '',
-                    email: 'ddfdsfd',
-                    password: '',
+                    email: '',
                 },
                 confirmDelete: false,
                 submitted: false,
@@ -240,7 +235,7 @@
                     { ...this.user },
                     { headers: { ...authHeader() } }
                 )
-                    .then(({data}) => {
+                    .then(() => {
                         this.loading.form = false
                         this.success.form = true
                         
@@ -259,12 +254,12 @@
                 this.formErrors = [];
                 if(!this.user.givenName) { this.formErrors.push('First name is required') }
                 if(!this.user.familyName) { this.formErrors.push('Last name is required') }
-                if(!this.user.userName) { this.formErrors.push('Username is required') }
+                if(!this.user.nickName) { this.formErrors.push('nickName is required') }
                 if(this.user.age && !this.validateAge) { this.formErrors.push('You need to be over 18')}
                 return this.formErrors.length > 0;
             },
 
-            validateAge (age) {
+            validateAge () {
                 // Check if 18..
                 return this.user.age - 18 >= 0
             },
@@ -282,7 +277,7 @@
                     window.scrollTo(0, this.topOffset);
                     this.setFocusToErrorListing();
                     return;
-                };
+                }
 
                 this.updateProfileData()
             },
@@ -305,7 +300,7 @@
                 matches && fieldLengths === 3 ? this.canChangePassword = true : this.canChangePassword = false
             },
 
-            updatePassword ({changePasswordForm}) {
+            updatePassword () {
                 this.loading.password = true
                 this.success.password = false
                 this.error.password = false
@@ -317,7 +312,7 @@
                         },
                         { headers: { ...authHeader() } }
                     )
-                    .then(res => {
+                    .then(() => {
                         this.success.password = true
                         this.loading.password = false
 

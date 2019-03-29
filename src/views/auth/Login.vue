@@ -1,7 +1,7 @@
 <template lang="html">
     <LayoutAuth>
         <h1>{{ title }}</h1>
-        <h4>Welcome to 'Platform'!</h4>
+        <h4>Welcome to Peer Support Platform</h4>
         <p>Please login to your account below.<br>
         Or <router-link to="/register">register an account </router-link>to get started.</p>
         <FormLogin />
