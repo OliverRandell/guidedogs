@@ -10,7 +10,7 @@
 
 
                 <article class="item-wrapper" role="article" tabindex="-1" v-if="!submitted">
-                    <router-link to="/ideas" class="link-back">&larr; Back to ideas</router-link>
+
                     <dl>
                         <dt>Host:</dt>
                         <!-- TODO: link to the hosts page -->
@@ -37,6 +37,9 @@
                     </div>
 
                 </article>
+                <aside class="col-4" tabindex="-1">
+                    <router-link to="/ideas" class="link-back">&larr; Back to ideas</router-link>
+                </aside>
 
                 <section v-if="submitted" class="msg-success">
                     <h3>Thank you for interest in this idea!</h3>

@@ -27,14 +27,14 @@
                                 <!-- <router-link :to="`/user/${guest.rsvpParticipantId}`">{{ guest.rsvpParticipantNickName }}</router-link> -->
                             </li>
                         </ul>
-                        <div class="btn-wrapper">
-                            <router-link
-                                :to="{
-                                    name: 'EventRequestManagement',
-                                    params: { id: this.$route.params.id, title: eventItem.title }
-                                }"
-                                class="btn btn-primary">Manage requests</router-link>
-                        </div>
+
+                        <router-link
+                            :to="{
+                                name: 'EventRequestManagement',
+                                params: { id: this.$route.params.id, title: eventItem.title }
+                            }"
+                            class="btn btn-primary">Manage requests</router-link>
+
                     </section>
 
                     <section class="spacer">
@@ -177,8 +177,8 @@
 
                     </section>
 
-                    <section class="spacer">
-                        <h4 class="spacer">Delete event</h4>
+                    <section class="spacer" aria-label="Delete event">
+                        <h4>Delete event</h4>
                         <div class="custom-control custom-switch spacer">
                             <input type="checkbox" class="custom-control-input" id="confirmDelete" v-model="confirmDelete">
                             <label class="custom-control-label" for="confirmDelete">Do you want to delete this event?</label>

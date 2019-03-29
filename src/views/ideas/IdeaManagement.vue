@@ -21,8 +21,15 @@
 
                     <section class="spacer">
                         <h4>Number of people interested:</h4>
-                        <p><strong>Total: </strong>5</p>
-                        <router-link to="/event-attendees" class="btn btn-primary">View people interested</router-link>
+                        <p><strong>Total: </strong>{{ interestedTotal }}</p>
+
+                        <!-- <router-link
+                            :to="{
+                                name: 'EventRequestManagement',
+                                params: { id: this.$route.params.id, title: idea.title }
+                            }"
+                            class="btn btn-primary">View people interested</router-link> -->
+
 
                     </section>
 
@@ -73,8 +80,9 @@
 
                             </div>
 
-                            <input type="submit" class="btn btn-primary" v-on:click.prevent="onSubmit" value="Save changes" />
-
+                            <div class="btn-wrapper">
+                                <input type="submit" class="btn btn-primary" v-on:click.prevent="onSubmit" value="Save changes" />
+                            </div>
                         </form>
 
                         <section v-if="submitted" class="msg-success">
@@ -91,8 +99,8 @@
                     </section>
 
                     <section class="spacer" aria-label="Delete Idea">
-                        
-                        <h4 class="spacer">Delete idea</h4>
+
+                        <h4>Delete idea</h4>
                         <div class="custom-control custom-switch spacer">
                             <input type="checkbox" class="custom-control-input" id="confirmDelete" v-model="confirmDelete">
                             <label class="custom-control-label" for="confirmDelete">Do you want to delete this idea?</label>
