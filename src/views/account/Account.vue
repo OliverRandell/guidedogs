@@ -19,7 +19,7 @@
                         </ul>
                     </p>
 
-                    <!-- INCLUDE AGE DETAILS, NAME, USERNAME, POSTCODE, INTERESTS -->
+                    <!-- INCLUDE AGE DETAILS, NAME, nickName, POSTCODE, INTERESTS -->
                     <form class="spacer" @submit.prevent="onSubmit" aria-label="Your details">
                         <!-- NB: I DON'T THINK THAT THE USER CAN CHANGE THEIR EMAIL -->
                         <div class="form-group">
@@ -35,17 +35,17 @@
                             <input type="text" id="familyName" placeholder="" v-model="user.familyName" class="form-control" aria-required="true">
                         </div>
                         <div class="form-group">
-                            <label for="userName">Username*:</label>
+                            <label for="nickName">Nick Name/Display Name*:</label>
                             <!-- <editable-input v-model="userDetailsForm.name" change-button-label="Edit" save-button-label="Save" @saved="updateProfile"></editable-input> -->
-                            <input type="text" id="userName" v-model="user.userName" class="form-control" aria-required="true">
+                            <input type="text" id="nickName" v-model="user.nickName" class="form-control" aria-required="true">
                         </div>
-                        <div class="form-group">
+                        <!-- <div class="form-group">
                             <label for="phone">Phone Number:</label>
                             <input type="text" id="phone" class="form-control" v-model="user.phoneNumber">
-                        </div>
+                        </div> -->
                         <div class="form-group">
-                            <label for="age">Age:</label>
-                            <input @input="validateAge" type="number" min="0" id="age" class="form-control" v-model="user.age">
+                            <label for="dob">DOB (DD/MM/YYYY):</label>
+                            <input @input="validateAge" type="text" id="dob" class="form-control" v-model="user.dob">
                         </div>
                         <!-- TODO: Check if ross can add this to his db -->
                         <!-- <div class="form-group">
@@ -86,8 +86,12 @@
                             <small class="sr-only form-text">Example: my new guide dog Toby, best coffee spots in Kew and I want to learn more about JAWS</small>
                         </div> -->
                         <div class="btn-wrapper">
-                            <input type="submit" v-on:click.prevent="onSubmit" class="btn btn-primary" value="Update your account">
+                            <Loader class="spinner" v-if="loading.form"/>
+                            <button type="submit" @click.prevent="onSubmit" class="btn btn-primary col-5">Update your account</button>
                         </div>
+
+                        <section class="success" v-if="success.form">Updated successfully!</section>
+                        <section class="error" v-if="error.form">Sorry, your details can't be updated right now, please try again later.</section>
                     </form>
 
                     <form class="form-change-password spacer" aria-label="Update Password">
@@ -105,8 +109,12 @@
                             <input type="password" @input="checkPassword" id="confirm_password" v-model="changePasswordForm.newPasswordConfirmation" class="form-control" aria-required="true">
                         </div>
                         <div class="btn-wrapper">
-                            <button :disabled="!canChangePassword" @click.prevent="updatePassword" id="password"  class="btn btn-primary">Change password</button>
+                            <Loader class="spinner" v-if="loading.password" />
+                            <button :disabled="!canChangePassword" @click.prevent="updatePassword" id="password"  class="btn btn-primary col-5">Change password</button>
                         </div>
+
+                        <section class="success" v-if="success.password">Updated successfully!</section>
+                        <section class="error" v-if="error.password">Sorry, your password can't be updated right now, please try again later.</section>
                     </form>
 
                     <section class="spacer" aria-label="Delete Account">
@@ -138,19 +146,24 @@
 </template>
 
 <script>
-    import { mapState, mapActions, mapGetters } from 'vuex';
+    import { mapActions, mapGetters } from 'vuex';
+    import moment from 'moment'
     import axios from 'axios';
     import { authHeader } from '@/utils/auth-header';
     import { apiUrl } from '@/utils/api';
     import LayoutMaster from '../../components/common/layouts/layout-master.vue';
     import Hero from '../../components/common/global/hero.vue';
+    import Loader from '@/components/common/global/loading'
+
 
     export default {
         name: 'Account',
         components: {
             LayoutMaster,
-            Hero
+            Hero,
+            Loader
         },
+        
         data() {
             return {
                 formErrors: [],
@@ -159,14 +172,10 @@
                 user: {
                     givenName: '',
                     familyName: '',
-                    userName: '',
+                    nickName: '',
                     age: '',
-                    postcode: '',
-                    interests: {},
-                    bio: '',
-                    phoneNumber: '',
-                    email: 'ddfdsfd',
-                    password: '',
+                    dob: '',
+                    email: '',
                 },
                 confirmDelete: false,
                 submitted: false,
@@ -175,7 +184,20 @@
                     newPassword: '',
                     newPasswordConfirmation: '',
                 },
-                canChangePassword: false
+                canChangePassword: false,
+                loading: {
+                    initial: true,
+                    form: false,
+                    password: false
+                },
+                success: {
+                    form: false,
+                    password: false
+                },
+                error: {
+                    form: false,
+                    password: false
+                }
             }
         },
 
@@ -191,6 +213,7 @@
             getProfileData () {
                 axios.get(`${apiUrl}/MemberProfile`, { headers: { ...authHeader() } })
                     .then(({data}) => {
+                        this.loading.initial = false
                         // go through and match existing keys...
                         Object.keys(this.user).map(user => Object.keys(data).map(field => {
                             if (user === field) {
@@ -198,31 +221,61 @@
                                 this.user[user] = data[field]
                             }
                         }))
+
+                        if (this.user.dob.length > 0) {
+                            this.user.dob = moment(this.user.dob).format('DD/MM/YYYY')
+                        }
                     })
-                    .catch(err => console.error(`Couldn't retrieve profile data: ${err}`))
+                    .catch(err => {
+                        this.loading.initial = false
+                        console.error(`Couldn't retrieve profile data: ${err}`)
+                    })
             },
 
             updateProfileData () {
+                this.loading.form = true
+                this.success.form = false
+                this.error.form = false
+
+                const user = this.user
+
+                const convertDobFormat = ({dob, ...user}) => ({ ...user, dob: moment(dob, 'DD/MM/YYYY').format('YYYY/MM/DD') })
+
                 axios.put(`${apiUrl}/MemberProfile`,
-                    { ...this.user },
+                    { ...convertDobFormat(user) },
                     { headers: { ...authHeader() } }
                 )
-                    .then(({data}) => console.log(data))
-                    .catch(err => console.error(`Couldn't update profile data: ${err}`))
+                    .then(() => {
+                        this.loading.form = false
+                        this.success.form = true
+                        
+                        setTimeout(() => {
+                            this.success.form = false
+                        }, 8000);
+                    })
+                    .catch(err => {
+                        this.loading.form = false
+                        this.error.form = true
+                        console.error(`Couldn't update profile data: ${err}`)
+                    })
             },
 
             checkForm() {
                 this.formErrors = [];
                 if(!this.user.givenName) { this.formErrors.push('First name is required') }
                 if(!this.user.familyName) { this.formErrors.push('Last name is required') }
-                if(!this.user.userName) { this.formErrors.push('Username is required') }
+                if(!this.user.nickName) { this.formErrors.push('nickName is required') }
                 if(this.user.age && !this.validateAge) { this.formErrors.push('You need to be over 18')}
                 return this.formErrors.length > 0;
             },
 
-            validateAge (age) {
-                // Check if 18..
-                return this.user.age - 18 >= 0
+            validateAge () {
+                var eighteenYearsAgo = moment().subtract(18, 'years');
+                var dob = moment(this.user.dob);
+
+                if (!dob.isValid()) return false
+
+                return eighteenYearsAgo.isAfter(dob)
             },
 
             onDeleteAccount(account) {
@@ -238,7 +291,7 @@
                     window.scrollTo(0, this.topOffset);
                     this.setFocusToErrorListing();
                     return;
-                };
+                }
 
                 this.updateProfileData()
             },
@@ -261,8 +314,11 @@
                 matches && fieldLengths === 3 ? this.canChangePassword = true : this.canChangePassword = false
             },
 
-            updatePassword ({changePasswordForm}) {
-                // TODO: ADD UI FOR UPDATING PWORD
+            updatePassword () {
+                this.loading.password = true
+                this.success.password = false
+                this.error.password = false
+
                 if (this.canChangePassword) {
                     axios.post(`${apiUrl}/authentication/changepassword`, {
                             oldPassword: this.changePasswordForm.oldPassword,
@@ -270,8 +326,23 @@
                         },
                         { headers: { ...authHeader() } }
                     )
-                    .then(res => console.log(res))
-                    .catch(err => console.error(`Can't update password: ${err}`))
+                    .then(() => {
+                        this.success.password = true
+                        this.loading.password = false
+
+                        Object.keys(this.changePasswordForm).map(key => {
+                            this.changePasswordForm[key] = ''
+                        })
+
+                        setTimeout(() => {
+                            this.success.password = false
+                        }, 8000);
+                    })
+                    .catch(err => {
+                        this.loading.password = false
+                        this.error.password = true
+                        console.error(`Can't update password: ${err}`)
+                    })
                 }
             },
 
@@ -309,5 +380,23 @@
             margin: 0;
             padding: 0;
         }
+    }
+    .spinner{
+        display: inline; 
+        text-align: right; 
+        height: 40px; 
+        margin-left: auto; 
+        margin-right: 0;
+    }
+
+    .success, 
+    .error{
+        text-align: right;
+        margin-top: 1em;
+    }
+
+    .success{ 
+        color: green; 
+        font-size: 16px;
     }
 </style>
