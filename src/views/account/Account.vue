@@ -113,8 +113,8 @@
                             <button :disabled="!canChangePassword" @click.prevent="updatePassword" id="password"  class="btn btn-primary col-5">Change password</button>
                         </div>
 
-                        <section class="success" v-if="success.form">Updated successfully!</section>
-                        <section class="error" v-if="error.form">Sorry, your password can't be updated right now, please try again later.</section>
+                        <section class="success" v-if="success.password">Updated successfully!</section>
+                        <section class="error" v-if="error.password">Sorry, your password can't be updated right now, please try again later.</section>
                     </form>
 
                     <section class="spacer" aria-label="Delete Account">
@@ -251,7 +251,7 @@
                         
                         setTimeout(() => {
                             this.success.form = false
-                        }, 5000);
+                        }, 8000);
                     })
                     .catch(err => {
                         this.loading.form = false
@@ -330,9 +330,13 @@
                         this.success.password = true
                         this.loading.password = false
 
+                        Object.keys(this.changePasswordForm).map(key => {
+                            this.changePasswordForm[key] = ''
+                        })
+
                         setTimeout(() => {
                             this.success.password = false
-                        }, 5000);
+                        }, 8000);
                     })
                     .catch(err => {
                         this.loading.password = false
