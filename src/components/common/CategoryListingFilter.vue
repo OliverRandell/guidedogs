@@ -1,24 +1,27 @@
 <template>
     <div>
-        <h3>Filter by:</h3>
-        <p>Category</p>
-        <button type="button" :class="['btn-filter', { active: categoryId === '' }]" @click="$emit('filter', '')">All</button>
+        <section class="spacer">
+            <h3>Filter by:</h3>
+            <button type="button" :class="['btn-filter', { active: categoryId === '' }]" @click="$emit('filter', '')">All</button>
 
-        <button
-            v-for="category in allCategories" :key="category.categoryId"
-            type="button"
-            :class="['btn-filter', { active: categoryId === category.categoryId.toString() }]"
-            @click="$emit('filter', category.categoryId.toString())">{{category.title}}</button>
+            <button
+                v-for="category in allCategories" :key="category.categoryId"
+                type="button"
+                :class="['btn-filter', { active: categoryId === category.categoryId.toString() }]"
+                @click="$emit('filter', category.categoryId.toString())">{{category.title}}</button>
 
-        <div v-if="subType === 'event'">
-            <p>My Event RSVP's</p>
-            <button type="button" :class="['btn-filter', { active: categoryId === 'attending' }]" @click="$emit('filter', 'attending')">Attending</button>
-        </div>
+            <div v-if="subType === 'event'">
+                <p>My Event RSVP's</p>
+                <button type="button" :class="['btn-filter', { active: categoryId === 'attending' }]" @click="$emit('filter', 'attending')">Attending</button>
+            </div>
+        </section>
+        <section class="spacer">
+            <div v-if="subType === 'idea'">
+                <p>Ideas you're interested in.</p>
+                <button type="button" :class="['btn-filter', { active: categoryId === 'attending' }]" @click="$emit('filter', 'attending')">Interested</button>
+            </div>
+        </section>
 
-        <div v-if="subType === 'idea'">
-            <p>Ideas you're interested in</p>
-            <button type="button" :class="['btn-filter', { active: categoryId === 'attending' }]" @click="$emit('filter', 'attending')">Interested</button>
-        </div>
     </div>
 </template>
 

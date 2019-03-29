@@ -15,7 +15,7 @@
                 <div class="idea-listings" ref="ideaListing" tabindex="-1">
 
                     <div class="mb-5">
-                        <h4>Create your own Idea!</h4>
+                        <h3 class="h6">Create your own Idea!</h3>
                         <router-link to="/create-idea" class="btn btn-primary">+ Create idea</router-link>
                     </div>
 
@@ -43,7 +43,7 @@
                 <aside class="idea-filters" role="group">
                     <section class="my-ideas">
                         <h6>Ideas that you've created</h6>
-                        <router-link to="/my-hosting" class="btn btn-primary full-width">My ideas</router-link>
+                        <router-link to="/my-hosting" class="btn btn-secondary full-width">My ideas</router-link>
                     </section>
 
                     <CategoryListingFilter v-on:filter="categoryFilterIdeas" v-bind:categoryId="categoryId" subType="idea" />
@@ -160,7 +160,7 @@
         width: 100%;
     }
     .my-ideas {
-        @include spacer(0.5rem);
+        @include spacer(1rem);
     }
     .pagination-button {
         @include spacer(1rem);

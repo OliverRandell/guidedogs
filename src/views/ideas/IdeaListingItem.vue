@@ -6,7 +6,7 @@
         <router-link v-if="!hosting" :to="'/ideas/' + idea.eventId">
             <h4 class="title">{{ idea.title }}</h4>
         </router-link>
-        <p class="host"><span>Host:</span> {{ idea.eventHostNickname }}</p>
+        <p class="host"><span>Host:</span> {{ idea.eventHostNickName }}</p>
         <p>{{ idea.eventDetails | truncate }}</p>
 
         <router-link v-if="idea.userIsHost && hosting" :to="'/manage-idea/' + idea.eventId" class="btn btn-primary">Details</router-link>
