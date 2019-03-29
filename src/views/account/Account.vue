@@ -44,8 +44,8 @@
                             <input type="text" id="phone" class="form-control" v-model="user.phoneNumber">
                         </div> -->
                         <div class="form-group">
-                            <label for="age">Age:</label>
-                            <input @input="validateAge" type="number" min="0" id="age" class="form-control" v-model="user.age">
+                            <label for="dob">DOB (DD/MM/YYYY):</label>
+                            <input @input="validateAge" type="text" id="dob" class="form-control" v-model="user.dob">
                         </div>
                         <!-- TODO: Check if ross can add this to his db -->
                         <!-- <div class="form-group">
@@ -147,6 +147,7 @@
 
 <script>
     import { mapActions, mapGetters } from 'vuex';
+    import moment from 'moment'
     import axios from 'axios';
     import { authHeader } from '@/utils/auth-header';
     import { apiUrl } from '@/utils/api';
@@ -173,6 +174,7 @@
                     familyName: '',
                     nickName: '',
                     age: '',
+                    dob: '',
                     email: '',
                 },
                 confirmDelete: false,
@@ -219,6 +221,10 @@
                                 this.user[user] = data[field]
                             }
                         }))
+
+                        if (this.user.dob.length > 0) {
+                            this.user.dob = moment(this.user.dob).format('DD/MM/YYYY')
+                        }
                     })
                     .catch(err => {
                         this.loading.initial = false
@@ -231,8 +237,12 @@
                 this.success.form = false
                 this.error.form = false
 
+                const user = this.user
+
+                const convertDobFormat = ({dob, ...user}) => ({ ...user, dob: moment(dob, 'DD/MM/YYYY').format('YYYY/MM/DD') })
+
                 axios.put(`${apiUrl}/MemberProfile`,
-                    { ...this.user },
+                    { ...convertDobFormat(user) },
                     { headers: { ...authHeader() } }
                 )
                     .then(() => {
@@ -260,8 +270,12 @@
             },
 
             validateAge () {
-                // Check if 18..
-                return this.user.age - 18 >= 0
+                var eighteenYearsAgo = moment().subtract(18, 'years');
+                var dob = moment(this.user.dob);
+
+                if (!dob.isValid()) return false
+
+                return eighteenYearsAgo.isAfter(dob)
             },
 
             onDeleteAccount(account) {
