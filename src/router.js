@@ -281,7 +281,7 @@ export const router =  new Router ({
 
 router.beforeEach((to, from, next) => {
     // REDIRECT TO LOGIN PG IN USER IS NOT LOGGED IN
-    const publicPages = ['/login', '/register'];
+    const publicPages = ['/login', '/register', '/forgot-password'];
     const authRequired = !publicPages.includes(to.path);
     const loggedIn = localStorage.getItem('user');
 
